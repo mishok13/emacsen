@@ -1,0 +1,26 @@
+#!/usr/bin/env python
+
+import re
+import sys
+
+from subprocess import *
+
+p = Popen("pylint -f parseable --disable-msg=C0111 -r n %s" %
+          sys.argv[1], shell=True, stdout=PIPE).stdout
+
+for line in p.readlines():
+    match = re.search("\\[([RCWEF])(, (.+?))?\\]", line)
+    if match:
+        kind = match.group(1)
+        func = match.group(3)
+
+        msg = {'W': 'Warning', 'R': 'Refactor', 'C': 'Convention'}.get(kind, 'Error')
+            
+        if func:
+            line = re.sub("\\[([RCWEF])(, (.+?))?\\]", "%s (%s):"
+                          % (msg, func), line)
+        else:
+            line = re.sub("\\[([RCWEF])?\\]", "%s:" % msg, line)
+    print line,
+
+p.close()
