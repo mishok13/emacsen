@@ -173,9 +173,6 @@ minibuffer to ease cutting and pasting."
  '(kill-whole-line t)
  '(show-paren-mode t)
  '(tool-bar-mode nil nil (tool-bar))
- '(twit-mode t)
- '(twit-pass "hujhujhuj")
- '(twit-user "mishok13"))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
