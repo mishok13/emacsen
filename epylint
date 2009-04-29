@@ -5,16 +5,22 @@ import sys
 
 from subprocess import *
 
-p = Popen("pylint -f parseable --disable-msg=C0111 -r n %s" %
+p = Popen("pylint -f parseable -r n %s" %
           sys.argv[1], shell=True, stdout=PIPE).stdout
 
 for line in p.readlines():
-    match = re.search("\\[([RCWEF])(, (.+?))?\\]", line)
+    match = re.search("\\[([IRCWEF])(, (.+?))?\\]", line)
     if match:
         kind = match.group(1)
         func = match.group(3)
 
-        msg = {'W': 'Warning', 'R': 'Refactor', 'C': 'Convention'}.get(kind, 'Error')
+        if kind == 'I':
+            continue
+        
+        if kind in 'WRC':
+            msg = 'Warning'
+        else:
+            msg = 'Error'
             
         if func:
             line = re.sub("\\[([RCWEF])(, (.+?))?\\]", "%s (%s):"

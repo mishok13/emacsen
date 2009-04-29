@@ -9,7 +9,7 @@
 ;; Created:    Feb 1992
 ;; Keywords:   python languages oop
 
-(defconst py-version "5.1.0"
+(defconst py-version "5.1.0+"
   "`python-mode' version number.")
 
 ;; This file is part of python-mode.el.
@@ -2403,7 +2403,8 @@ Optional CLASS is passed directly to `py-beginning-of-def-or-class'."
     (goto-char start)
     (beginning-of-line)
     (setq start (point))
-    (indent-rigidly start end count)))
+    (let (deactivate-mark)
+      (indent-rigidly start end count))))
 
 (defun py-shift-region-left (start end &optional count)
   "Shift region of Python code to the left.
@@ -2416,7 +2417,7 @@ many columns.  With no active region, dedent only the current line.
 You cannot dedent the region if any line is already at column zero."
   (interactive
    (let ((p (point))
-         (m (mark))
+         (m (condition-case nil (mark) (mark-inactive nil)))
          (arg current-prefix-arg))
      (if m
          (list (min p m) (max p m) arg)
@@ -2444,7 +2445,7 @@ If a prefix argument is given, the region is instead shifted by that
 many columns.  With no active region, indent only the current line."
   (interactive
    (let ((p (point))
-         (m (mark))
+         (m (condition-case nil (mark) (mark-inactive nil)))
          (arg current-prefix-arg))
      (if m
          (list (min p m) (max p m) arg)

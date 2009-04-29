@@ -5,6 +5,12 @@
 
 (global-font-lock-mode t)
 
+
+(defun donuts ()
+  "For the love of God"
+  (interactive)
+  (print "Mmmm, donuts."))
+
 ;; XXX: add normal color theme
 
 ;; interesting mode for highlighting parens in different colors
@@ -18,7 +24,7 @@
 
 (which-func-mode t)
 
-
+;;'(flymake-allowed-file-name-masks (quote nil))
 ;; Pymacs special
 (autoload 'pymacs-apply "pymacs")
 (autoload 'pymacs-call "pymacs")
@@ -31,6 +37,14 @@
   highlight-parentheses-mode 
   highlight-parentheses-mode)
 (global-highlight-parentheses-mode)
+
+
+(setq uniquify-buffer-name-style 'reverse)
+(setq uniquify-separator "|")
+(setq uniquify-after-kill-buffer-p t)
+(setq uniquify-ignore-buffers-re "^\\*")
+
+(push '("." . "~/.emacs-backups") backup-directory-alist)
 
 ;; flymake special
 (require 'flymake)
@@ -52,6 +66,8 @@
       (list "epylint" (list local-file))))
   (add-to-list 'flymake-allowed-file-name-masks
                '("\\.py\\'" flymake-pylint-init)))
+
+(load-library "pyrex-mode")
 
 (load-library "flymake-cursor")
 (add-hook 'find-file-hook 'flymake-find-file-hook)
@@ -102,9 +118,6 @@
 (require 'semanticdb)
 (global-semanticdb-minor-mode 1)
 
-(load-file "~/.emacs.d/twit.el")
-
-
 ;; TinyURL
 (require 'mm-url)
 (defun get-tinyurl ()
@@ -140,6 +153,8 @@ minibuffer to ease cutting and pasting."
 ;; (require 'ecb)
 
 
+
+
 (add-to-list 'load-path "~/.emacs.d/color-theme/")
 (add-to-list 'load-path "~/.emacs.d/color-theme/themes/")
 (require 'color-theme)
@@ -172,7 +187,7 @@ minibuffer to ease cutting and pasting."
  '(global-hl-line-mode t)
  '(kill-whole-line t)
  '(show-paren-mode t)
- '(tool-bar-mode nil nil (tool-bar))
+ '(tool-bar-mode nil nil (tool-bar)))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
