@@ -105,19 +105,6 @@
 (require 'ipython)
 
 
-(load-file "~/.emacs.d/cedet/common/cedet.el")
-(add-to-list 'load-path "~/.emacs.d/cedet/eieio/")
-(add-to-list 'load-path "~/.emacs.d/cedet/semantic/")
-
-(global-ede-mode t)
-;; (semantic-load-enable-code-helpers)
-(add-to-list 'load-path "~/.emacs.d/cedet/speedbar/")
-(require 'sr-speedbar)
-(require 'semantic-ia)
-(require 'semantic-gcc)
-(require 'semanticdb)
-(global-semanticdb-minor-mode 1)
-
 ;; TinyURL
 (require 'mm-url)
 (defun get-tinyurl ()
@@ -135,24 +122,10 @@ minibuffer to ease cutting and pasting."
     (message tinyurl)))
 
 
-(setq-mode-local c-mode semanticdb-find-default-throttle
-                 '(project unloaded system recursive))
-(defun my-semantic-hook ()
-  (imenu-add-to-menubar "TAGS"))
-(add-hook 'semantic-init-hooks 'my-semantic-hook)
-
 (ido-mode t)
 
 ;; (require 'semantic)
 ;; (require 'eieio)
-
-(global-set-key [f8] 'sr-speedbar-toggle)
-(global-set-key [f7] 'other-window)
-
-;; (add-to-list 'load-path "~/.emacs.d/ecb/")
-;; (require 'ecb)
-
-
 
 
 (add-to-list 'load-path "~/.emacs.d/color-theme/")
@@ -193,7 +166,7 @@ minibuffer to ease cutting and pasting."
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#ffffff" :foreground "#1a1a1a" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :foundry "unknown" :family "Inconsolata"))))
+ '(default ((t (:inherit nil :stipple nil :background "#ffffff" :foreground "#1a1a1a" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 140 :width normal :foundry "unknown" :family "Inconsolata"))))
  '(flymake-errline ((((class color)) (:background "Grey25" :underline "Firebrick"))))
  '(flymake-warnline ((((class color)) (:underline "Grey50"))))
  '(hl-line ((t (:inherit highlight)))))
