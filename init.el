@@ -127,6 +127,15 @@ minibuffer to ease cutting and pasting."
 ;; (require 'semantic)
 ;; (require 'eieio)
 
+(require 'org-install)
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(define-key global-map [f6] 'org-store-link)
+(define-key global-map [f7] 'org-agenda)
+(setq org-log-done t)
+
+(setq org-agenda-files (list "~/.emacs.d/orgfiles/work.org"
+			     "~/.emacs.d/orgfiles/blog.org"))
+
 
 (add-to-list 'load-path "~/.emacs.d/color-theme/")
 (add-to-list 'load-path "~/.emacs.d/color-theme/themes/")
@@ -159,6 +168,7 @@ minibuffer to ease cutting and pasting."
  '(ecb-options-version "2.33beta2")
  '(global-hl-line-mode t)
  '(kill-whole-line t)
+;; '(org-agenda-files (quote ("~/.emacs.d/orgfiles/work.org" "~/.emacs.d/orgfiles/blog.org")))
  '(show-paren-mode t)
  '(tool-bar-mode nil nil (tool-bar)))
 (custom-set-faces
