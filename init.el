@@ -168,7 +168,7 @@ minibuffer to ease cutting and pasting."
  '(ecb-options-version "2.33beta2")
  '(global-hl-line-mode t)
  '(kill-whole-line t)
-;; '(org-agenda-files (quote ("~/.emacs.d/orgfiles/work.org" "~/.emacs.d/orgfiles/blog.org")))
+ '(org-agenda-files (quote ("~/.emacs.d/orgfiles/work.org" "~/.emacs.d/orgfiles/blog.org" "~/.emacs.d/orgfiles/tilman.org" "~/.emacs.d/orgfiles/triton.org" "~/.emacs.d/orgfiles/vectormaps.org" "~/.emacs.d/orgfiles/render.org")))
  '(show-paren-mode t)
  '(tool-bar-mode nil nil (tool-bar)))
 (custom-set-faces

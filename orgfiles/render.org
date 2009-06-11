@@ -1,0 +1,43 @@
+* Render daemon
+** TODO [#B] Use tar instead of zip, should be faster
+   SCHEDULED: <2009-06-11 Thu>
+** DONE [#A] OR! Use pickle instead of stinking zip and tar and just fricking dump dicts
+   SCHEDULED: <2009-06-04 Thu> DEADLINE: <2009-06-12 Fri> CLOSED: [2009-06-10 Wed 10:51]
+** DONE [#A] Finish documentation on installation and setup of new tileserver arch
+   SCHEDULED: <2009-06-10 Wed> DEADLINE: <2009-06-10 Wed> CLOSED: [2009-06-10 Wed 18:03]
+** DONE [#A] Come up with a name for new arch
+   CLOSED: [2009-06-10 Wed 11:30]
+   Names are Tilman for tile handler and Triton for PigFarm
+   SCHEDULED: <2009-06-10 Wed> DEADLINE: <2009-06-10 Wed>
+** TODO [#C] Implement staticmaps
+   SCHEDULED: <2009-06-28 Sun>
+** DONE [#A] Implement icons
+   SCHEDULED: <2009-06-03 Wed> DEADLINE: <2009-06-05 Fri> CLOSED: [2009-06-05 Fri 18:35]
+** TODO [#A] Benchmark rendering time
+*** DONE [#B] Measure XML parsing
+    CLOSED: [2009-06-01 Mon 18:03]
+*** TODO [#C] Measure sending
+    SCHEDULED: <2009-06-19 Fri> DEADLINE: <2009-06-26 Fri>
+*** DONE [#A] Measure splitting image
+    CLOSED: [2009-06-01 Mon 18:03]
+*** TODO [#B] Measure preparations for rendering
+    SCHEDULED: <2009-06-19 Fri>
+*** DONE [#A] Measure THE rendering :)
+    CLOSED: [2009-06-01 Mon 18:03]
+** TODO [#B] Becnhmark zipping(taring) time
+   SCHEDULED: <2009-06-19 Fri>
+** TODO [#A] Refuse connections that are out of the limit
+   SCHEDULED: <2009-06-17 Wed>
+** TODO [#A] Caching unused styles
+   DEADLINE: <2009-06-12 Fri> SCHEDULED: <2009-06-11 Thu>
+** TODO [#A] Reorganize package structure
+   DEADLINE: <2009-06-11 Thu> SCHEDULED: <2009-06-11 Thu>
+   - Note taken on [2009-06-10 Wed 12:02] \\
+     Move renderd and renderd.py to bin/
+     Create renderd package
+     Move utils and most of functions into renderd/util.py and similar files
+     Write setup.py
+** TODO [#A] Create setup.py for render
+   SCHEDULED: <2009-06-11 Thu> DEADLINE: <2009-06-11 Thu>
+
+   

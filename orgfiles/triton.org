@@ -1,0 +1,23 @@
+* Triton
+** TODO [#C] status commands
+   SCHEDULED: <2009-06-05 Fri>
+** DONE [#A] refresh command
+   SCHEDULED: <2009-06-02 Tue> CLOSED: [2009-06-02 Tue 17:28]
+** TODO [#B] other SE commands
+*** DONE [#A] farmd clone
+    SCHEDULED: <2009-06-03 Wed> DEADLINE: <2009-06-04 Thu> CLOSED: [2009-06-04 Thu 15:50]
+*** DONE [#A] farmd clean    
+    SCHEDULED: <2009-06-04 Thu> DEADLINE: <2009-06-04 Thu> CLOSED: [2009-06-04 Thu 15:50]
+*** TODO [#B] farmd remove
+    SCHEDULED: <2009-06-12 Fri> DEADLINE: <2009-06-15 Mon>
+*** TODO [#C] clean bbox
+    DEADLINE: <2009-06-17 Wed> SCHEDULED: <2009-06-12 Fri>
+*** TODO [#B] clone bbox
+    DEADLINE: <2009-06-17 Wed> SCHEDULED: <2009-06-12 Fri>
+** DONE [#A] Caching styles
+   SCHEDULED: <2009-06-02 Tue> CLOSED: [2009-06-02 Tue 17:38]
+** DONE [#A] Divide cache into icon, tile and staticmaps-specific caches
+   SCHEDULED: <2009-06-02 Tue> DEADLINE: <2009-06-03 Wed> CLOSED: [2009-06-03 Wed 10:25]
+** TODO [#A] Add init.d script and config files to setup.py
+   SCHEDULED: <2009-06-11 Thu> DEADLINE: <2009-06-12 Fri>
+
