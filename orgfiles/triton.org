@@ -18,6 +18,6 @@
    SCHEDULED: <2009-06-02 Tue> CLOSED: [2009-06-02 Tue 17:38]
 ** DONE [#A] Divide cache into icon, tile and staticmaps-specific caches
    SCHEDULED: <2009-06-02 Tue> DEADLINE: <2009-06-03 Wed> CLOSED: [2009-06-03 Wed 10:25]
-** TODO [#A] Add init.d script and config files to setup.py
-   SCHEDULED: <2009-06-11 Thu> DEADLINE: <2009-06-12 Fri>
+** DONE [#A] Add init.d script and config files to setup.py
+   DEADLINE: <2009-06-12 Fri> SCHEDULED: <2009-06-12 Fri> CLOSED: [2009-06-12 Fri 17:51]
 
