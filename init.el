@@ -52,9 +52,6 @@
 (global-set-key [f4] 'flymake-goto-next-error)
 (global-set-key [f5] 'flymake-goto-prev-error)
 
-(defun flymake-get-tex-args (file-name)
-  (list "pdflatex" (list "-file-line-error" "-draftmode" "-interaction=nonstopmode" file-name)))
-
 ;; pylint checking
 (when (load "flymake" t)
   (defun flymake-pylint-init ()

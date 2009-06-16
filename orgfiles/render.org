@@ -28,8 +28,8 @@
    SCHEDULED: <2009-06-19 Fri>
 ** TODO [#A] Refuse connections that are out of the limit
    SCHEDULED: <2009-06-17 Wed>
-** TODO [#A] Caching unused styles
-   DEADLINE: <2009-06-12 Fri> SCHEDULED: <2009-06-12 Fri>
+** TODO [#B] Caching unused styles
+   SCHEDULED: <2009-06-12 Fri> DEADLINE: <2009-06-19 Fri>
 ** DONE [#A] Reorganize package structure
    DEADLINE: <2009-06-11 Thu> SCHEDULED: <2009-06-11 Thu> CLOSED: [2009-06-11 Thu 16:26]
    - Note taken on [2009-06-10 Wed 12:02] \\
@@ -40,4 +40,3 @@
 ** DONE [#A] Create setup.py for render
    SCHEDULED: <2009-06-11 Thu> DEADLINE: <2009-06-11 Thu> CLOSED: [2009-06-11 Thu 16:25]
 
-   
