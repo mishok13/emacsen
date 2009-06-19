@@ -1,6 +1,8 @@
 * Triton
-** TODO [#C] status commands
-   SCHEDULED: <2009-06-05 Fri>
+** TODO [#A] status commands
+   SCHEDULED: <2009-06-16 Tue> DEADLINE: <2009-06-18 Thu>
+** TODO [#B] All of the functions should take real dicts instead of stupid **kwargs
+   DEADLINE: <2009-06-26 Fri>
 ** DONE [#A] refresh command
    SCHEDULED: <2009-06-02 Tue> CLOSED: [2009-06-02 Tue 17:28]
 ** TODO [#B] other SE commands
@@ -9,17 +11,31 @@
 *** DONE [#A] farmd clean    
     SCHEDULED: <2009-06-04 Thu> DEADLINE: <2009-06-04 Thu> CLOSED: [2009-06-04 Thu 15:50]
 *** TODO [#B] farmd remove
-    SCHEDULED: <2009-06-12 Fri> DEADLINE: <2009-06-15 Mon>
+    DEADLINE: <2009-06-18 Thu> SCHEDULED: <2009-06-18 Thu>
 *** TODO [#C] clean bbox
-    DEADLINE: <2009-06-17 Wed> SCHEDULED: <2009-06-12 Fri>
-*** TODO [#B] clone bbox
-    DEADLINE: <2009-06-17 Wed> SCHEDULED: <2009-06-12 Fri>
+    SCHEDULED: <2009-06-19 Fri> DEADLINE: <2009-06-23 Tue>
+*** DONE [#A] clone bbox
+    SCHEDULED: <2009-06-18 Thu> DEADLINE: <2009-06-18 Thu> CLOSED: [2009-06-19 Fri 14:56]
+** TODO [#A] Implement API for forced re-rendering of tile
+   SCHEDULED: <2009-06-23 Tue> DEADLINE: <2009-06-24 Wed>
+** TODO [#A] Implement API for removing one tile
+   SCHEDULED: <2009-06-23 Tue> DEADLINE: <2009-06-24 Wed>
 ** DONE [#A] Caching styles
    SCHEDULED: <2009-06-02 Tue> CLOSED: [2009-06-02 Tue 17:38]
 ** DONE [#A] Divide cache into icon, tile and staticmaps-specific caches
    SCHEDULED: <2009-06-02 Tue> DEADLINE: <2009-06-03 Wed> CLOSED: [2009-06-03 Wed 10:25]
-** TODO [#A] Implement caching without metafiles
-   DEADLINE: <2009-06-16 Tue> SCHEDULED: <2009-06-15 Mon>
+** DONE [#A] Implement caching without metafiles
+   DEADLINE: <2009-06-16 Tue> SCHEDULED: <2009-06-15 Mon> CLOSED: [2009-06-16 Tue 17:21]
 ** DONE [#A] Add init.d script and config files to setup.py
    DEADLINE: <2009-06-12 Fri> SCHEDULED: <2009-06-12 Fri> CLOSED: [2009-06-12 Fri 17:51]
 
+** DONE [#A] Move reply_subscribers function to requests.Queue as method
+   SCHEDULED: <2009-06-17 Wed> DEADLINE: <2009-06-17 Wed> CLOSED: [2009-06-18 Thu 12:14]
+
+** DONE [#A] Getting cache should be done just after unpacking request
+   SCHEDULED: <2009-06-17 Wed> DEADLINE: <2009-06-17 Wed> CLOSED: [2009-06-17 Wed 16:24]
+
+** DONE [#B] Connect should happen in render_spawner
+   SCHEDULED: <2009-06-17 Wed> DEADLINE: <2009-06-18 Thu> CLOSED: [2009-06-18 Thu 12:14]
+** DONE [#A] Improve render_addr, make it a class
+   DEADLINE: <2009-06-18 Thu> SCHEDULED: <2009-06-17 Wed> CLOSED: [2009-06-18 Thu 15:12]

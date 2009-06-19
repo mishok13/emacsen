@@ -1,5 +1,5 @@
 * Vector maps
 ** TODO [#A] Implement SQL-style filtering
-   SCHEDULED: <2009-06-16 Tue> DEADLINE: <2009-06-19 Fri>
+   SCHEDULED: <2009-06-19 Fri> DEADLINE: <2009-06-23 Tue>
 ** TODO [#A] Implement filter by type
    SCHEDULED: <2009-06-19 Fri> DEADLINE: <2009-06-23 Tue>
