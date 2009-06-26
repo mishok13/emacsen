@@ -78,6 +78,8 @@
 ;; show column number
 (column-number-mode 1)
 
+(scroll-bar-mode -1)
+
 (setq-default fill-column 72)
 
 ;; this should enable copy from emacs to any other X frame
@@ -128,10 +130,17 @@ minibuffer to ease cutting and pasting."
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (define-key global-map [f6] 'org-store-link)
 (define-key global-map [f7] 'org-agenda)
+;; (global-set-key (kbd "<f12>") 'org-agenda)
 (setq org-log-done t)
 
 (setq org-agenda-files (list "~/.emacs.d/orgfiles/work.org"
-			     "~/.emacs.d/orgfiles/blog.org"))
+			     "~/.emacs.d/orgfiles/blog.org"
+			     "~/.emacs.d/orgfiles/tilman.org"
+			     "~/.emacs.d/orgfiles/triton.org"
+			     "~/.emacs.d/orgfiles/vectormaps.org" 
+			     "~/.emacs.d/orgfiles/render.org"
+			    ))
+
 
 
 (add-to-list 'load-path "~/.emacs.d/color-theme/")
@@ -153,6 +162,42 @@ minibuffer to ease cutting and pasting."
 (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
 (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
 
+;; midnight mode
+(require 'midnight)
+
+;;kill buffers if they were last disabled more than this seconds ago
+(setq clean-buffer-list-delay-special 1800)
+
+(defvar clean-buffer-list-timer nil
+  "Stores clean-buffer-list timer if there is one. You can disable clean-buffer-list by (cancel-timer clean-buffer-list-timer).")
+
+;; run clean-buffer-list every 2 hours
+(setq clean-buffer-list-timer (run-at-time t 3600 'clean-buffer-list))
+
+;; kill everything, clean-buffer-list is very intelligent at not killing
+;; unsaved buffer.
+(setq clean-buffer-list-kill-regexps
+      '("^.*$"))
+
+;; keep these buffer untouched
+;; prevent append multiple times
+(defvar clean-buffer-list-kill-never-buffer-names-init
+  clean-buffer-list-kill-never-buffer-names
+  "Init value for clean-buffer-list-kill-never-buffer-names")
+(setq clean-buffer-list-kill-never-buffer-names
+      (append
+       '("*Messages*" "*scratch*" "*Pymacs*")
+       clean-buffer-list-kill-never-buffer-names-init))
+
+;; prevent append multiple times
+(defvar clean-buffer-list-kill-never-regexps-init
+  clean-buffer-list-kill-never-regexps
+  "Init value for clean-buffer-list-kill-never-regexps")
+;; append to *-init instead of itself
+(setq clean-buffer-list-kill-never-regexps
+      (append '("^\\*Org Agenda\\*.*$")
+	      clean-buffer-list-kill-never-regexps-init))
+
 ;; (global-set-key [(control #)] 'comment-region)
 ;; (global-set-key [(control @)] 'uncomment-region)
 
@@ -165,7 +210,7 @@ minibuffer to ease cutting and pasting."
  '(ecb-options-version "2.33beta2")
  '(global-hl-line-mode t)
  '(kill-whole-line t)
- '(org-agenda-files (quote ("~/.emacs.d/orgfiles/work.org" "~/.emacs.d/orgfiles/blog.org" "~/.emacs.d/orgfiles/tilman.org" "~/.emacs.d/orgfiles/triton.org" "~/.emacs.d/orgfiles/vectormaps.org" "~/.emacs.d/orgfiles/render.org")))
+;; '(org-agenda-files (quote ("~/.emacs.d/orgfiles/work.org" "~/.emacs.d/orgfiles/blog.org" "~/.emacs.d/orgfiles/tilman.org" "~/.emacs.d/orgfiles/triton.org" "~/.emacs.d/orgfiles/vectormaps.org" "~/.emacs.d/orgfiles/render.org")))
  '(show-paren-mode t)
  '(tool-bar-mode nil nil (tool-bar)))
 (custom-set-faces

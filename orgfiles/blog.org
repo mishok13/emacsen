@@ -1,17 +1,9 @@
 
 * TODO blogposts
-** DONE [#A] Finish Where 2.0 Day 1 post
-   SCHEDULED: <2009-06-05 Fri> DEADLINE: <2009-06-12 Fri> CLOSED: [2009-06-16 Tue 17:21]
-** TODO [#A] Finish Where 2.0 Day 2 post
-   SCHEDULED: <2009-06-19 Fri> DEADLINE: <2009-06-26 Fri>
-** TODO [#A] Finish WhereCamp Day 1 post
-   SCHEDULED: <2009-06-22 Mon> DEADLINE: <2009-06-22 Mon>
-** TODO [#A] Finish WhereCamp Day 2 post
-   SCHEDULED: <2009-06-18 Thu> DEADLINE: <2009-06-22 Mon>
-** TODO [#A] Finish Where 2.0/WhereCamp summary post
-   SCHEDULED: <2009-06-22 Mon> DEADLINE: <2009-06-22 Mon>
+** TODO [#A] Where 2.0/WhereCamp summary post
+   SCHEDULED: <2009-06-22 Mon> DEADLINE: <2009-07-17 Fri>
 ** TODO [#A] Async frameworks post
-   SCHEDULED: <2009-06-17 Wed> DEADLINE: <2009-06-22 Mon>
+   SCHEDULED: <2009-06-17 Wed> DEADLINE: <2009-06-29 Mon>
 ** TODO [#B] Simple overview of map choices
    SCHEDULED: <2009-06-22 Mon> DEADLINE: <2009-07-03 Fri>
 
