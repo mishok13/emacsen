@@ -16,8 +16,8 @@
 ** TODO [#A] Benchmark rendering time
 *** DONE [#B] Measure XML parsing
     CLOSED: [2009-06-01 Mon 18:03]
-*** TODO [#C] Measure sending
-    SCHEDULED: <2009-06-19 Fri> DEADLINE: <2009-07-10 Fri>
+*** DONE [#C] Measure sending
+    SCHEDULED: <2009-06-19 Fri> DEADLINE: <2009-07-10 Fri> CLOSED: [2009-07-16 Thu 11:16]
 *** DONE [#A] Measure splitting image
     CLOSED: [2009-06-01 Mon 18:03]
 *** TODO [#B] Measure preparations for rendering
@@ -29,11 +29,11 @@
 ** DONE [#A] Refuse connections that are out of the limit
    SCHEDULED: <2009-06-17 Wed> CLOSED: [2009-06-17 Wed 12:43]
 ** TODO [#B] Caching unused styles
-   DEADLINE: <2009-07-03 Fri> SCHEDULED: <2009-07-01 Wed>
+   SCHEDULED: <2009-07-01 Wed> DEADLINE: <2009-07-24 Fri>
 ** TODO [#A] Investigate ways of improving rendering speed 
-   SCHEDULED: <2009-06-22 Mon> DEADLINE: <2009-06-30 Tue>
-** TODO [#A] 8bit tiles support
-   SCHEDULED: <2009-06-22 Mon> DEADLINE: <2009-07-01 Wed>
+   SCHEDULED: <2009-06-22 Mon> DEADLINE: <2009-07-31 Fri>
+** DONE [#A] 8bit tiles support
+   SCHEDULED: <2009-06-22 Mon> DEADLINE: <2009-07-01 Wed> CLOSED: [2009-07-16 Thu 11:16]
 ** DONE [#A] Reorganize package structure
    DEADLINE: <2009-06-11 Thu> SCHEDULED: <2009-06-11 Thu> CLOSED: [2009-06-11 Thu 16:26]
    - Note taken on [2009-06-10 Wed 12:02] \\
@@ -44,5 +44,8 @@
 ** DONE [#A] Create setup.py for render
    SCHEDULED: <2009-06-11 Thu> DEADLINE: <2009-06-11 Thu> CLOSED: [2009-06-11 Thu 16:25]
    
-** TODO [#A] Get rid of all print statements
-   SCHEDULED: <2009-06-29 Mon> DEADLINE: <2009-06-30 Tue>
+** DONE [#A] Get rid of all print statements
+   SCHEDULED: <2009-06-29 Mon> DEADLINE: <2009-06-30 Tue> CLOSED: [2009-07-16 Thu 11:17]
+** TODO [#A] Investigate issues with fonts directory
+   ~SCHEDULED: <2009-07-22 Wed> DEADLINE: <2009-07-23 Thu>
+   
