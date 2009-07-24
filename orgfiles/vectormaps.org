@@ -14,7 +14,7 @@
 ** DONE [#A] Implement clearing of XPath search
    SCHEDULED: <2009-07-07 Tue> DEADLINE: <2009-07-07 Tue> CLOSED: [2009-07-07 Tue 15:38]
 ** TODO [#A] Implement naming of ways
-   SCHEDULED: <2009-07-08 Wed> DEADLINE: <2009-08-07 Fri>
+   DEADLINE: <2009-08-07 Fri> SCHEDULED: <2009-09-07 Mon>
 ** DONE [#A] Add switching on/off of tags and groups of tags
    SCHEDULED: <2009-07-06 Mon> DEADLINE: <2009-07-06 Mon> CLOSED: [2009-07-06 Mon 19:09]
 ** DONE [#A] Add XPath search to demo

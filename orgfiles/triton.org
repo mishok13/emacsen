@@ -17,18 +17,22 @@
     SCHEDULED: <2009-06-19 Fri> DEADLINE: <2009-06-23 Tue> CLOSED: [2009-07-16 Thu 11:16]
 *** DONE [#A] clone bbox
     SCHEDULED: <2009-06-18 Thu> DEADLINE: <2009-06-18 Thu> CLOSED: [2009-06-19 Fri 14:56]
-** TODO [#A] Implement API for forced re-rendering of tile
-   SCHEDULED: <2009-06-23 Tue> DEADLINE: <2009-07-23 Thu>
+** DONE [#A] Implement API for forced re-rendering of tile
+   SCHEDULED: <2009-06-23 Tue> DEADLINE: <2009-07-23 Thu> CLOSED: [2009-07-23 Thu 10:07]
 ** DONE [#A] Get rid of all print statements
    SCHEDULED: <2009-06-30 Tue> DEADLINE: <2009-06-30 Tue> CLOSED: [2009-07-16 Thu 11:16]
 ** DONE [#A] Implement init.d script and correct instalation
    DEADLINE: <2009-07-03 Fri> SCHEDULED: <2009-07-03 Fri> CLOSED: [2009-07-03 Fri 16:13]
 ** TODO [#A] Implement API for removing one tile
-   SCHEDULED: <2009-06-23 Tue> DEADLINE: <2009-07-24 Fri>
-** TODO [#A] Fix bbox clone
-   SCHEDULED: <2009-07-22 Wed> DEADLINE: <2009-07-22 Wed>
-** TODO [#A] Finish implementation of dirty
-   SCHEDULED: <2009-07-22 Wed> DEADLINE: <2009-07-23 Thu>
+   DEADLINE: <2009-07-27 Mon> SCHEDULED: <2009-07-27 Mon>
+** DONE [#A] Fix bbox clone
+   SCHEDULED: <2009-07-22 Wed> DEADLINE: <2009-07-22 Wed> CLOSED: [2009-07-22 Wed 15:15]
+** DONE [#A] Finish implementation of dirty
+   SCHEDULED: <2009-07-22 Wed> DEADLINE: <2009-07-23 Thu> CLOSED: [2009-07-22 Wed 15:47]
+** DONE [#A] Integrate multi-tile into triton
+   SCHEDULED: <2009-07-23 Thu> DEADLINE: <2009-07-24 Fri> CLOSED: [2009-07-24 Fri 15:33]
+** DONE [#A] Remove call should remove style directory
+   SCHEDULED: <2009-07-23 Thu> DEADLINE: <2009-07-23 Thu> CLOSED: [2009-07-23 Thu 18:53]
 ** DONE [#A] Caching styles
    SCHEDULED: <2009-06-02 Tue> CLOSED: [2009-06-02 Tue 17:38]
 ** DONE [#A] Divide cache into icon, tile and staticmaps-specific caches
@@ -52,7 +56,7 @@
    SCHEDULED: <2009-06-30 Tue> DEADLINE: <2009-07-02 Thu> CLOSED: [2009-07-16 Thu 11:16]
    
 ** TODO [#B] Add configuration entry for queue limit
-   SCHEDULED: <2009-07-16 Thu> DEADLINE: <2009-07-24 Fri>
+   DEADLINE: <2009-07-31 Fri> SCHEDULED: <2009-07-27 Mon>
 
 ** DONE [#A] Investigate "clone bbox"
    SCHEDULED: <2009-07-16 Thu> DEADLINE: <2009-07-17 Fri> CLOSED: [2009-07-17 Fri 16:52]

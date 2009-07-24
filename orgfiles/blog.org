@@ -2,12 +2,12 @@
 * TODO blogposts
 
 ** TODO [#A] Async frameworks post
-   SCHEDULED: <2009-06-17 Wed> DEADLINE: <2009-07-24 Fri>
+   DEADLINE: <2009-07-27 Mon> SCHEDULED: <2009-07-27 Mon>
 ** TODO [#B] Simple overview of map choices
-   SCHEDULED: <2009-06-22 Mon> DEADLINE: <2009-07-31 Fri>
+   DEADLINE: <2009-08-28 Fri> SCHEDULED: <2009-08-21 Fri>
 
 * TODO Other stuff
 ** TODO [#B] Finish CV generating stuff (LaTeX)
-   SCHEDULED: <2009-06-25 Thu> DEADLINE: <2009-07-24 Fri>
-** TODO [#C] Switch to werkzeug/cherrypy-based blog engine
-   SCHEDULED: <2009-06-29 Mon> DEADLINE: <2009-07-31 Fri>
+   DEADLINE: <2009-08-07 Fri> SCHEDULED: <2009-07-27 Mon>
+** DONE [#C] Switch to werkzeug/cherrypy-based blog engine
+   SCHEDULED: <2009-06-29 Mon> DEADLINE: <2009-07-31 Fri> CLOSED: [2009-07-22 Wed 12:54]
