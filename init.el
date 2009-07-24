@@ -52,17 +52,21 @@
 (global-set-key [f4] 'flymake-goto-next-error)
 (global-set-key [f5] 'flymake-goto-prev-error)
 
+(global-set-key [f2] 'other-frame)
+
 ;; pylint checking
+(defun flymake-pylint-init ()
+  (let* ((temp-file (flymake-init-create-temp-buffer-copy
+		     'flymake-create-temp-inplace))
+	 (local-file (file-relative-name
+		      temp-file
+		      (file-name-directory buffer-file-name))))
+    (list "epylint" (list local-file))))
 (when (load "flymake" t)
-  (defun flymake-pylint-init ()
-    (let* ((temp-file (flymake-init-create-temp-buffer-copy
-		       'flymake-create-temp-inplace))
-           (local-file (file-relative-name
-                        temp-file
-                        (file-name-directory buffer-file-name))))
-      (list "epylint" (list local-file))))
   (add-to-list 'flymake-allowed-file-name-masks
-               '("\\.py\\'" flymake-pylint-init)))
+	       '("\\.py\\'" flymake-pylint-init)))
+;; (add-hook 'python-mode-hook 'flymake-mode)
+
 
 (load-library "pyrex-mode")
 
@@ -139,6 +143,7 @@ minibuffer to ease cutting and pasting."
 			     "~/.emacs.d/orgfiles/triton.org"
 			     "~/.emacs.d/orgfiles/vectormaps.org" 
 			     "~/.emacs.d/orgfiles/render.org"
+			     "~/.emacs.d/orgfiles/openmapsua.org"
 			    ))
 
 
@@ -194,9 +199,9 @@ minibuffer to ease cutting and pasting."
   clean-buffer-list-kill-never-regexps
   "Init value for clean-buffer-list-kill-never-regexps")
 ;; append to *-init instead of itself
-(setq clean-buffer-list-kill-never-regexps
-      (append '("^\\*Org Agenda\\*.*$")
-	      clean-buffer-list-kill-never-regexps-init))
+;; (setq clean-buffer-list-kill-never-regexps
+;;       (append '("^\\*Org Agenda\\*.*$")
+;; 	      clean-buffer-list-kill-never-regexps-init))
 
 ;; (global-set-key [(control #)] 'comment-region)
 ;; (global-set-key [(control @)] 'uncomment-region)
