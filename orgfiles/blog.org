@@ -2,12 +2,18 @@
 * TODO blogposts
 
 ** TODO [#A] Async frameworks post
-   DEADLINE: <2009-07-27 Mon> SCHEDULED: <2009-07-27 Mon>
+   SCHEDULED: <2009-07-27 Mon> DEADLINE: <2009-07-29 Wed>
+
 ** TODO [#B] Simple overview of map choices
    DEADLINE: <2009-08-28 Fri> SCHEDULED: <2009-08-21 Fri>
 
-* TODO Other stuff
-** TODO [#B] Finish CV generating stuff (LaTeX)
-   DEADLINE: <2009-08-07 Fri> SCHEDULED: <2009-07-27 Mon>
+** TODO [#B] Fix www.mishkovskyi.net -> mishkovskyi.net rewrite
+   SCHEDULED: <2009-07-27 Mon> DEADLINE: <2009-07-28 Tue>
+
+** TODO [#A] Fix admin links rewrites
+   SCHEDULED: <2009-07-27 Mon> DEADLINE: <2009-07-29 Wed>
+
+** TODO [#B] Add CV stuff ("about" subdomain?)
+   SCHEDULED: <2009-07-29 Wed> DEADLINE: <2009-07-31 Fri>
 ** DONE [#C] Switch to werkzeug/cherrypy-based blog engine
    SCHEDULED: <2009-06-29 Mon> DEADLINE: <2009-07-31 Fri> CLOSED: [2009-07-22 Wed 12:54]
