@@ -1,2 +1,2 @@
-* TODO [#A] Finish docs
-  SCHEDULED: <2009-07-24 Fri> DEADLINE: <2009-07-31 Fri>
+* DONE [#A] Finish docs
+  SCHEDULED: <2009-07-24 Fri> DEADLINE: <2009-07-31 Fri> CLOSED: [2009-08-10 Mon 11:45]

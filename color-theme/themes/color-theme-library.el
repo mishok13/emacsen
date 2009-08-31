@@ -13547,8 +13547,8 @@ Created by Andrii V. Mishkovskyi <mishok13@gmail.com> Dec 2 2008."
      (background-mode . dark)
      (border-color . "gray30")
      (cursor-color . "yellow")
-      (foreground-color . "White")
-      (mouse-color . "sienna1"))
+     (foreground-color . "White")
+     (mouse-color . "sienna1"))
     ((buffers-tab-face . buffers-tab)
      (cperl-here-face . font-lock-string-face)
      (cperl-invalid-face quote underline)
@@ -13646,6 +13646,9 @@ Created by Andrii V. Mishkovskyi <mishok13@gmail.com> Dec 2 2008."
     (woman-italic-face ((t (:foreground "beige"))))
     (woman-unknown-face ((t (:foreground "LightSalmon"))))
     (yellow ((t (:foreground "yellow"))))
+    (twit-message-face ((t (:slant normal :weight normal :height 120 :width normal :foundry "unknown" :family "Verdana"))))
+    (twit-author-face ((t (:height 100 :family "DejaVu Sans Mono"))))
+    (twit-info-face ((t (:slant normal :height 80 :family "DejaVu Sans Mono"))))
     (zmacs-region ((t (:background "snow" :foreground "gray50")))))))
 
 ;;; color-theme-library.el ends here

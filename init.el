@@ -62,16 +62,23 @@
 		      temp-file
 		      (file-name-directory buffer-file-name))))
     (list "epylint" (list local-file))))
-(when (load "flymake" t)
-  (add-to-list 'flymake-allowed-file-name-masks
-	       '("\\.py\\'" flymake-pylint-init)))
-;; (add-hook 'python-mode-hook 'flymake-mode)
 
+
+;; If I'm ever to change pylint to something else, just change init functions
+(defconst flymake-allowed-python-file-name-masks 
+  '(("\\.py$" flymake-pylint-init) 
+    (".*$" flymake-pylint-init)))
+
+;; Simple hook for python-mode + flymake
+(defun flymake-python-load () 
+  (setq flymake-allowed-file-name-masks 
+	(append flymake-allowed-file-name-masks 
+		flymake-allowed-python-file-name-masks)) 
+  (flymake-mode t))
+(add-hook 'python-mode-hook 'flymake-python-load)
+(load-library "flymake-cursor")
 
 (load-library "pyrex-mode")
-
-(load-library "flymake-cursor")
-(add-hook 'find-file-hook 'flymake-find-file-hook)
 
 ;; Loading ropemacs
 (pymacs-load "ropemacs" "rope-")
@@ -82,6 +89,7 @@
 ;; show column number
 (column-number-mode 1)
 
+;; Scroll bar is useless
 (scroll-bar-mode -1)
 
 (setq-default fill-column 72)
@@ -104,9 +112,8 @@
 	    (setq outline-regexp "def\\|class ")))
 
 ;; IPython
-(setq ipython-command "/usr/bin/ipython")
 (require 'ipython)
-
+(setq ipython-command "/usr/bin/ipython")
 
 ;; TinyURL
 (require 'mm-url)
@@ -127,33 +134,27 @@ minibuffer to ease cutting and pasting."
 
 (ido-mode t)
 
-;; (require 'semantic)
-;; (require 'eieio)
-
 (require 'org-install)
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (define-key global-map [f6] 'org-store-link)
 (define-key global-map [f7] 'org-agenda)
-;; (global-set-key (kbd "<f12>") 'org-agenda)
 (setq org-log-done t)
-
 (setq org-agenda-files (list "~/.emacs.d/orgfiles/work.org"
 			     "~/.emacs.d/orgfiles/blog.org"
 			     "~/.emacs.d/orgfiles/tilman.org"
 			     "~/.emacs.d/orgfiles/triton.org"
 			     "~/.emacs.d/orgfiles/vectormaps.org" 
 			     "~/.emacs.d/orgfiles/render.org"
-			     "~/.emacs.d/orgfiles/openmapsua.org"
-			    ))
+			     "~/.emacs.d/orgfiles/openmapsua.org"))
 
 
 
+;; TODO: move my theme to separate file
+(require 'color-theme)
 (add-to-list 'load-path "~/.emacs.d/color-theme/")
 (add-to-list 'load-path "~/.emacs.d/color-theme/themes/")
-(require 'color-theme)
 (color-theme-initialize)
 (color-theme-mishok)
-;; used to edit debian/control files
 
 (desktop-save-mode 1)
 (setq history-length 250)
@@ -166,6 +167,11 @@ minibuffer to ease cutting and pasting."
 (add-to-list 'desktop-modes-not-to-save 'Info-mode)
 (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
 (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
+
+(require 'twit)
+(setq twit-show-user-images 1)
+(setq twit-user-image-dir "~/.emacs.d/twit-user-images")
+(global-set-key [f8] 'twit-show-recent-tweets)
 
 ;; midnight mode
 (require 'midnight)
@@ -198,13 +204,6 @@ minibuffer to ease cutting and pasting."
 (defvar clean-buffer-list-kill-never-regexps-init
   clean-buffer-list-kill-never-regexps
   "Init value for clean-buffer-list-kill-never-regexps")
-;; append to *-init instead of itself
-;; (setq clean-buffer-list-kill-never-regexps
-;;       (append '("^\\*Org Agenda\\*.*$")
-;; 	      clean-buffer-list-kill-never-regexps-init))
-
-;; (global-set-key [(control #)] 'comment-region)
-;; (global-set-key [(control @)] 'uncomment-region)
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
@@ -232,3 +231,4 @@ minibuffer to ease cutting and pasting."
 (add-hook 'window-setup-hook 'maximize-frame t)
 
 (setq ring-bell-function 'ignore)
+ 
