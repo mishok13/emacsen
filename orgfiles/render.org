@@ -9,8 +9,8 @@
    CLOSED: [2009-06-10 Wed 11:30]
    Names are Tilman for tile handler and Triton for PigFarm
    SCHEDULED: <2009-06-10 Wed> DEADLINE: <2009-06-10 Wed>
-** TODO [#C] Implement staticmaps
-   SCHEDULED: <2009-08-03 Mon> DEADLINE: <2009-08-07 Fri>
+** DONE [#C] Implement staticmaps
+   SCHEDULED: <2009-08-03 Mon> DEADLINE: <2009-08-07 Fri> CLOSED: [2009-08-31 Mon 11:47]
 ** DONE [#A] Implement icons
    SCHEDULED: <2009-06-03 Wed> DEADLINE: <2009-06-05 Fri> CLOSED: [2009-06-05 Fri 18:35]
 ** TODO [#A] Benchmark rendering time
@@ -20,18 +20,18 @@
     SCHEDULED: <2009-06-19 Fri> DEADLINE: <2009-07-10 Fri> CLOSED: [2009-07-16 Thu 11:16]
 *** DONE [#A] Measure splitting image
     CLOSED: [2009-06-01 Mon 18:03]
-*** TODO [#B] Measure preparations for rendering
-    DEADLINE: <2009-07-31 Fri> SCHEDULED: <2009-07-27 Mon>
+*** DONE [#B] Measure preparations for rendering
+    DEADLINE: <2009-07-31 Fri> SCHEDULED: <2009-07-27 Mon> CLOSED: [2009-08-31 Mon 11:47]
 *** DONE [#A] Measure THE rendering :)
     CLOSED: [2009-06-01 Mon 18:03]
 ** DONE [#B] Becnhmark zipping(taring) time
    SCHEDULED: <2009-06-19 Fri> CLOSED: [2009-07-24 Fri 15:38]
 ** DONE [#A] Refuse connections that are out of the limit
    SCHEDULED: <2009-06-17 Wed> CLOSED: [2009-06-17 Wed 12:43]
-** TODO [#B] Caching unused styles
-   DEADLINE: <2009-07-31 Fri> SCHEDULED: <2009-07-27 Mon>
-** TODO [#A] Investigate ways of improving rendering speed 
-   SCHEDULED: <2009-07-27 Mon> DEADLINE: <2009-07-31 Fri>
+** DONE [#B] Caching unused styles
+   DEADLINE: <2009-07-31 Fri> SCHEDULED: <2009-07-27 Mon> CLOSED: [2009-08-31 Mon 11:47]
+** DONE [#A] Investigate ways of improving rendering speed 
+   SCHEDULED: <2009-07-27 Mon> DEADLINE: <2009-07-31 Fri> CLOSED: [2009-08-31 Mon 11:47]
 ** DONE [#A] 8bit tiles support
    SCHEDULED: <2009-06-22 Mon> DEADLINE: <2009-07-01 Wed> CLOSED: [2009-07-16 Thu 11:16]
 ** DONE [#A] Reorganize package structure
@@ -49,3 +49,20 @@
 ** DONE [#A] Investigate issues with fonts directory
    ~SCHEDULED: <2009-07-22 Wed> DEADLINE: <2009-07-23 Thu> CLOSED: [2009-07-23 Thu 18:53]
    
+
+* PAUSED Check performance with pre-rendering server		     :PAUSED:
+  SCHEDULED: <2009-09-03 Thu> DEADLINE: <2009-09-04 Fri>
+  - State "PAUSED"     from "WORKING"    [2009-09-03 Thu 12:38] \\
+    Paused because Dmytro Korochkin is currently overloaded with other tasks
+  - State "WORKING"    from "TODO"       [2009-09-03 Thu 12:02]
+
+* TODO Analyze logs from pre-rendering server testing
+  SCHEDULED: <2009-09-04 Fri> DEADLINE: <2009-09-07 Mon>
+
+* TODO Deploy new arch to servers
+  SCHEDULED: <2009-09-11 Fri> DEADLINE: <2009-09-16 Wed>
+* WORKING Setup new PostGIS server for testing			       :NEXT:
+  SCHEDULED: <2009-09-03 Thu> DEADLINE: <2009-09-04 Fri>
+  - State "WORKING"    from "TODO"       [2009-09-03 Thu 12:42]
+  [2009-09-03 Thu]
+  [[file:~/emacsen/init.el::require%20remember][file:~/emacsen/init.el::require remember]]

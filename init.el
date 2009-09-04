@@ -5,13 +5,12 @@
 
 (global-font-lock-mode t)
 
+(fset 'yes-or-no-p 'y-or-n-p)
 
 (defun donuts ()
   "For the love of God"
   (interactive)
   (print "Mmmm, donuts."))
-
-;; XXX: add normal color theme
 
 ;; interesting mode for highlighting parens in different colors
 (require 'highlight-parentheses)
@@ -64,7 +63,7 @@
     (list "epylint" (list local-file))))
 
 
-;; If I'm ever to change pylint to something else, just change init functions
+;; If I'm ever to change pylint to something else, I should just change init functions
 (defconst flymake-allowed-python-file-name-masks 
   '(("\\.py$" flymake-pylint-init) 
     (".*$" flymake-pylint-init)))
@@ -134,25 +133,119 @@ minibuffer to ease cutting and pasting."
 
 (ido-mode t)
 
+
+;; org-mode is a powerfull thingy
+;; I'm yet to understand all of its power, but I'm learning :)
+;; most of this code is taken (stolen, if you prefer) from here:
+;; http://doc.norang.ca/org-mode.html
 (require 'org-install)
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (define-key global-map [f6] 'org-store-link)
-(define-key global-map [f7] 'org-agenda)
-(setq org-log-done t)
-(setq org-agenda-files (list "~/.emacs.d/orgfiles/work.org"
-			     "~/.emacs.d/orgfiles/blog.org"
-			     "~/.emacs.d/orgfiles/tilman.org"
-			     "~/.emacs.d/orgfiles/triton.org"
-			     "~/.emacs.d/orgfiles/vectormaps.org" 
-			     "~/.emacs.d/orgfiles/render.org"
-			     "~/.emacs.d/orgfiles/openmapsua.org"))
+(global-set-key (kbd "<f7>") 'org-agenda)
+(global-set-key (kbd "C-M-r") 'org-remember)
+;; Enabling flyspell for org-mode
+(add-hook 'org-mode-hook
+          (lambda () (flyspell-mode 1)))
 
+(setq org-log-done t)
+(setq org-agenda-files (file-expand-wildcards "~/.emacs.d/orgfiles/*.org"))
+(setq org-default-notes-file "~/.emacs.d/orgfiles/refile.org")
+
+(setq org-agenda-custom-commands
+      (quote (("P" "Projects" tags "/!PROJECT" ((org-use-tag-inheritance nil)))
+              ("w" "Tasks I'm working on right now" todo "WORKING" ((org-agenda-todo-ignore-with-date nil)))
+              ("p" "Paused tasks -- probably waiting for something" tags "PAUSED" ((org-use-tag-inheritance nil)))
+              ("r" "Refile New Notes and Tasks" tags "REFILE" ((org-agenda-todo-ignore-with-date nil)))
+              ("n" "Notes" tags "NOTE" nil))))
+
+(setq org-todo-keyword-faces
+      (quote
+       (("TODO" :foreground "red" :weight bold)
+	("STARTED" :foreground "blue" :weight bold)
+	("DONE" :foreground "forest green" :weight bold)
+	("WAITING" :foreground "orange" :weight bold)
+	("SOMEDAY" :foreground "magenta" :weight bold)
+	("CANCELLED" :foreground "forest green" :weight bold)
+	("QUOTE" :foreground "red" :weight bold)
+	("QUOTED" :foreground "magenta" :weight bold)
+	("APPROVED" :foreground "forest green" :weight bold)
+	("EXPIRED" :foreground "forest green" :weight bold)
+	("REJECTED" :foreground "forest green" :weight bold)
+	("OPEN" :foreground "blue" :weight bold))))
+
+;;;  Load Org Remember Stuff
+(require 'remember)
+(org-remember-insinuate)
+
+;; Start clock if a remember buffer includes :CLOCK-IN:
+(add-hook 'remember-mode-hook 'my-start-clock-if-needed 'append)
+
+(defun my-start-clock-if-needed ()
+  (save-excursion
+    (goto-char (point-min))
+    (when (re-search-forward " *:CLOCK-IN: *" nil t)
+      (replace-match "")
+      (org-clock-in))))
+
+;; I use C-M-r to start org-remember
+
+;; Keep clocks running
+(setq org-remember-clock-out-on-exit nil)
+
+;; C-c C-c stores the note immediately
+(setq org-remember-store-without-prompt t)
+
+;; I don't use this -- but set it in case I forget to specify a location in a future template
+(setq org-remember-default-headline "Tasks")
+
+;; 3 remember templates for TODO tasks, Notes, and Phone calls
+(setq org-remember-templates (quote (("todo" ?t "* TODO %?
+  %u
+  %a" nil bottom nil)
+                                     ("note" ?n "* %?                                        :NOTE:
+  %u
+  %a" nil bottom nil)
+                                     ("phone" ?p "* PHONE %:name - %:company -                :PHONE:
+  Contact Info: %a
+  %u
+  :CLOCK-IN:
+  %?" nil bottom nil))))
+
+; Use IDO for target completion
+(setq org-completion-use-ido t)
+; Targets include this file and any file contributing to the agenda - up to 5 levels deep
+(setq org-refile-targets (quote ((org-agenda-files :maxlevel . 5) (nil :maxlevel . 5))))
+; Targets start with the file name - allows creating level 1 tasks
+(setq org-refile-use-outline-path (quote file))
+; Targets complete in steps so we start with filename, TAB shows the next level of targets etc
+(setq org-outline-path-complete-in-steps t)
+
+
+(setq org-todo-keywords 
+      (quote ((sequence "TODO(t)" "WORKING(w!)" "|" "DONE(d!/!)")
+	      (sequence "PAUSED(p@/!)" "DEFERRED(D!)" "|" "CANCELLED(c@/!)"))))
+
+(setq org-todo-state-tags-triggers
+      (quote (("CANCELLED" ("CANCELLED" . t))
+              ("PAUSED" ("PAUSED" . t) ("NEXT"))
+              ("DEFERRED" ("PAUSED" . t))
+              (done ("NEXT") ("PAUSED"))
+              ("TODO" ("PAUSED") ("CANCELLED"))
+              ("WORKING" ("PAUSED") ("NEXT" . t)))))
+;; Change task state to STARTED when clocking in
+(setq org-clock-in-switch-to-state "WORKING")
+
+
+;; allows changing from any task todo state to any other state directly
+;;  by selecting the appropriate key from the fast todo selection key menu
+;; C-c C-t <KEY>
+(setq org-use-fast-todo-selection t)
 
 
 ;; TODO: move my theme to separate file
-(require 'color-theme)
 (add-to-list 'load-path "~/.emacs.d/color-theme/")
 (add-to-list 'load-path "~/.emacs.d/color-theme/themes/")
+(require 'color-theme)
 (color-theme-initialize)
 (color-theme-mishok)
 

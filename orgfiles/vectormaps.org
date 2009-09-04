@@ -13,15 +13,28 @@
    SCHEDULED: <2009-07-07 Tue> DEADLINE: <2009-07-08 Wed> CLOSED: [2009-07-16 Thu 11:17]
 ** DONE [#A] Implement clearing of XPath search
    SCHEDULED: <2009-07-07 Tue> DEADLINE: <2009-07-07 Tue> CLOSED: [2009-07-07 Tue 15:38]
-** TODO [#A] Implement naming of ways
-   DEADLINE: <2009-08-07 Fri> SCHEDULED: <2009-09-07 Mon>
-** TODO [#A] Implement filtering by style
-   SCHEDULED: <2009-07-28 Tue> DEADLINE: <2009-08-04 Tue>
-** TODO [#A] Tiling
-   SCHEDULED: <2009-08-05 Wed> DEADLINE: <2009-08-11 Tue>
+** DONE [#A] Implement naming of ways
+   DEADLINE: <2009-08-07 Fri> SCHEDULED: <2009-09-07 Mon> CLOSED: [2009-08-31 Mon 11:47]
+** DONE [#A] Implement filtering by style
+   SCHEDULED: <2009-07-28 Tue> DEADLINE: <2009-08-04 Tue> CLOSED: [2009-08-31 Mon 11:47]
+** DONE [#A] Tiling
+   SCHEDULED: <2009-08-05 Wed> DEADLINE: <2009-08-11 Tue> CLOSED: [2009-08-31 Mon 11:47]
 ** DONE [#A] Add switching on/off of tags and groups of tags
    SCHEDULED: <2009-07-06 Mon> DEADLINE: <2009-07-06 Mon> CLOSED: [2009-07-06 Mon 19:09]
 ** DONE [#A] Add XPath search to demo
    SCHEDULED: <2009-07-06 Mon> DEADLINE: <2009-07-07 Tue> CLOSED: [2009-07-16 Thu 11:17]
 ** DONE [#A] Implement Python API for new sotm-vectormaps
-   SCHEDULED: <2009-07-01 Wed> DEADLINE: <2009-07-01 Wed> CLOSED: [2009-07-01 Wed 20:23]
+   SCHEDULED: <2009-07-01 Wed> DEADLINE: <2009-07-01 Wed> CLOSED: [2009-07-01 Wed 20:23]*
+* DONE Fix issue with caching tiles
+  SCHEDULED: <2009-09-02 Wed> CLOSED: [2009-09-02 Wed 17:30]
+  - State "DONE"       from "WORKING"    [2009-09-02 Wed 17:30]
+  - State "WORKING"    from "TODO"       [2009-09-02 Wed 14:35]
+  
+* WORKING Add support for exclude API				       :NEXT:
+  SCHEDULED: <2009-09-03 Thu> DEADLINE: <2009-09-16 Wed>
+  CLOCK: [2009-09-04 Fri 17:44]--[2009-09-04 Fri 18:33] =>  0:49
+  CLOCK: [2009-09-04 Fri 16:55]--[2009-09-04 Fri 17:31] =>  0:36
+  CLOCK: [2009-09-03 Thu 17:32]--[2009-09-03 Thu 17:55] =>  0:23
+  CLOCK: [2009-09-03 Thu 16:29]--[2009-09-03 Thu 17:09] =>  0:40
+  CLOCK: [2009-09-03 Thu 14:24]--[2009-09-03 Thu 15:05] =>  0:41
+  - State "WORKING"    from "TODO"       [2009-09-03 Thu 14:23]

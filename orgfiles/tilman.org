@@ -1,8 +1,8 @@
 * Tilman
 ** DONE [#A] WSGI refresh
    SCHEDULED: <2009-06-03 Wed> DEADLINE: <2009-06-09 Tue> CLOSED: [2009-06-09 Tue 17:27]
-** TODO [#B] Remove unused options
-   DEADLINE: <2009-07-31 Fri> SCHEDULED: <2009-07-27 Mon>
+** DONE [#B] Remove unused options
+   DEADLINE: <2009-07-31 Fri> SCHEDULED: <2009-07-27 Mon> CLOSED: [2009-08-31 Mon 11:47]
 ** DONE [#A] Implement API without API key in it
    SCHEDULED: <2009-07-24 Fri> DEADLINE: <2009-07-24 Fri> CLOSED: [2009-07-24 Fri 16:08]
 ** DONE [#A] WSGI clone
