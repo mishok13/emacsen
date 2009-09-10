@@ -2,3 +2,6 @@
 * TODO Import 9-9.osm (This includes part of Mykolaiivska oblast')
   [2009-09-03 Thu]
   [[file:~/emacsen/init.el::r%20Refile%20New%20Notes%20and%20Tasks%20tags%20REFILE%20org%20agenda%20todo%20ignore%20with%20date%20nil][file:~/emacsen/init.el::r Refile New Notes and Tasks tags REFILE org agenda todo ignore with date nil]]
+* TODO Fix blog url mapping
+  [2009-09-07 Mon]
+  [[file:~/nonwork/mapping/fixosm.py::for%20node%20in%20way%20xpath%20nd][file:~/nonwork/mapping/fixosm.py::for node in way xpath nd]]
