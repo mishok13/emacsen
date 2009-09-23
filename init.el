@@ -298,6 +298,10 @@ minibuffer to ease cutting and pasting."
   clean-buffer-list-kill-never-regexps
   "Init value for clean-buffer-list-kill-never-regexps")
 
+(setq clean-buffer-list-kill-never-regexps
+      (append '("^.*\\.org$")
+	      clean-buffer-list-kill-never-regexps-init))
+
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.

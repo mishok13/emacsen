@@ -1,5 +1,3 @@
-
-
 ** DONE [#A] Async frameworks post
    SCHEDULED: <2009-07-27 Mon> DEADLINE: <2009-07-29 Wed> CLOSED: [2009-08-10 Mon 11:46]
 
@@ -18,3 +16,5 @@
    SCHEDULED: <2009-07-29 Wed> DEADLINE: <2009-07-31 Fri> CLOSED: [2009-08-31 Mon 11:47]
 ** DONE [#C] Switch to werkzeug/cherrypy-based blog engine
    SCHEDULED: <2009-06-29 Mon> DEADLINE: <2009-07-31 Fri> CLOSED: [2009-07-22 Wed 12:54]
+* TODO Fix blog url mapping
+  SCHEDULED: <2009-09-15 Tue>

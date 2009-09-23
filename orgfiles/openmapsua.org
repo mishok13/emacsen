@@ -1,2 +1,5 @@
 * DONE [#A] Finish docs
   SCHEDULED: <2009-07-24 Fri> DEADLINE: <2009-07-31 Fri> CLOSED: [2009-08-10 Mon 11:45]
+* TODO Import 9-9.osm (This includes part of Mykolaiivska oblast')
+  [2009-09-03 Thu]
+  [[file:~/emacsen/init.el::r%20Refile%20New%20Notes%20and%20Tasks%20tags%20REFILE%20org%20agenda%20todo%20ignore%20with%20date%20nil][file:~/emacsen/init.el::r Refile New Notes and Tasks tags REFILE org agenda todo ignore with date nil]]
