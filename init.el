@@ -320,8 +320,6 @@ minibuffer to ease cutting and pasting."
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "#ffffff" :foreground "#1a1a1a" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 140 :width normal :foundry "unknown" :family "Inconsolata"))))
- '(flymake-errline ((((class color)) (:background "Grey25" :underline "Firebrick"))))
- '(flymake-warnline ((((class color)) (:underline "Grey50"))))
  '(hl-line ((t (:inherit highlight)))))
 
 (require 'maxframe)

@@ -50,8 +50,10 @@
    ~SCHEDULED: <2009-07-22 Wed> DEADLINE: <2009-07-23 Thu> CLOSED: [2009-07-23 Thu 18:53]
    
 
-* PAUSED Check performance with pre-rendering server		     :PAUSED:
-  SCHEDULED: <2009-09-03 Thu> DEADLINE: <2009-09-04 Fri>
+* DONE Check performance with pre-rendering server
+  SCHEDULED: <2009-09-03 Thu> DEADLINE: <2009-09-04 Fri> CLOSED: [2009-09-29 Tue 17:24]
+  - State "DONE"       from "WORKING"    [2009-09-29 Tue 17:24]
+  - State "WORKING"    from "PAUSED"     [2009-09-24 Thu 16:16]
   - State "PAUSED"     from "WORKING"    [2009-09-18 Fri 11:19] \\
     Waiting until 22.09.09 for dkorochkin
   - State "WORKING"    from "PAUSED"     [2009-09-15 Tue 15:51]
@@ -59,14 +61,21 @@
     Paused because Dmytro Korochkin is currently overloaded with other tasks
   - State "WORKING"    from "TODO"       [2009-09-03 Thu 12:02]
 
-* TODO Analyze logs from pre-rendering server testing
-  SCHEDULED: <2009-09-04 Fri> DEADLINE: <2009-09-07 Mon>
+* DONE Analyze logs from pre-rendering server testing
+  SCHEDULED: <2009-09-04 Fri> DEADLINE: <2009-09-07 Mon> CLOSED: [2009-09-29 Tue 17:24]
+  - State "DONE"       from "WORKING"    [2009-09-29 Tue 17:24]
+  - State "WORKING"    from "TODO"       [2009-09-24 Thu 13:03]
 
-* TODO Deploy new arch to servers
+* PAUSED Deploy new arch to servers				     :PAUSED:
   SCHEDULED: <2009-09-11 Fri> DEADLINE: <2009-09-16 Wed>
+  - State "PAUSED"     from "TODO"       [2009-09-29 Tue 17:24] \\
+    paused due to issues with shapes and styles and overall performance
 * DONE Setup new PostGIS server for testing
   SCHEDULED: <2009-09-03 Thu> DEADLINE: <2009-09-04 Fri> CLOSED: [2009-09-15 Tue 15:51]
   - State "DONE"       from "WORKING"    [2009-09-15 Tue 15:51]
   - State "WORKING"    from "TODO"       [2009-09-03 Thu 12:42]
   [2009-09-03 Thu]
   [[file:~/emacsen/init.el::require%20remember][file:~/emacsen/init.el::require remember]]
+* WORKING Minimize memory usage by caching unused styles	       :NEXT:
+  SCHEDULED: <2009-09-24 Thu> DEADLINE: <2009-09-25 Fri>
+  - State "WORKING"    from "TODO"       [2009-09-24 Thu 13:27]

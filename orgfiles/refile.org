@@ -1,6 +1,11 @@
 #+FILETAGS: REFILE
-* TODO Add non-clause variant of vectormaps API
-  SCHEDULED: <2009-09-22 Tue> DEADLINE: <2009-09-22 Tue>
-* TODO Blocker to dkorochkin for vector maps deployment
-  SCHEDULED: <2009-09-22 Tue> DEADLINE: <2009-09-23 Wed>
-  [2009-09-22 Tue]
+* Fix this							       :NOTE:
+  http://10.1.2.19:5000/30.453093,50.453201,30.464846,50.450325/line/(highway=%27primary
+  http://10.1.2.19:5000/30.453093,50.453201,30.464846,50.450325/adsf/*
+  http://10.1.2.19:5000/25.845519,51.345384,25.853577,51.34273/*/*?zoom=18&viewport=900x500?styleid=999
+  http://10.1.2.19:5000/asdf/256/18/153253/88393.svg
+  http://10.1.2.19:5000/1/asdf/18/153253/88393.svg
+  http://10.1.2.19:5000/1/256/18/*/88393.svg
+  http://10.1.2.19:5000/1/256/18/153253/&&.svg
+  http://10.1.2.19:5000/3/512/16/38318/22100.svgz?precision=adsf                                        
+  [[file:~/work/tileserver/mainline/render/bin/renderd.py::usr%20bin%20env%20python][file:~/work/tileserver/mainline/render/bin/renderd.py::usr bin env python]]

@@ -44,12 +44,24 @@
   - State "DONE"       from "WORKING"    [2009-09-21 Mon 12:11]
   CLOCK: [2009-09-18 Fri 11:42]--[2009-09-18 Fri 18:42] => 7:00
   - State "WORKING"    from "TODO"       [2009-09-15 Tue 17:45]
-* TODO Integrate coastlines into PostGIS
+* PAUSED Integrate coastlines into PostGIS			     :PAUSED:
   SCHEDULED: <2009-09-21 Mon> DEADLINE: <2009-09-24 Thu>
-* WORKING Add docs and examples					       :NEXT:
-  SCHEDULED: <2009-09-18 Fri> DEADLINE: <2009-09-23 Wed>
+  - State "PAUSED"     from "WORKING"    [2009-09-29 Tue 17:23] \\
+    paused while i'm investigating performance
+  - State "WORKING"    from "TODO"       [2009-09-24 Thu 13:04]
+* DONE Add docs and examples
+  SCHEDULED: <2009-09-18 Fri> DEADLINE: <2009-09-23 Wed> CLOSED: [2009-09-29 Tue 17:23]
+  - State "DONE"       from "WORKING"    [2009-09-29 Tue 17:23]
   CLOCK: [2009-09-22 Tue 11:21]
   CLOCK: [2009-09-21 Mon 12:11]--[2009-09-21 Mon 16:46] =>  4:35
   - State "WORKING"    from "WORKING"    [2009-09-21 Mon 12:11]
   - State "WORKING"    from "TODO"       [2009-09-18 Fri 11:41]
+* DONE Add non-clause variant of vectormaps API
+  SCHEDULED: <2009-09-22 Tue> DEADLINE: <2009-09-22 Tue> CLOSED: [2009-09-24 Thu 13:04]
+  - State "DONE"       from "TODO"       [2009-09-24 Thu 13:04]
+* DONE Blocker to dkorochkin for vector maps deployment
+  SCHEDULED: <2009-09-22 Tue> DEADLINE: <2009-09-23 Wed> CLOSED: [2009-09-29 Tue 17:35]
+  - State "DONE"       from "WORKING"    [2009-09-29 Tue 17:35]
+  - State "WORKING"    from "TODO"       [2009-09-24 Thu 13:04]
+  [2009-09-22 Tue]
   
