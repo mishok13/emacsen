@@ -327,3 +327,4 @@ minibuffer to ease cutting and pasting."
 
 (setq ring-bell-function 'ignore)
  
+ 
