@@ -60,7 +60,8 @@
 
 ** DONE [#A] Investigate "clone bbox"
    SCHEDULED: <2009-07-16 Thu> DEADLINE: <2009-07-17 Fri> CLOSED: [2009-07-17 Fri 16:52]
-* WORKING Minimize memory usage by caching style templates	       :NEXT:
+* PAUSED Minimize memory usage by caching style templates	     :PAUSED:
   SCHEDULED: <2009-09-24 Thu> DEADLINE: <2009-09-25 Fri>
+  - State "PAUSED"     from "WORKING"    [2009-10-07 Wed 12:01]
   - State "WORKING"    from "TODO"       [2009-09-24 Thu 13:27]
 

@@ -44,8 +44,10 @@
   - State "DONE"       from "WORKING"    [2009-09-21 Mon 12:11]
   CLOCK: [2009-09-18 Fri 11:42]--[2009-09-18 Fri 18:42] => 7:00
   - State "WORKING"    from "TODO"       [2009-09-15 Tue 17:45]
-* PAUSED Integrate coastlines into PostGIS			     :PAUSED:
+* WORKING Integrate coastlines into PostGIS			       :NEXT:
   SCHEDULED: <2009-09-21 Mon> DEADLINE: <2009-09-24 Thu>
+  CLOCK: [2009-10-07 Wed 12:00]
+  - State "WORKING"    from "PAUSED"     [2009-10-07 Wed 12:00]
   - State "PAUSED"     from "WORKING"    [2009-09-29 Tue 17:23] \\
     paused while i'm investigating performance
   - State "WORKING"    from "TODO"       [2009-09-24 Thu 13:04]

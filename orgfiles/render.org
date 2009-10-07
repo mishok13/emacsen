@@ -76,6 +76,8 @@
   - State "WORKING"    from "TODO"       [2009-09-03 Thu 12:42]
   [2009-09-03 Thu]
   [[file:~/emacsen/init.el::require%20remember][file:~/emacsen/init.el::require remember]]
-* WORKING Minimize memory usage by caching unused styles	       :NEXT:
+* PAUSED Minimize memory usage by caching unused styles		     :PAUSED:
   SCHEDULED: <2009-09-24 Thu> DEADLINE: <2009-09-25 Fri>
+  - State "PAUSED"     from "WORKING"    [2009-10-07 Wed 12:00] \\
+    Paused while I'm working on vectormaps
   - State "WORKING"    from "TODO"       [2009-09-24 Thu 13:27]
