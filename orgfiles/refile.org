@@ -9,6 +9,3 @@
   http://10.1.2.19:5000/1/256/18/153253/&&.svg
   http://10.1.2.19:5000/3/512/16/38318/22100.svgz?precision=adsf                                        
   [[file:~/work/tileserver/mainline/render/bin/renderd.py::usr%20bin%20env%20python][file:~/work/tileserver/mainline/render/bin/renderd.py::usr bin env python]]
-* TODO Tell TBublyk to compare performance of vector server with and without coastlines
-  DEADLINE: <2009-10-09 Fri> SCHEDULED: <2009-10-09 Fri>
-  [2009-10-07 Wed]
