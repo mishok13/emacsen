@@ -46,7 +46,7 @@
   - State "WORKING"    from "TODO"       [2009-09-15 Tue 17:45]
 * WORKING Integrate coastlines into PostGIS			       :NEXT:
   SCHEDULED: <2009-09-21 Mon> DEADLINE: <2009-09-24 Thu>
-  CLOCK: [2009-10-07 Wed 12:00]
+  CLOCK: [2009-10-07 Wed 12:00]--[2009-10-07 Wed 16:30] => 4:30
   - State "WORKING"    from "PAUSED"     [2009-10-07 Wed 12:00]
   - State "PAUSED"     from "WORKING"    [2009-09-29 Tue 17:23] \\
     paused while i'm investigating performance
@@ -66,4 +66,7 @@
   - State "DONE"       from "WORKING"    [2009-09-29 Tue 17:35]
   - State "WORKING"    from "TODO"       [2009-09-24 Thu 13:04]
   [2009-09-22 Tue]
+* TODO Tell TBublyk to compare performance of vector server with and without coastlines
+  DEADLINE: <2009-10-09 Fri> SCHEDULED: <2009-10-09 Fri>
+  [2009-10-07 Wed]
   
