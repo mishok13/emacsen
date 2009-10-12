@@ -66,8 +66,9 @@
   - State "DONE"       from "WORKING"    [2009-09-29 Tue 17:24]
   - State "WORKING"    from "TODO"       [2009-09-24 Thu 13:03]
 
-* PAUSED Deploy new arch to servers				     :PAUSED:
+* WORKING Deploy new arch to servers				       :NEXT:
   SCHEDULED: <2009-09-11 Fri> DEADLINE: <2009-09-16 Wed>
+  - State "WORKING"    from "PAUSED"     [2009-10-12 Mon 15:23]
   - State "PAUSED"     from "TODO"       [2009-09-29 Tue 17:24] \\
     paused due to issues with shapes and styles and overall performance
 * DONE Setup new PostGIS server for testing
