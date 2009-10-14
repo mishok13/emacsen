@@ -12,7 +12,8 @@
 * -rw-r--r-- 1 root root 0 2009-10-08 07:55 /tmp/planet-import-complete :NOTE:
   [2009-10-09 Fri]
   [[file:~/work/tileserver/branches/r6/tileserver-noapikey/tileserver/controllers/tile.py::except%20exception%20TileServerInternalError%20exc][file:~/work/tileserver/branches/r6/tileserver-noapikey/tileserver/controllers/tile.py::except exception TileServerInternalError exc]]
-* TODO Drapiko, vectormaps, billing
-  SCHEDULED: <2009-10-13 Tue> DEADLINE: <2009-10-13 Tue>
+* DONE Drapiko, vectormaps, billing
+  SCHEDULED: <2009-10-13 Tue> DEADLINE: <2009-10-13 Tue> CLOSED: [2009-10-14 Wed 11:42]
+  - State "DONE"       from "TODO"       [2009-10-14 Wed 11:42]
   [2009-10-13 Tue]
   [[file:~/.emacs.d/orgfiles/triton.org::*Minimize%20memory%20usage%20by%20caching%20style%20templates][Minimize memory usage by caching style templates]]
