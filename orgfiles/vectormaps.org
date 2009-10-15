@@ -73,4 +73,9 @@
   DEADLINE: <2009-10-09 Fri> SCHEDULED: <2009-10-09 Fri> CLOSED: [2009-10-12 Mon 15:23]
   - State "DONE"       from "TODO"       [2009-10-12 Mon 15:23]
   [2009-10-07 Wed]
+* DONE Drapiko, vectormaps, billing
+  SCHEDULED: <2009-10-13 Tue> DEADLINE: <2009-10-13 Tue> CLOSED: [2009-10-14 Wed 11:42]
+  - State "DONE"       from "TODO"       [2009-10-14 Wed 11:42]
+  [2009-10-13 Tue]
+  [[file:~/.emacs.d/orgfiles/triton.org::*Minimize%20memory%20usage%20by%20caching%20style%20templates][Minimize memory usage by caching style templates]]
   
