@@ -1,5 +1,32 @@
-#!/usr/bin/python
-# EASY-INSTALL-SCRIPT: 'pylint==0.18.1','epylint'
-__requires__ = 'pylint==0.18.1'
-import pkg_resources
-pkg_resources.run_script('pylint==0.18.1', 'epylint')
+#!/usr/bin/env python
+
+import re
+import sys
+
+from subprocess import *
+
+p = Popen("pylint -f parseable -r n %s" %
+          sys.argv[1], shell=True, stdout=PIPE).stdout
+
+for line in p.readlines():
+    match = re.search("\\[([IRCWEF])(, (.+?))?\\]", line)
+    if match:
+        kind = match.group(1)
+        func = match.group(3)
+
+        if kind == 'I':
+            continue
+        
+        if kind in 'WRC':
+            msg = 'Warning'
+        else:
+            msg = 'Error'
+            
+        if func:
+            line = re.sub("\\[([RCWEF])(, (.+?))?\\]", "%s (%s):"
+                          % (msg, func), line)
+        else:
+            line = re.sub("\\[([RCWEF])?\\]", "%s:" % msg, line)
+    print line,
+
+p.close()
