@@ -17,7 +17,7 @@
 
 ;; this should highlight any line longer than 80 symbols
 (require 'highlight-80+)
-
+(require 'column-marker)
 (require 'pymacs)
 (require 'linum)
 
