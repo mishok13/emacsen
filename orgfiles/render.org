@@ -66,8 +66,9 @@
   - State "DONE"       from "WORKING"    [2009-09-29 Tue 17:24]
   - State "WORKING"    from "TODO"       [2009-09-24 Thu 13:03]
 
-* WORKING Deploy new arch to servers				       :NEXT:
-  SCHEDULED: <2009-09-11 Fri> DEADLINE: <2009-09-16 Wed>
+* CANCELLED Deploy new arch to servers				  :CANCELLED:
+  SCHEDULED: <2009-09-11 Fri> DEADLINE: <2009-09-16 Wed> CLOSED: [2009-11-23 Mon 17:30]
+  - State "CANCELLED"  from "WORKING"    [2009-11-23 Mon 17:30]
   - State "WORKING"    from "PAUSED"     [2009-10-12 Mon 15:23]
   - State "PAUSED"     from "TODO"       [2009-09-29 Tue 17:24] \\
     paused due to issues with shapes and styles and overall performance
@@ -77,8 +78,10 @@
   - State "WORKING"    from "TODO"       [2009-09-03 Thu 12:42]
   [2009-09-03 Thu]
   [[file:~/emacsen/init.el::require%20remember][file:~/emacsen/init.el::require remember]]
-* WORKING Minimize memory usage by caching unused styles	       :NEXT:
-  SCHEDULED: <2009-09-24 Thu> DEADLINE: <2009-09-25 Fri>
+* DEFERRED Minimize memory usage by caching unused styles	     :PAUSED:
+  SCHEDULED: <2009-09-24 Thu>
+  - State "DEFERRED"   from "DONE"       [2009-11-23 Mon 17:30]
+  - State "DONE"       from "WORKING"    [2009-11-23 Mon 17:30]
   - State "WORKING"    from "PAUSED"     [2009-10-12 Mon 17:10]
   - State "PAUSED"     from "WORKING"    [2009-10-07 Wed 12:00] \\
     Paused while I'm working on vectormaps
