@@ -8,15 +8,20 @@
     working on json right now
   CLOCK: [2009-11-23 Mon 17:31]--[2009-11-23 Mon 18:37] =>  1:06
   - State "WORKING"    from "TODO"       [2009-11-23 Mon 17:31]
-* TODO Implement path support for staticmaps
+* WORKING Implement path support for staticmaps			       :NEXT:
   DEADLINE: <2009-12-04 Fri> SCHEDULED: <2009-11-26 Thu
+  - State "WORKING"    from "TODO"       [2009-11-26 Thu 16:15]
+  CLOCK: [2009-11-26 Thu 16:15]
 * DONE Switch to JSON for interprocess communication
  SCHEDULED: <2009-11-23 Mon> DEADLINE: <2009-11-25 Wed> CLOSED: [2009-11-24 Tue 14:17]
  - State "DONE"       from "WORKING"    [2009-11-24 Tue 14:17]
  CLOCK: [2009-11-24 Tue 11:31]--[2009-11-24 Tue 14:17] =>  2:46
   - State "WORKING"    from "TODO"       [2009-11-23 Mon 18:37]
   CLOCK: [2009-11-23 Mon 18:37]--[2009-11-23 Mon 20:35] =>  1:58
-* WORKING Document staticmaps API				       :NEXT:
-  SCHEDULED: <2009-11-25 Wed> DEADLINE: <2009-11-27 Fri>
+* DONE Document staticmaps API
+  SCHEDULED: <2009-11-25 Wed> DEADLINE: <2009-11-27 Fri> CLOSED: [2009-11-26 Thu 16:07]
+  - State "DONE"       from "WORKING"    [2009-11-26 Thu 16:07]
   - State "WORKING"    from "TODO"       [2009-11-25 Wed 15:26]
   CLOCK: [2009-11-25 Wed 15:26]--[2009-11-25 Wed 16:50] =>  1:24
+* TODO Add copyright information
+  SCHEDULED: <2009-11-26 Thu> DEADLINE: <2009-11-27 Fri>
