@@ -12,7 +12,7 @@
   DEADLINE: <2009-12-04 Fri> SCHEDULED: <2009-11-26 Thu
   - State "PAUSED"     from "WORKING"    [2009-11-27 Fri 10:58] \\
     Have to work on minutely tile server performance
-  CLOCK: [2009-11-27 Fri 09:37]
+  CLOCK: [2009-11-27 Fri 09:37]--[2009-11-27 Fri 10:59] =>  1:22
   - State "WORKING"    from "TODO"       [2009-11-26 Thu 16:15]
   CLOCK: [2009-11-26 Thu 16:15]--[2009-11-26 Thu 18:02] =>  1:47
 * DONE Switch to JSON for interprocess communication
@@ -29,5 +29,9 @@
 * DONE Add copyright information
   SCHEDULED: <2009-11-26 Thu> DEADLINE: <2009-11-27 Fri> CLOSED: [2009-11-26 Thu 18:02]
   - State "DONE"       from "TODO"       [2009-11-26 Thu 18:02]
-* TODO Look into minutely tile performance issues
+* PAUSED Look into minutely tile performance issues		     :PAUSED:
   SCHEDULED: <2009-11-27 Fri> DEADLINE: <2009-11-27 Fri>
+  - State "PAUSED"     from "WORKING"    [2009-11-27 Fri 16:13] \\
+    Currently waiting for TarasZ for cache generation
+  - State "WORKING"    from "TODO"       [2009-11-27 Fri 10:59]
+  CLOCK: [2009-11-27 Fri 10:59]--[2009-11-27 Fri 16:13] =>  5:14
