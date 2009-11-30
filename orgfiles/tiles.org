@@ -29,8 +29,9 @@
 * DONE Add copyright information
   SCHEDULED: <2009-11-26 Thu> DEADLINE: <2009-11-27 Fri> CLOSED: [2009-11-26 Thu 18:02]
   - State "DONE"       from "TODO"       [2009-11-26 Thu 18:02]
-* PAUSED Look into minutely tile performance issues		     :PAUSED:
-  SCHEDULED: <2009-11-27 Fri> DEADLINE: <2009-11-27 Fri>
+* DONE Look into minutely tile performance issues
+  SCHEDULED: <2009-11-27 Fri> DEADLINE: <2009-11-27 Fri> CLOSED: [2009-11-30 Mon 09:36]
+  - State "DONE"       from "PAUSED"     [2009-11-30 Mon 09:36]
   - State "PAUSED"     from "WORKING"    [2009-11-27 Fri 16:13] \\
     Currently waiting for TarasZ for cache generation
   - State "WORKING"    from "TODO"       [2009-11-27 Fri 10:59]

@@ -67,6 +67,8 @@
   - State "WORKING"    from "PAUSED"     [2009-10-12 Mon 17:10]
   - State "PAUSED"     from "WORKING"    [2009-10-07 Wed 12:01]
   - State "WORKING"    from "TODO"       [2009-09-24 Thu 13:27]
-* TODO Improve logging
+* WORKING Improve logging					       :NEXT:
   SCHEDULED: <2009-11-27 Fri> DEADLINE: <2009-12-01 Tue>
+  - State "WORKING"    from "TODO"       [2009-11-27 Fri 16:16]
+  CLOCK: [2009-11-27 Fri 16:16]--[2009-11-27 Mon 18:00] => 1:44
 
