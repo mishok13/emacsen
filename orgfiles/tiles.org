@@ -8,8 +8,10 @@
     working on json right now
   CLOCK: [2009-11-23 Mon 17:31]--[2009-11-23 Mon 18:37] =>  1:06
   - State "WORKING"    from "TODO"       [2009-11-23 Mon 17:31]
-* PAUSED Implement path support for staticmaps			     :PAUSED:
+* WORKING Implement path support for staticmaps			       :NEXT:
   DEADLINE: <2009-12-04 Fri> SCHEDULED: <2009-11-26 Thu
+  CLOCK: [2009-11-30 Mon 09:36]--[2009-11-30 Mon 12:16] =>  2:40
+  - State "WORKING"    from "PAUSED"     [2009-11-30 Mon 09:36]
   - State "PAUSED"     from "WORKING"    [2009-11-27 Fri 10:58] \\
     Have to work on minutely tile server performance
   CLOCK: [2009-11-27 Fri 09:37]--[2009-11-27 Fri 10:59] =>  1:22
