@@ -42,4 +42,4 @@
 * WORKING Implement expiry tool					       :NEXT:
   SCHEDULED: <2009-11-30 Mon> DEADLINE: <2009-12-01 Tue>
   - State "WORKING"    from "TODO"       [2009-12-01 Tue 12:35]
-  CLOCK: [2009-12-01 Tue 12:35]
+  CLOCK: [2009-12-01 Tue 12:35]--[2009-12-01 Tue 18:58] =>  6:23
