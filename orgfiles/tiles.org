@@ -10,6 +10,7 @@
   - State "WORKING"    from "TODO"       [2009-11-23 Mon 17:31]
 * WORKING Implement path support for staticmaps			       :NEXT:
   DEADLINE: <2009-12-04 Fri> SCHEDULED: <2009-11-26 Thu
+  CLOCK: [2009-12-02 Wed 15:16]--[2009-12-02 Wed 17:04] =>  1:48
   CLOCK: [2009-11-30 Mon 12:45]--[2009-11-30 Mon 20:15] => 7:30
   CLOCK: [2009-11-30 Mon 09:36]--[2009-11-30 Mon 12:16] =>  2:40
   - State "WORKING"    from "PAUSED"     [2009-11-30 Mon 09:36]
