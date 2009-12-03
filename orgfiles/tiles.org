@@ -46,3 +46,5 @@
   CLOCK: [2009-12-02 Wed 12:05]--[2009-12-02 Wed 13:49] =>  1:44
   - State "WORKING"    from "TODO"       [2009-12-01 Tue 12:35]
   CLOCK: [2009-12-01 Tue 12:35]--[2009-12-01 Tue 18:58] =>  6:23
+* TODO [#A] Write staticmaps API & deployment docs
+  SCHEDULED: <2009-12-03 Thu> DEADLINE: <2009-12-03 Thu>
