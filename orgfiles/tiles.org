@@ -8,8 +8,9 @@
     working on json right now
   CLOCK: [2009-11-23 Mon 17:31]--[2009-11-23 Mon 18:37] =>  1:06
   - State "WORKING"    from "TODO"       [2009-11-23 Mon 17:31]
-* WORKING Implement path support for staticmaps			       :NEXT:
-  DEADLINE: <2009-12-04 Fri> SCHEDULED: <2009-11-26 Thu
+* DONE Implement path support for staticmaps
+  DEADLINE: <2009-12-04 Fri> SCHEDULED: <2009-11-26 Thu CLOSED: [2009-12-03 Thu 16:13]
+  - State "DONE"       from "WORKING"    [2009-12-03 Thu 16:13]
   CLOCK: [2009-12-02 Wed 15:16]--[2009-12-02 Wed 17:04] =>  1:48
   CLOCK: [2009-11-30 Mon 12:45]--[2009-11-30 Mon 20:15] => 7:30
   CLOCK: [2009-11-30 Mon 09:36]--[2009-11-30 Mon 12:16] =>  2:40
@@ -46,5 +47,8 @@
   CLOCK: [2009-12-02 Wed 12:05]--[2009-12-02 Wed 13:49] =>  1:44
   - State "WORKING"    from "TODO"       [2009-12-01 Tue 12:35]
   CLOCK: [2009-12-01 Tue 12:35]--[2009-12-01 Tue 18:58] =>  6:23
-* TODO [#A] Write staticmaps API & deployment docs
-  SCHEDULED: <2009-12-03 Thu> DEADLINE: <2009-12-03 Thu>
+* DONE [#A] Write staticmaps API & deployment docs
+  SCHEDULED: <2009-12-03 Thu> DEADLINE: <2009-12-03 Thu> CLOSED: [2009-12-03 Thu 16:13]
+  - State "DONE"       from "WORKING"    [2009-12-03 Thu 16:13]
+  - State "WORKING"    from "TODO"       [2009-12-03 Thu 14:28]
+  CLOCK: [2009-12-03 Thu 14:28]--[2009-12-03 Thu 16:13] =>  1:45
