@@ -1,3 +1,6 @@
 * TODO [#A] Move documentation to ReST files
+  SCHEDULED: <2009-12-03 Thu> DEADLINE: <2009-12-04 Fri>
 * TODO [#B] Refactor as much as possible
+  SCHEDULED: <2009-12-04 Fri> DEADLINE: <2009-12-08 Tue>
 * TODO [#A] Update APIs to the latest versions
+  SCHEDULED: <2009-12-04 Fri> DEADLINE: <2009-12-08 Tue>
