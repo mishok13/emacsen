@@ -12,6 +12,12 @@
   (interactive)
   (print "Mmmm, donuts."))
 
+(require 'uniquify) 
+(setq 
+  uniquify-buffer-name-style 'post-forward
+  uniquify-separator ":")
+
+
 ;; interesting mode for highlighting parens in different colors
 (require 'highlight-parentheses)
 
