@@ -12410,12 +12410,12 @@ Created by Andrii V. Mishkovskyi <mishok13@gmail.com> Dec 2 2008."
     (font-lock-string-face ((t (:foreground "Orange2"))))
     (font-lock-type-face ((t (:foreground "OliveDrab3"))))
     (font-lock-variable-name-face ((t (:foreground "darkseagreen"))))
-    (rst-level-1-face ((t (:background "Gray20" :bold t))))
-    (rst-level-2-face ((t (:background "Gray20" ))))
-    (rst-level-3-face ((t (:background "Gray30"))))
-    (rst-level-4-face ((t (:background "Gray30"))))
-    (rst-level-5-face ((t (:background "Gray40"))))
-    (rst-level-6-face ((t (:background "Gray40"))))
+    (rst-level-1-face ((t (:background "Gray20" :bold t :foreground "Gray80"))))
+    (rst-level-2-face ((t (:background "Gray20"  :foreground "Gray80"))))
+    (rst-level-3-face ((t (:background "Gray30"  :foreground "Gray80"))))
+    (rst-level-4-face ((t (:background "Gray30"  :foreground "Gray80"))))
+    (rst-level-5-face ((t (:background "Gray40" :foreground "Gray80"))))
+    (rst-level-6-face ((t (:background "Gray40" :foreground "Gray80"))))
 
 ;; font-latex-bold-face                 abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
 ;; font-latex-doctex-documentation-face abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
