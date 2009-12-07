@@ -1,5 +1,6 @@
 * WORKING [#A] Move documentation to ReST files			       :NEXT:
   SCHEDULED: <2009-12-03 Thu> DEADLINE: <2009-12-04 Fri>
+  CLOCK: [2009-12-07 Mon 13:47]
   - State "WORKING"    from "TODO"       [2009-12-04 Fri 11:07]
   CLOCK: [2009-12-04 Fri 11:07]--[2009-12-04 Fri 12:13] =>  1:06
 * TODO [#B] Refactor as much as possible
