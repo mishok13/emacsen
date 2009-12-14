@@ -52,5 +52,8 @@
   - State "DONE"       from "WORKING"    [2009-12-03 Thu 16:13]
   - State "WORKING"    from "TODO"       [2009-12-03 Thu 14:28]
   CLOCK: [2009-12-03 Thu 14:28]--[2009-12-03 Thu 16:13] =>  1:45
-* TODO [#A] BBox API for staticmaps
-  DEADLINE: <2009-12-14 Mon> SCHEDULED: <2009-12-11 Fri>
+* DONE [#A] BBox API for staticmaps
+  DEADLINE: <2009-12-14 Mon> SCHEDULED: <2009-12-11 Fri> CLOSED: [2009-12-14 Mon 11:03]
+  - State "DONE"       from "WORKING"    [2009-12-14 Mon 11:03]
+  - State "WORKING"    from "TODO"       [2009-12-11 Fri 15:38]
+  CLOCK: [2009-12-11 Fri 15:38]--[2009-12-14 Mon 11:03] => 67:25
