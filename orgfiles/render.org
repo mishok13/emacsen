@@ -86,7 +86,10 @@
   - State "PAUSED"     from "WORKING"    [2009-10-07 Wed 12:00] \\
     Paused while I'm working on vectormaps
   - State "WORKING"    from "TODO"       [2009-09-24 Thu 13:27]
-* TODO [#B] Coordinates should not be inf, wrap them to -180.0..+180.0 and -90.0..+90.0 respectively
+* DONE [#B] Coordinates should not be inf, wrap them to -180.0..+180.0 and -90.0..+90.0 respectively
+  SCHEDULED: <2009-12-14 Mon> DEADLINE: <2009-12-15 Tue> CLOSED: [2009-12-14 Mon 17:44]
+  - State "DONE"       from "TODO"       [2009-12-14 Mon 17:44]
+* WORKING [#A] Add copyright information			       :NEXT:
   SCHEDULED: <2009-12-14 Mon> DEADLINE: <2009-12-15 Tue>
-* TODO [#A] Add copyright information
-  SCHEDULED: <2009-12-14 Mon> DEADLINE: <2009-12-15 Tue>
+  - State "WORKING"    from "TODO"       [2009-12-14 Mon 17:40]
+  CLOCK: [2009-12-14 Mon 17:40]
