@@ -73,5 +73,8 @@
   - State "WORKING"    from "TODO"       [2009-11-27 Fri 16:16]
   CLOCK: [2009-11-27 Fri 16:16]--[2009-11-27 Mon 18:00] => 1:44
 
-* TODO [#A] Return meaningful error message when style is not found
-  SCHEDULED: <2009-12-14 Mon> DEADLINE: <2009-12-14 Mon>
+* DONE [#A] Return meaningful error message when style is not found
+  SCHEDULED: <2009-12-14 Mon> DEADLINE: <2009-12-14 Mon> CLOSED: [2009-12-14 Mon 12:13]
+  - State "DONE"       from "WORKING"    [2009-12-14 Mon 12:13]
+  - State "WORKING"    from "TODO"       [2009-12-14 Mon 11:05]
+  CLOCK: [2009-12-14 Mon 11:05]--[2009-12-14 Mon 12:13] =>  1:08
