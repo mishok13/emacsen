@@ -6,3 +6,5 @@
   - State "DONE"       from "TODO"       [2009-10-20 Tue 12:52]
   [2009-10-15 Thu]
   [[file:~/work/auth/auth/application.py::from%20auth%20import%20views][file:~/work/auth/auth/application.py::from auth import views]]
+* TODO [#A] Add getting information about tokens
+  SCHEDULED: <2010-01-27 Wed> DEADLINE: <2010-01-28 Thu>

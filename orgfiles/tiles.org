@@ -57,3 +57,34 @@
   - State "DONE"       from "WORKING"    [2009-12-14 Mon 11:03]
   - State "WORKING"    from "TODO"       [2009-12-11 Fri 15:38]
   CLOCK: [2009-12-11 Fri 15:38]--[2009-12-14 Mon 11:03] => 67:25
+* DONE [#A] Custom markers trough URL
+  DEADLINE: <2010-01-26 Tue> SCHEDULED: <2010-01-11 Mon> CLOSED: [2010-01-27 Wed 12:28]
+  - State "DONE"       [2010-01-27 Wed 12:28]
+  - State "PAUSED"     [2010-01-22 Fri 14:40] \\
+    In testing
+  CLOCK: [2010-01-19 Tue 17:39]--[2010-01-19 Tue 17:39] =>  0:00
+  - State "WORKING"    from "TODO"       [2010-01-13 Wed 16:57]
+* DONE [#A] Custom markers through additional API
+  DEADLINE: <2010-01-26 Tue> SCHEDULED: <2010-01-14 Thu> CLOSED: [2010-01-27 Wed 12:28]
+  - State "DONE"       [2010-01-27 Wed 12:28]
+  - State "PAUSED"     [2010-01-22 Fri 14:43] \\
+    In testing
+  CLOCK: [2010-01-21 Thu 09:34]--[2010-01-21 Thu 16:33] =>  6:59
+  CLOCK: [2010-01-20 Wed 10:56]--[2010-01-20 Wed 18:33] =>  7:37
+  CLOCK: [2010-01-19 Tue 11:48]--[2010-01-19 Tue 17:39] =>  5:51
+  CLOCK: [2010-01-19 Tue 10:47]--[2010-01-19 Tue 11:36] =>  0:49
+  - State "WORKING"    from "WORKING"    [2010-01-19 Tue 10:47]
+  CLOCK: [2010-01-13 Wed 16:57]--[2010-01-13 Wed 19:19] =>  2:22
+  - State "WORKING"    from "TODO"       [2010-01-13 Wed 16:56]
+* TODO [#B] POST support
+* DONE [#A] Documentation for Staticmaps Jan'2010 release
+  DEADLINE: <2010-01-26 Tue> SCHEDULED: <2010-01-14 Thu> CLOSED: [2010-01-26 Tue 17:21]
+  - State "DONE"       [2010-01-26 Tue 17:21]
+  :CLOCK:
+  CLOCK: [2010-01-26 Tue 10:10]--[2010-01-26 Tue 17:21] =>  7:11
+  CLOCK: [2010-01-22 Fri 14:44]--[2010-01-26 Tue 09:29] => 90:45
+  - State "WORKING"    [2010-01-22 Fri 14:43]
+    :END:
+  - State "PAUSED"     [2010-01-22 Fri 14:40] \\
+    In testing
+  - State "WORKING"    from "TODO"       [2010-01-19 Tue 10:47]

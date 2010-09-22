@@ -12410,12 +12410,20 @@ Created by Andrii V. Mishkovskyi <mishok13@gmail.com> Dec 2 2008."
     (font-lock-string-face ((t (:foreground "Orange2"))))
     (font-lock-type-face ((t (:foreground "OliveDrab3"))))
     (font-lock-variable-name-face ((t (:foreground "darkseagreen"))))
-    (rst-level-1-face ((t (:background "Gray20" :bold t :foreground "Gray80"))))
-    (rst-level-2-face ((t (:background "Gray20"  :foreground "Gray80"))))
-    (rst-level-3-face ((t (:background "Gray30"  :foreground "Gray80"))))
-    (rst-level-4-face ((t (:background "Gray30"  :foreground "Gray80"))))
-    (rst-level-5-face ((t (:background "Gray40" :foreground "Gray80"))))
-    (rst-level-6-face ((t (:background "Gray40" :foreground "Gray80"))))
+    (rst-level-1-face ((t (:foreground "brown"))))
+    (rst-level-2-face ((t (:foreground "firebrick"))))
+    (rst-level-3-face ((t (:foreground "orange"))))
+    (rst-level-4-face ((t (:foreground "chocolate"))))
+    (rst-level-5-face ((t (:foreground "salmon"))))
+    (rst-level-6-face ((t (:foreground "lightsalmon"))))
+    (font-latex-bold-face ((t (:foreground "DarkOrange" :bold t))))
+    (font-latex-sectioning-0-face ((t (:foreground "brown" :bold t))))
+    (font-latex-sectioning-1-face ((t (:foreground "firebrick" :bold t))))
+    (font-latex-sectioning-2-face ((t (:foreground "orange" :bold t))))
+    (font-latex-sectioning-3-face ((t (:foreground "chocolate" :bold t))))
+    (font-latex-sectioning-4-face ((t (:foreground "salmon"))))
+    (font-latex-sectioning-5-face ((t (:foreground "lightsalmon"))))
+    
 
 ;; font-latex-bold-face                 abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
 ;; font-latex-doctex-documentation-face abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ

@@ -1,0 +1,30 @@
+#name : new python executable
+#expand-env: ((yas/indent-line 'fixed))
+# --
+#!/usr/bin/env python
+
+
+import argparse
+import sys
+import traceback
+
+
+def process(args):
+    try:
+        raise NotImplementedError
+    except Exception:
+        traceback.print_exc()
+        return 2
+    except BaseException:
+        traceback.print_exc()
+        return 1
+
+
+def main(args):
+    $0
+    sys.exit(process(args))
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    main(parser.parse_args())

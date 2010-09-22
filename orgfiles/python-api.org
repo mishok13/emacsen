@@ -1,5 +1,6 @@
-* WORKING [#A] Move documentation to ReST files			       :NEXT:
-  SCHEDULED: <2009-12-03 Thu> DEADLINE: <2009-12-21 Mon>
+* DONE [#A] Move documentation to ReST files
+  SCHEDULED: <2009-12-03 Thu> DEADLINE: <2009-12-21 Mon> CLOSED: [2010-01-13 Wed 10:34]
+  - State "DONE"       from "WORKING"    [2010-01-13 Wed 10:34]
   CLOCK: [2009-12-08 Tue 10:53]--[2009-12-08 Tue 10:53] =>  0:00
   CLOCK: [2009-12-07 Mon 13:47]--[2009-12-07 Mon 16:05] =>  2:18
   - State "WORKING"    from "TODO"       [2009-12-04 Fri 11:07]
@@ -15,5 +16,6 @@
   CLOCK: [2009-12-08 Tue 10:53]--[2009-12-08 Tue 10:53] =>  0:00
   - State "WORKING"    from "TODO"       [2009-12-07 Mon 16:05]
   CLOCK: [2009-12-07 Mon 16:05]--[2009-12-08 Tue 10:53] => 18:48
-* TODO [#B] Update tests
-  SCHEDULED: <2009-12-07 Mon> DEADLINE: <2009-12-22 Tue>
+* DONE [#B] Update tests
+  SCHEDULED: <2009-12-07 Mon> DEADLINE: <2009-12-22 Tue> CLOSED: [2010-01-13 Wed 10:34]
+  - State "DONE"       from "TODO"       [2010-01-13 Wed 10:34]

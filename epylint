@@ -8,6 +8,12 @@ from subprocess import Popen, PIPE
 p = Popen("pylint -f parseable -r n %s" %
           sys.argv[1], shell=True, stdout=PIPE)
 stdout = p.communicate()[0]
+fullpattern = re.compile("(.*?):" # filename
+                         "([0-9]):" # line number
+                         "\[([EFIRWC])" # error type
+                         "([0-9]+).*?\]" # the error number and context (unused)
+                         "(.*)" # description
+                         )
 pattern = re.compile("\[([EFIRWC])" # error type
                      "([0-9]+).*?\]" # the error number and context (unused)
                      "(.*)" # description

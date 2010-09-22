@@ -2,8 +2,14 @@
 ;; Andrii V. Mishkovskyi
 
 (add-to-list 'load-path "~/.emacs.d/")
-
+(global-unset-key (kbd "<right>"))
+(global-unset-key (kbd "<left>"))
+(global-unset-key (kbd "<up>"))
+(global-unset-key (kbd "<down>"))
 (global-font-lock-mode t)
+
+
+(global-set-key (kbd "<up>") 'other-frame)
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -12,14 +18,42 @@
   (interactive)
   (print "Mmmm, donuts."))
 
-(require 'uniquify) 
-(setq 
+(require 'uniquify)
+(setq
   uniquify-buffer-name-style 'post-forward
   uniquify-separator ":")
+
+(require 'cc-mode)
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (c-set-style "k&r")
+            (setq c-basic-offset 4)
+	    (setq indent-tabs-mode nil)))
+
+;; clear up files before saving them
+(defun delete-trailing-blank-lines ()
+  "Deletes all blank lines at the end of the file and leaves single newline character."
+  (interactive)
+  (save-excursion
+    (goto-char (point-max))
+    (newline)              ;; ensures that there is at least one
+    (delete-blank-lines))) ;; leaves at most one
+
+;; Don't leave garbage when saving files
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook 'delete-trailing-blank-lines)
 
 
 ;; interesting mode for highlighting parens in different colors
 (require 'highlight-parentheses)
+
+(add-to-list 'load-path "~/.emacs.d/plugins")
+(progn (cd "~/.emacs.d/plugins")
+       (normal-top-level-add-subdirs-to-load-path))
+
+(require 'yasnippet)
+(yas/initialize)
+(yas/load-directory "~/.emacs.d/plugins/yasnippet/snippets")
 
 ;; this should highlight any line longer than 80 symbols
 (require 'highlight-80+)
@@ -39,7 +73,7 @@
 
 (define-globalized-minor-mode
   global-highlight-parentheses-mode
-  highlight-parentheses-mode 
+  highlight-parentheses-mode
   highlight-parentheses-mode)
 (global-highlight-parentheses-mode)
 
@@ -70,15 +104,15 @@
 
 
 ;; If I'm ever to change pylint to something else, I should just change init functions
-(defconst flymake-allowed-python-file-name-masks 
-  '(("\\.py$" flymake-pylint-init) 
+(defconst flymake-allowed-python-file-name-masks
+  '(("\\.py$" flymake-pylint-init)
     (".*$" flymake-pylint-init)))
 
 ;; Simple hook for python-mode + flymake
-(defun flymake-python-load () 
-  (setq flymake-allowed-file-name-masks 
-	(append flymake-allowed-file-name-masks 
-		flymake-allowed-python-file-name-masks)) 
+(defun flymake-python-load ()
+  (setq flymake-allowed-file-name-masks
+	(append flymake-allowed-file-name-masks
+		flymake-allowed-python-file-name-masks))
   (flymake-mode t))
 (add-hook 'python-mode-hook 'flymake-python-load)
 (load-library "flymake-cursor")
@@ -116,9 +150,6 @@
 		 'py-beginning-of-def-or-class)
 	    (setq outline-regexp "def\\|class ")))
 
-;; IPython
-(require 'ipython)
-(setq ipython-command "/usr/bin/ipython")
 
 ;; TinyURL
 (require 'mm-url)
@@ -227,7 +258,7 @@ minibuffer to ease cutting and pasting."
 (setq org-outline-path-complete-in-steps t)
 
 
-(setq org-todo-keywords 
+(setq org-todo-keywords
       (quote ((sequence "TODO(t)" "WORKING(w!)" "|" "DONE(d!/!)")
 	      (sequence "PAUSED(p@/!)" "DEFERRED(D!)" "|" "CANCELLED(c@/!)"))))
 
@@ -260,17 +291,21 @@ minibuffer to ease cutting and pasting."
 (add-to-list 'desktop-globals-to-save 'file-name-history)
 ;;(setq desktop-buffers-not-to-save
 ;;      (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
-;;	      "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb" 
+;;	      "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
 ;;	      "\\)$"))
 (add-to-list 'desktop-modes-not-to-save 'dired-mode)
 (add-to-list 'desktop-modes-not-to-save 'Info-mode)
 (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
 (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
 
-(require 'twit)
-(setq twit-show-user-images 1)
-(setq twit-user-image-dir "~/.emacs.d/twit-user-images")
-(global-set-key [f8] 'twit-show-recent-tweets)
+;; (require 'twit)
+;; (setq twit-show-user-images 1)
+;; (setq twit-user-image-dir "~/.emacs.d/twit-user-images")
+;; (global-set-key [f8] 'twit-show-recent-tweets)
+
+(add-to-list 'load-path "~/.emacs.d/twittering-mode/")
+(require 'twittering-mode)
+
 
 ;; midnight mode
 (require 'midnight)
@@ -308,6 +343,9 @@ minibuffer to ease cutting and pasting."
       (append '("^.*\\.org$")
 	      clean-buffer-list-kill-never-regexps-init))
 
+(autoload 'js2-mode "js2" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$|\\.json$" . js2-mode))
+
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -317,7 +355,7 @@ minibuffer to ease cutting and pasting."
  '(ecb-options-version "2.33beta2")
  '(global-hl-line-mode t)
  '(kill-whole-line t)
-;; '(org-agenda-files (quote ("~/.emacs.d/orgfiles/work.org" "~/.emacs.d/orgfiles/blog.org" "~/.emacs.d/orgfiles/tilman.org" "~/.emacs.d/orgfiles/triton.org" "~/.emacs.d/orgfiles/vectormaps.org" "~/.emacs.d/orgfiles/render.org")))
+ '(org-agenda-files (quote ("~/.emacs.d/orgfiles/auth.org" "~/.emacs.d/orgfiles/blog.org" "~/.emacs.d/orgfiles/main.org" "~/.emacs.d/orgfiles/notes.org" "~/.emacs.d/orgfiles/openmapsua.org" "~/.emacs.d/orgfiles/python-api.org" "~/.emacs.d/orgfiles/refile.org" "~/.emacs.d/orgfiles/render.org" "~/.emacs.d/orgfiles/tiles.org" "~/.emacs.d/orgfiles/tilman.org" "~/.emacs.d/orgfiles/triton.org" "~/.emacs.d/orgfiles/vectormaps.org" "~/.emacs.d/orgfiles/work.org")))
  '(show-paren-mode t)
  '(tool-bar-mode nil nil (tool-bar)))
 (custom-set-faces
@@ -325,12 +363,7 @@ minibuffer to ease cutting and pasting."
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#ffffff" :foreground "#1a1a1a" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 140 :width normal :foundry "unknown" :family "Inconsolata"))))
+ '(default ((t (:inherit nil :stipple nil :background "#ffffff" :foreground "#1a1a1a" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "unknown" :family "Consolas"))))
  '(hl-line ((t (:inherit highlight)))))
 
-(require 'maxframe)
-(add-hook 'window-setup-hook 'maximize-frame t)
-
 (setq ring-bell-function 'ignore)
- 
- 

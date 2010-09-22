@@ -78,8 +78,9 @@
   - State "WORKING"    from "TODO"       [2009-09-03 Thu 12:42]
   [2009-09-03 Thu]
   [[file:~/emacsen/init.el::require%20remember][file:~/emacsen/init.el::require remember]]
-* DEFERRED Minimize memory usage by caching unused styles	     :PAUSED:
-  SCHEDULED: <2009-09-24 Thu>
+* DONE Minimize memory usage by caching unused styles
+  SCHEDULED: <2009-09-24 Thu> CLOSED: [2010-01-13 Wed 10:34]
+  - State "DONE"       from "DEFERRED"   [2010-01-13 Wed 10:34]
   - State "DEFERRED"   from "DONE"       [2009-11-23 Mon 17:30]
   - State "DONE"       from "WORKING"    [2009-11-23 Mon 17:30]
   - State "WORKING"    from "PAUSED"     [2009-10-12 Mon 17:10]
