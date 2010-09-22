@@ -12425,6 +12425,19 @@ Created by Andrii V. Mishkovskyi <mishok13@gmail.com> Dec 2 2008."
     (font-latex-sectioning-5-face ((t (:foreground "lightsalmon"))))
     
 
+    (rst-level-1-face ((t (:foreground "brown" ))))
+    (rst-level-2-face ((t (:foreground "firebrick" ))))
+    (rst-level-3-face ((t (:foreground "Orange" ))))
+    (rst-level-4-face ((t (:foreground "chocolate" ))))
+    (rst-level-5-face ((t (:foreground "salmon" ))))
+    (rst-level-6-face ((t (:foreground "lightsalmon" ))))
+    (font-latex-sectioning-0-face ((t (:foreground "brown" :size "12pt"))))
+    (font-latex-sectioning-1-face ((t (:foreground "firebrick" :size "12pt"))))
+    (font-latex-sectioning-2-face ((t (:foreground "Orange" :size "12pt"))))
+    (font-latex-sectioning-3-face ((t (:foreground "chocolate" :size "12pt"))))
+    (font-latex-sectioning-4-face ((t (:foreground "salmon" :size "12pt"))))
+    (font-latex-sectioning-5-face ((t (:foreground "lightsalmon" :size "12pt"))))
+
 ;; font-latex-bold-face                 abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
 ;; font-latex-doctex-documentation-face abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
 ;; font-latex-doctex-preprocessor-face  abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
