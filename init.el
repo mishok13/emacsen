@@ -283,6 +283,7 @@ minibuffer to ease cutting and pasting."
 (add-to-list 'load-path "~/.emacs.d/color-theme/")
 (add-to-list 'load-path "~/.emacs.d/color-theme/themes/")
 (require 'color-theme)
+(load "~/.emacs.d/color-theme/themes/mishok.el")
 (color-theme-initialize)
 (color-theme-mishok)
 
