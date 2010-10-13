@@ -3,3 +3,4 @@ syntax: glob
 *.elc
 *.pyc
 *~
+twit-user-images
