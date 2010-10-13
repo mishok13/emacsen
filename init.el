@@ -18,6 +18,12 @@
   (interactive)
   (print "Mmmm, donuts."))
 
+(defun look-of-disapproval ()
+  "Just in case we need this"
+  (interactive)
+  (insert "ಠ_ಠ"))
+
+
 (require 'uniquify)
 (setq
   uniquify-buffer-name-style 'post-forward
@@ -282,10 +288,11 @@ minibuffer to ease cutting and pasting."
 ;; TODO: move my theme to separate file
 (add-to-list 'load-path "~/.emacs.d/color-theme/")
 (add-to-list 'load-path "~/.emacs.d/color-theme/themes/")
-(require 'color-theme)
 (load "~/.emacs.d/color-theme/themes/mishok.el")
-(color-theme-initialize)
+(require 'color-theme)
+(setq color-theme-is-global t)
 (color-theme-mishok)
+;; (color-theme-initialize)
 
 (desktop-save-mode 1)
 (setq history-length 250)
@@ -364,7 +371,7 @@ minibuffer to ease cutting and pasting."
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#ffffff" :foreground "#1a1a1a" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "unknown" :family "Consolas"))))
+ '(default ((t (:inherit nil :stipple nil :background "#ffffff" :foreground "#1a1a1a" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 140 :width normal :foundry "unknown" :family "Consolas"))))
  '(hl-line ((t (:inherit highlight)))))
 
 (setq ring-bell-function 'ignore)
