@@ -351,6 +351,8 @@ minibuffer to ease cutting and pasting."
       (append '("^.*\\.org$")
 	      clean-buffer-list-kill-never-regexps-init))
 
+(global-set-key (kbd "C-z") 'undo)
+
 (autoload 'js2-mode "js2" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$|\\.json$" . js2-mode))
 
