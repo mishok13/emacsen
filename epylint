@@ -35,6 +35,3 @@ for line in stdout.splitlines():
             msg = 'Warning'
         print "%s %s%s %s at %s line %s." % (msg, errtype, errnum,
                                              description, filename, linenum)
-    else:
-        print "Error F0000 Couldn't parse pylint output at %s line 1." % filename
-        

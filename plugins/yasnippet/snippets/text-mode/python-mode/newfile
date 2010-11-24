@@ -1,7 +1,8 @@
-#name : new python executable
+#name : newfile
 #expand-env: ((yas/indent-line 'fixed))
 # --
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 
 import argparse
@@ -21,10 +22,10 @@ def process(args):
 
 
 def main(args):
-    $0
     sys.exit(process(args))
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+    $0
     main(parser.parse_args())

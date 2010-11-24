@@ -3,4 +3,5 @@ syntax: glob
 *.elc
 *.pyc
 *~
+.emacs.desktop*
 twit-user-images
