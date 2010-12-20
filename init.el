@@ -23,6 +23,7 @@
   (interactive)
   (insert "ಠ_ಠ"))
 
+(require 'magit)
 
 (require 'uniquify)
 (setq
@@ -356,6 +357,12 @@ minibuffer to ease cutting and pasting."
 (autoload 'js2-mode "js2" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$|\\.json$" . js2-mode))
 
+(require 'browse-url)
+(setq browse-url-browser-function 'browse-url-firefox
+      browse-url-new-window-flag  t
+      browse-url-firefox-new-window-is-tab t)
+
+
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -373,7 +380,7 @@ minibuffer to ease cutting and pasting."
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#ffffff" :foreground "#1a1a1a" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 140 :width normal :foundry "unknown" :family "Consolas"))))
+ '(default ((t (:inherit nil :stipple nil :background "#ffffff" :foreground "#1a1a1a" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "unknown" :family "Consolas"))))
  '(hl-line ((t (:inherit highlight)))))
 
 (setq ring-bell-function 'ignore)
