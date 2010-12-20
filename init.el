@@ -24,6 +24,7 @@
   (insert "ಠ_ಠ"))
 
 (require 'magit)
+(global-set-key [f7] 'magit-status)
 
 (require 'uniquify)
 (setq
@@ -185,8 +186,8 @@ minibuffer to ease cutting and pasting."
 (require 'org-install)
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (define-key global-map [f6] 'org-store-link)
-(global-set-key (kbd "<f7>") 'org-agenda)
-(global-set-key (kbd "C-M-r") 'org-remember)
+;; (global-set-key (kbd "<f7>") 'org-agenda)
+;; (global-set-key (kbd "C-M-r") 'org-remember)
 ;; Enabling flyspell for org-mode
 (add-hook 'org-mode-hook
           (lambda () (flyspell-mode 1)))
