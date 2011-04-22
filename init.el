@@ -53,6 +53,9 @@
 (color-theme-mishok)
 (color-theme-initialize)
 
+(:name yasnippet
+       :type git-svn
+       :url "http://yasnippet.googlecode.com/svn/trunk/")
 
 
 (el-get-add
@@ -69,9 +72,8 @@
 
 (add-to-list 'load-path "~/.emacs.d/yasnippet")
 (require 'yasnippet)
-(yas/initialize)
-(yas/load-directory "~/.emacs.d/snippets/")
-(yas/reload-all)
+;; (yas/initialize)
+;; (yas/reload-all)
 
 (el-get-add
  (:name highlight-parentheses
