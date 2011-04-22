@@ -26,8 +26,8 @@
 ;; 	:after (lambda () (autoload 'session-initialize "session" nil t)
 ;; 		 (add-hook 'after-init-hook 'session-initialize))))
 
-(el-get-add
- (:name python-mode))
+;; (el-get-add
+;;  (:name python-mode))
 
 (el-get-add
  (:name magit))
@@ -105,10 +105,6 @@
 
 (el-get)
 
-;; (require 'package)
-;; (setq package-archives '(("ELPA" . "http://tromey.com/elpa/")
-;; 			 ("gnu" . "http://elpa.gnu.org/packages/")))
-
 
 (global-set-key (kbd "<up>") 'other-frame)
 
@@ -156,9 +152,6 @@
 ;; interesting mode for highlighting parens in different colors
 ;; (require 'highlight-parentheses)
 
-;; (add-to-list 'load-path "~/.emacs.d/plugins")
-;; (progn (cd "~/.emacs.d/plugins")
-;;        (normal-top-level-add-subdirs-to-load-path))
 
 ;; this should highlight any line longer than 80 symbols
 (require 'highlight-80+)
@@ -214,6 +207,17 @@
     (".*$" flymake-pylint-init)))
 
 ;; Simple hook for python-mode + flymake
+(add-to-list 'load-path "~/.emacs.d/python-mode")
+;; python related stuff
+(autoload 'python-mode "python-mode" "Python Mode." t)
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+(add-to-list 'interpreter-mode-alist '("python" . python-mode))
+(add-hook 'python-mode-hook
+	  (lambda ()
+	    (set (make-variable-buffer-local 'beginning-of-defun-function)
+		 'py-beginning-of-def-or-class)
+	    (setq outline-regexp "def\\|class ")))
+
 (defun flymake-python-load ()
   (setq flymake-allowed-file-name-masks
 	(append flymake-allowed-file-name-masks
@@ -244,16 +248,6 @@
 ;; make scroll behave more like notepad, he-he
 (setq scroll-conservatively 50)
 (setq scroll-preserve-screen-position 't)
-
-;; python related stuff
-(autoload 'python-mode "python-mode" "Python Mode." t)
-(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
-(add-to-list 'interpreter-mode-alist '("python" . python-mode))
-(add-hook 'python-mode-hook
-	  (lambda ()
-	    (set (make-variable-buffer-local 'beginning-of-defun-function)
-		 'py-beginning-of-def-or-class)
-	    (setq outline-regexp "def\\|class ")))
 
 
 ;; TinyURL
