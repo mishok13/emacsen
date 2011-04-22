@@ -5,3 +5,4 @@ syntax: glob
 *~
 .emacs.desktop*
 twit-user-images
+el-get
