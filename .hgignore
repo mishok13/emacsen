@@ -7,3 +7,4 @@ plugins/.emacs.desktop.lock
 plugins/.emacs.desktop
 .emacs.desktop*
 twit-user-images
+el-get

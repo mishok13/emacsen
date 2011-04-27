@@ -2,11 +2,110 @@
 ;; Andrii V. Mishkovskyi
 
 (add-to-list 'load-path "~/.emacs.d/")
+
 (global-unset-key (kbd "<right>"))
 (global-unset-key (kbd "<left>"))
 (global-unset-key (kbd "<up>"))
 (global-unset-key (kbd "<down>"))
+(global-set-key [f7] 'magit-status)
+
 (global-font-lock-mode t)
+
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+(require 'el-get)
+
+(defmacro el-get-add (item)
+  `(add-to-list 'el-get-sources ',item))
+
+;; (el-get-add
+;;  (:name grep+
+;; 	:features grep+))
+
+;; (el-get-add
+;;  (:name session
+;; 	:after (lambda () (autoload 'session-initialize "session" nil t)
+;; 		 (add-hook 'after-init-hook 'session-initialize))))
+
+;; (el-get-add
+;;  (:name python-mode))
+
+(el-get-add
+ (:name magit))
+
+;; el-get's handling of color-theme is broken, just use the
+;; preinstalled library one
+
+;; (setq color-theme-is-global t)
+;; (el-get-add
+;;  (:name color-theme
+;; 	:after (lambda () (require 'color-theme nil t)
+;; 		 (eval-after-load "color-theme"
+;; 		   '(progn
+;; 		      (load "~/.emacs.d/color-theme/themes/mishok.el")
+;; 		      (color-theme-mishok)
+;; 		      (color-theme-initialize))))))
+
+;; (add-to-list 'load-path "~/.emacs.d/color-theme/")
+(add-to-list 'load-path "~/.emacs.d/color-theme/")
+(load "~/.emacs.d/color-theme/mishok.el")
+(require 'color-theme)
+(setq color-theme-is-global t)
+(color-theme-mishok)
+(color-theme-initialize)
+
+(:name yasnippet
+       :type git-svn
+       :url "http://yasnippet.googlecode.com/svn/trunk/")
+
+
+(el-get-add
+ (:name twittering-mode))
+
+;; OH FUCK THIS DOES NOT WORK
+;; (el-get-add
+;;  (:name yasnippet
+;; 	:after (lambda () (require 'yasnippet nil t)
+;; 		 (eval-after-load "yasnippet"
+;; 		   '(progn
+;; 		      (yas/initialize)
+;; 		      (yas/load-directory "~/.emacs.d/snippets/"))))))
+
+(add-to-list 'load-path "~/.emacs.d/yasnippet")
+(require 'yasnippet)
+;; (yas/initialize)
+;; (yas/reload-all)
+
+(el-get-add
+ (:name highlight-parentheses
+	:after (lambda () (autoload 'highlight-parentheses-mode "highlight-parentheses" nil t)
+		 (dolist (hook '(python-mode-hook
+				 emacs-lisp-mode-hook))
+		   (add-hook hook 'highlight-parentheses-mode)))))
+
+;; smex
+(el-get-add
+ (:name smex
+  :features smex
+  :after (lambda ()
+           (setq smex-save-file "~/.emacs.d/smex.save")
+           (smex-initialize)
+           (smex-auto-update)
+           (global-set-key (kbd "M-x") 'smex)
+           (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+           (global-set-key (kbd "C-c M-x") 'smex-update-and-run)
+           (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))))
+
+(el-get-add
+ (:name breadcrumb
+  :features breadcrumb
+  :after (lambda ()
+           (global-set-key [?\S- ] 'bc-set) ;; Shift-SPACE
+           (global-set-key (kbd "M-j") 'bc-previous)
+           (global-set-key (kbd "M-J") 'bc-next)
+           (global-set-key (kbd "C-c j") 'bc-goto-current)
+           (global-set-key (kbd "C-c M-j") 'bc-list))))
+
+(el-get)
 
 
 (global-set-key (kbd "<up>") 'other-frame)
@@ -23,6 +122,8 @@
   (interactive)
   (insert "ಠ_ಠ"))
 
+;; (require 'magit)
+;; (global-set-key [f7] 'magit-status)
 
 (require 'uniquify)
 (setq
@@ -51,15 +152,8 @@
 
 
 ;; interesting mode for highlighting parens in different colors
-(require 'highlight-parentheses)
+;; (require 'highlight-parentheses)
 
-(add-to-list 'load-path "~/.emacs.d/plugins")
-(progn (cd "~/.emacs.d/plugins")
-       (normal-top-level-add-subdirs-to-load-path))
-
-(require 'yasnippet)
-(yas/initialize)
-(yas/load-directory "~/.emacs.d/plugins/yasnippet/snippets")
 
 ;; this should highlight any line longer than 80 symbols
 (require 'highlight-80+)
@@ -115,6 +209,17 @@
     (".*$" flymake-pylint-init)))
 
 ;; Simple hook for python-mode + flymake
+(add-to-list 'load-path "~/.emacs.d/python-mode")
+;; python related stuff
+(autoload 'python-mode "python-mode" "Python Mode." t)
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+(add-to-list 'interpreter-mode-alist '("python" . python-mode))
+(add-hook 'python-mode-hook
+	  (lambda ()
+	    (set (make-variable-buffer-local 'beginning-of-defun-function)
+		 'py-beginning-of-def-or-class)
+	    (setq outline-regexp "def\\|class ")))
+
 (defun flymake-python-load ()
   (setq flymake-allowed-file-name-masks
 	(append flymake-allowed-file-name-masks
@@ -123,7 +228,7 @@
 (add-hook 'python-mode-hook 'flymake-python-load)
 (load-library "flymake-cursor")
 
-(load-library "pyrex-mode")
+;; (load-library "pyrex-mode")
 
 ;; Loading ropemacs
 (pymacs-load "ropemacs" "rope-")
@@ -145,16 +250,6 @@
 ;; make scroll behave more like notepad, he-he
 (setq scroll-conservatively 50)
 (setq scroll-preserve-screen-position 't)
-
-;; python related stuff
-(autoload 'python-mode "python-mode" "Python Mode." t)
-(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
-(add-to-list 'interpreter-mode-alist '("python" . python-mode))
-(add-hook 'python-mode-hook
-	  (lambda ()
-	    (set (make-variable-buffer-local 'beginning-of-defun-function)
-		 'py-beginning-of-def-or-class)
-	    (setq outline-regexp "def\\|class ")))
 
 
 ;; TinyURL
@@ -184,8 +279,8 @@ minibuffer to ease cutting and pasting."
 (require 'org-install)
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (define-key global-map [f6] 'org-store-link)
-(global-set-key (kbd "<f7>") 'org-agenda)
-(global-set-key (kbd "C-M-r") 'org-remember)
+;; (global-set-key (kbd "<f7>") 'org-agenda)
+;; (global-set-key (kbd "C-M-r") 'org-remember)
 ;; Enabling flyspell for org-mode
 (add-hook 'org-mode-hook
           (lambda () (flyspell-mode 1)))
@@ -285,15 +380,7 @@ minibuffer to ease cutting and pasting."
 (setq org-use-fast-todo-selection t)
 
 
-;; TODO: move my theme to separate file
-(add-to-list 'load-path "~/.emacs.d/color-theme/")
-(add-to-list 'load-path "~/.emacs.d/color-theme/themes/")
-(load "~/.emacs.d/color-theme/themes/mishok.el")
-(require 'color-theme)
-(setq color-theme-is-global t)
-(color-theme-mishok)
-;; (color-theme-initialize)
-
+;; ;; TODO: move my theme to separate file
 (desktop-save-mode 1)
 (setq history-length 250)
 (add-to-list 'desktop-globals-to-save 'file-name-history)
@@ -311,8 +398,8 @@ minibuffer to ease cutting and pasting."
 ;; (setq twit-user-image-dir "~/.emacs.d/twit-user-images")
 ;; (global-set-key [f8] 'twit-show-recent-tweets)
 
-(add-to-list 'load-path "~/.emacs.d/twittering-mode/")
-(require 'twittering-mode)
+;; (add-to-list 'load-path "~/.emacs.d/twittering-mode/")
+;; (require 'twittering-mode)
 
 
 ;; midnight mode
@@ -356,24 +443,45 @@ minibuffer to ease cutting and pasting."
 (autoload 'js2-mode "js2" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$|\\.json$" . js2-mode))
 
+(require 'browse-url)
+(setq browse-url-browser-function 'browse-url-firefox
+      browse-url-new-window-flag  t
+      browse-url-firefox-new-window-is-tab t)
+
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+
+(add-hook 'LaTeX-mode-hook 'visual-line-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-buffer)
+(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+(setq reftex-plug-into-AUCTeX t)
+
+
+(setq inferior-lisp-program "java -cp /home/mishok/.clojure/clojure.jar:/home/mishok/.clojure/clojure-contrib.jar clojure.main")
+
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(blink-cursor-mode nil)
  '(ecb-options-version "2.33beta2")
  '(global-hl-line-mode t)
  '(kill-whole-line t)
  '(org-agenda-files (quote ("~/.emacs.d/orgfiles/auth.org" "~/.emacs.d/orgfiles/blog.org" "~/.emacs.d/orgfiles/main.org" "~/.emacs.d/orgfiles/notes.org" "~/.emacs.d/orgfiles/openmapsua.org" "~/.emacs.d/orgfiles/python-api.org" "~/.emacs.d/orgfiles/refile.org" "~/.emacs.d/orgfiles/render.org" "~/.emacs.d/orgfiles/tiles.org" "~/.emacs.d/orgfiles/tilman.org" "~/.emacs.d/orgfiles/triton.org" "~/.emacs.d/orgfiles/vectormaps.org" "~/.emacs.d/orgfiles/work.org")))
+ '(safe-local-variable-values (quote ((test-case-name . twisted\.trial\.test\.test_script) (test-case-name . twisted\.trial\.test\.test_runner) (test-case-name . twisted\.trial\.test\.test_tests))))
  '(show-paren-mode t)
  '(tool-bar-mode nil nil (tool-bar)))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#ffffff" :foreground "#1a1a1a" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 140 :width normal :foundry "unknown" :family "Consolas"))))
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "unknown" :family "Consolas"))))
  '(hl-line ((t (:inherit highlight)))))
 
 (setq ring-bell-function 'ignore)
