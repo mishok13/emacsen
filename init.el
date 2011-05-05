@@ -100,15 +100,15 @@
            (global-set-key (kbd "C-c M-x") 'smex-update-and-run)
            (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))))
 
-(el-get-add
- (:name breadcrumb
-  :features breadcrumb
-  :after (lambda ()
-           (global-set-key [?\S- ] 'bc-set) ;; Shift-SPACE
-           (global-set-key (kbd "M-j") 'bc-previous)
-           (global-set-key (kbd "M-J") 'bc-next)
-           (global-set-key (kbd "C-c j") 'bc-goto-current)
-           (global-set-key (kbd "C-c M-j") 'bc-list))))
+;; (el-get-add
+;;  (:name breadcrumb
+;;   :features breadcrumb
+;;   :after (lambda ()
+;;            (global-set-key (kbd "C-c M-b" 'bc-set) ;; Shift-SPACE
+;;            (global-set-key (kbd "C-c M-n") 'bc-previous)
+;;            (global-set-key (kbd "C-c M-p") 'bc-next)
+;;            (global-set-key (kbd "C-c M-c") 'bc-goto-current)
+;;            (global-set-key (kbd "C-c M-j") 'bc-list))))
 
 (el-get-add
  (:name scala-mode
