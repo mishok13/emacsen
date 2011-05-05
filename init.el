@@ -53,9 +53,10 @@
 (color-theme-mishok)
 (color-theme-initialize)
 
-(:name yasnippet
-       :type git-svn
-       :url "http://yasnippet.googlecode.com/svn/trunk/")
+(el-get-add
+ (:name yasnippet
+	:type git-svn
+	:url "http://yasnippet.googlecode.com/svn/trunk/"))
 
 
 (el-get-add
@@ -104,6 +105,18 @@
            (global-set-key (kbd "M-J") 'bc-next)
            (global-set-key (kbd "C-c j") 'bc-goto-current)
            (global-set-key (kbd "C-c M-j") 'bc-list))))
+
+(el-get-add
+ (:name scala-mode
+	:type svn
+	:url "http://lampsvn.epfl.ch/svn-repos/scala/scala-tool-support/trunk/src/emacs/"
+	:build ("make")
+	:load-path (".")
+	:features scala-mode-auto
+	:after (lambda ()
+		 (add-hook 'scala-mode-hook
+			   '(lambda ()
+			      (yas/minor-mode-on))))))
 
 (el-get)
 
@@ -171,11 +184,11 @@
 (autoload 'pymacs-exec "pymacs" nil t)
 (autoload 'pymacs-load "pymacs" nil t)
 
-(define-globalized-minor-mode
-  global-highlight-parentheses-mode
-  highlight-parentheses-mode
-  highlight-parentheses-mode)
-(global-highlight-parentheses-mode)
+;; (define-globalized-minor-mode
+;;   global-highlight-parentheses-mode
+;;   highlight-parentheses-mode
+;;   highlight-parentheses-mode)
+;; (global-highlight-parentheses-mode)
 
 
 (setq uniquify-buffer-name-style 'reverse)
