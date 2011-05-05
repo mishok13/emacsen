@@ -17,6 +17,10 @@
 (defmacro el-get-add (item)
   `(add-to-list 'el-get-sources ',item))
 
+
+(el-get-add
+ (:name nxhtml))
+
 ;; (el-get-add
 ;;  (:name grep+
 ;; 	:features grep+))
