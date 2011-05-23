@@ -21,6 +21,9 @@
 (el-get-add
  (:name nxhtml))
 
+(el-get-add
+ (:name ropemacs))
+
 ;; (el-get-add
 ;;  (:name grep+
 ;; 	:features grep+))
