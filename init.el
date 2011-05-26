@@ -1,15 +1,26 @@
 ;; .emacs
 ;; Andrii V. Mishkovskyi
 
-(add-to-list 'load-path "~/.emacs.d/")
-
+(global-font-lock-mode t)
 (global-unset-key (kbd "<right>"))
 (global-unset-key (kbd "<left>"))
 (global-unset-key (kbd "<up>"))
 (global-unset-key (kbd "<down>"))
+
+(add-to-list 'load-path "~/.emacs.d/")
+
 (global-set-key [f7] 'magit-status)
 
-(global-font-lock-mode t)
+
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+
+(unless (require 'el-get nil t)
+  (url-retrieve
+   "https://github.com/dimitri/el-get/raw/master/el-get-install.el"
+   (lambda (s)
+     (end-of-buffer)
+     (eval-print-last-sexp))))
+
 
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 (require 'el-get)
@@ -21,8 +32,8 @@
 (el-get-add
  (:name nxhtml))
 
-(el-get-add
- (:name ropemacs))
+;; (el-get-add
+;;  (:name ropemacs))
 
 ;; (el-get-add
 ;;  (:name grep+
@@ -178,18 +189,17 @@
 ;; this should highlight any line longer than 80 symbols
 (require 'highlight-80+)
 (require 'column-marker)
-(require 'pymacs)
 (require 'linum)
 
 (which-func-mode t)
 
 ;;'(flymake-allowed-file-name-masks (quote nil))
 ;; Pymacs special
-(autoload 'pymacs-apply "pymacs")
-(autoload 'pymacs-call "pymacs")
-(autoload 'pymacs-eval "pymacs" nil t)
-(autoload 'pymacs-exec "pymacs" nil t)
-(autoload 'pymacs-load "pymacs" nil t)
+;; (autoload 'pymacs-apply "pymacs")
+;; (autoload 'pymacs-call "pymacs")
+;; (autoload 'pymacs-eval "pymacs" nil t)
+;; (autoload 'pymacs-exec "pymacs" nil t)
+;; (autoload 'pymacs-load "pymacs" nil t)
 
 ;; (define-globalized-minor-mode
 ;;   global-highlight-parentheses-mode
@@ -251,7 +261,7 @@
 ;; (load-library "pyrex-mode")
 
 ;; Loading ropemacs
-(pymacs-load "ropemacs" "rope-")
+;; (pymacs-load "ropemacs" "rope-")
 
 ;; show line number on the left pane
 (global-linum-mode 1)
@@ -446,7 +456,7 @@ minibuffer to ease cutting and pasting."
   "Init value for clean-buffer-list-kill-never-buffer-names")
 (setq clean-buffer-list-kill-never-buffer-names
       (append
-       '("*Messages*" "*scratch*" "*Pymacs*")
+       '("*Messages*" "*scratch*")
        clean-buffer-list-kill-never-buffer-names-init))
 
 ;; prevent append multiple times
