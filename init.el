@@ -64,12 +64,13 @@
 ;; 		      (color-theme-initialize))))))
 
 ;; (add-to-list 'load-path "~/.emacs.d/color-theme/")
-(add-to-list 'load-path "~/.emacs.d/color-theme/")
-(load "~/.emacs.d/color-theme/mishok.el")
+(add-to-list 'load-path "~/.emacs.d/color-theme/solarized/")
 (require 'color-theme)
-(setq color-theme-is-global t)
-(color-theme-mishok)
-(color-theme-initialize)
+(require 'color-theme-solarized)
+(eval-after-load "color-theme"
+  '(progn
+     (color-theme-initialize)
+     (color-theme-solarized-dark)))
 
 (el-get-add
  (:name yasnippet
