@@ -10,7 +10,7 @@
 ;;         Alberto Garcia  <agarcia@igalia.com>
 ;; Created: Sep 4, 2007
 ;; Version: 1.0.0
-;; Identity: $Id: 5b9be57c4e13097fa65228d8fd0587b312432c36 $
+;; Identity: $Id$
 ;; Keywords: twitter web
 ;; URL: http://twmode.sf.net/
 
@@ -65,7 +65,7 @@
 (require 'url)
 
 (defconst twittering-mode-version "1.0.0")
-(defconst twittering-mode-identity "$Id: 5b9be57c4e13097fa65228d8fd0587b312432c36 $")
+(defconst twittering-mode-identity "$Id$")
 (defvar twittering-api-host "api.twitter.com")
 (defvar twittering-api-search-host "search.twitter.com")
 (defvar twittering-web-host "twitter.com")
