@@ -78,8 +78,8 @@
 	:url "http://yasnippet.googlecode.com/svn/trunk/"))
 
 
-(el-get-add
- (:name twittering-mode))
+;; (el-get-add
+;;  (:name twittering-mode))
 
 ;; OH FUCK THIS DOES NOT WORK
 ;; (el-get-add
@@ -323,8 +323,8 @@ minibuffer to ease cutting and pasting."
 ;; (setq twit-user-image-dir "~/.emacs.d/twit-user-images")
 ;; (global-set-key [f8] 'twit-show-recent-tweets)
 
-;; (add-to-list 'load-path "~/.emacs.d/twittering-mode/")
-;; (require 'twittering-mode)
+(add-to-list 'load-path "~/.emacs.d/twittering-mode/")
+(require 'twittering-mode)
 
 
 ;; midnight mode
