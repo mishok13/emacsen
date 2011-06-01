@@ -49,8 +49,8 @@ will use the 256 degraded color mode."
     (base2   "#eee8d5" "#e9e2cb" "#d7d7af" "#e5e5e5")
     (base3   "#fdf6e3" "#fcf4dc" "#ffffd7" "#ffffff")
     (yellow  "#b58900" "#a57705" "#af8700" "#cdcd00")
-    (orange  "#cb4b16" "#bd3612" "#d75f00" "#ff0000")
-    (red     "#dc322f" "#c60007" "#af0000" "#cd0000")
+    (orange  "#cb4b16" "#2E000B" "#d75f00" "#ff0000")
+    (red     "#dc322f" "#261900" "#af0000" "#cd0000")
     (magenta "#d33682" "#c61b6e" "#af005f" "#cd00cd")
     (violet  "#6c71c4" "#5859b7" "#5f5faf" "#ff00ff")
     (blue    "#268bd2" "#2075c7" "#0087ff" "#0000ee")
@@ -117,7 +117,7 @@ will use the 256 degraded color mode."
          (mode-line-inactive
           ((t (:foreground ,base0  :background ,base02
                            :box (:line-width 1 :color ,base02)))))
-         (region ((t (:background ,base02))))
+         (region ((t (:background ,base01 :foreground ,base3))))
          (secondary-selection ((t (:background ,base02))))
          (trailing-whitespace ((t (:foreground ,red :inverse-video t))))
          (vertical-border ((t (:foreground ,base0))))
@@ -261,7 +261,7 @@ will use the 256 degraded color mode."
          (gnus-summary-normal-undownloaded ((t (:foreground ,base2))))
          ;; Flymake
          (flymake-errline ((t (:background ,orange))))
-         (flymake-warnline ((t (:background ,violet))))
+         (flymake-warnline ((t (:background ,red))))
          ;; whitespace
          (whitespace-empty ((t (:foreground ,red))))
          (whitespace-hspace ((t (:foreground ,orange))))
