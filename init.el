@@ -369,10 +369,10 @@ minibuffer to ease cutting and pasting."
 
 (global-set-key (kbd "C-z") 'undo)
 
-(require 'browse-url)
-(setq browse-url-browser-function 'browse-url-firefox
-      browse-url-new-window-flag  t
-      browse-url-firefox-new-window-is-tab t)
+;; (require 'browse-url)
+;; (setq browse-url-browser-function 'browse-url-firefox
+;;       browse-url-new-window-flag  t
+;;       browse-url-firefox-new-window-is-tab t)
 
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
