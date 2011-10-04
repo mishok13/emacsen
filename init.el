@@ -235,7 +235,7 @@
 	 (local-file (file-relative-name
 		      temp-file
 		      (file-name-directory buffer-file-name))))
-    (list "epylint" (list local-file))))
+    (list "/usr/local/bin/epylint" (list local-file))))
 
 
 ;; If I'm ever to change pylint to something else, I should just change init functions
