@@ -34,12 +34,21 @@
 (global-set-key (kbd "C-z") 'undo)
 ;; (global-set-key [f7] 'magit-status)
 
-(require 'el-get)
+(unless (require 'el-get nil t)
+  (url-retrieve
+   "https://github.com/dimitri/el-get/raw/master/el-get-install.el"
+   (lambda (s)
+     (end-of-buffer)
+     (eval-print-last-sexp))))
 
 ;; local sources
 (setq el-get-sources
       '((:name magit
                :after (lambda () (global-set-key (kbd "<f7>") 'magit-status)))
+	(:name flymake-cursor
+	       :description "Flymake Cursor minor mode"
+	       :website "http://www.emacswiki.org/emacs/flymake-cursor.el"
+	       :type emacswiki)
 	(:name highlight-parentheses
 	       :after (lambda () (autoload 'highlight-parentheses-mode "highlight-parentheses" nil t)
 			(dolist (hook '(python-mode-hook emacs-lisp-mode-hook))
@@ -47,18 +56,11 @@
 
 (setq my-packages
       (append
-       '(el-get yasnippet color-theme color-theme-solarized python-mode)
+       '(el-get yasnippet color-theme color-theme-solarized python-mode vkill yaml-mode clojure-mode twittering-mode)
        (mapcar 'el-get-source-name el-get-sources)))
 
 (el-get 'sync my-packages)
 (el-get 'wait)
-(unless (require 'el-get nil t)
-  (url-retrieve
-   "https://github.com/dimitri/el-get/raw/master/el-get-install.el"
-   (lambda (s)
-     (end-of-buffer)
-     (eval-print-last-sexp))))
-(el-get 'sync)
 
 (require 'el-get)
 (require 'twittering-mode)
@@ -66,6 +68,9 @@
 (require 'autopair)
 (require 'magit)
 (require 'magit-svn)
+(require 'column-marker)
+(require 'linum)
+
 
 (require 'color-theme)
 (require 'color-theme-solarized)
@@ -78,7 +83,7 @@
 (menu-bar-mode -1)
 (global-hl-line-mode t)
 (show-paren-mode t)
-(blink-cursor-mode nil)
+(blink-cursor-mode -1)
 (autopair-global-mode)
 (yas/global-mode 1)
 
@@ -154,9 +159,6 @@
 
 
 ;; this should highlight any line longer than 80 symbols
-(require 'highlight-80+)
-(require 'column-marker)
-(require 'linum)
 
 (which-func-mode t)
 
@@ -222,7 +224,7 @@
 		flymake-allowed-python-file-name-masks))
   (flymake-mode t))
 (add-hook 'python-mode-hook 'flymake-python-load)
-(load-library "flymake-cursor")
+;; (load-library "flymake-cursor")
 
 
 ;; this should enable copy from emacs to any other X frame
