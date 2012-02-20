@@ -1,22 +1,86 @@
 ;; .emacs
 ;; Andrii V. Mishkovskyi
 
+(set-face-attribute 'default nil :font "Consolas-16")
+
+(add-to-list 'load-path "~/.emacs.d/")
+;; (add-to-list 'load-path "~/.emacs.d/color-theme")
+;; (add-to-list 'load-path "~/.emacs.d/color-theme/solarized/")
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+(add-to-list 'load-path "~/.emacs.d/twittering-mode/")
+
 (global-font-lock-mode t)
 (global-unset-key (kbd "<right>"))
 (global-unset-key (kbd "<left>"))
 (global-unset-key (kbd "<up>"))
 (global-unset-key (kbd "<down>"))
-
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-
-(add-to-list 'load-path "~/.emacs.d/")
-
 (global-set-key [right] 'next-buffer)
 (global-set-key [left] 'previous-buffer)
 (global-set-key [up] 'other-window)
 ;; TODO: turn this into previous window
 (global-set-key [down] 'other-window)
+(global-linum-mode 1)
+(column-number-mode 1)
+(scroll-bar-mode -1)
+(desktop-save-mode 1)
+(setq history-length 250)
+(add-to-list 'desktop-globals-to-save 'file-name-history)
+(ido-mode t)
+
+
+;; 1-2 letters shorter to type!
+(fset 'yes-or-no-p 'y-or-n-p)
+
+(global-set-key (kbd "C-z") 'undo)
+;; (global-set-key [f7] 'magit-status)
+
+(require 'el-get)
+
+;; local sources
+(setq el-get-sources
+      '((:name magit
+               :after (lambda () (global-set-key (kbd "<f7>") 'magit-status)))
+	(:name highlight-parentheses
+	       :after (lambda () (autoload 'highlight-parentheses-mode "highlight-parentheses" nil t)
+			(dolist (hook '(python-mode-hook emacs-lisp-mode-hook))
+			  (add-hook hook 'highlight-parentheses-mode))))))
+
+(setq my-packages
+      (append
+       '(el-get yasnippet color-theme color-theme-solarized python-mode)
+       (mapcar 'el-get-source-name el-get-sources)))
+
+(el-get 'sync my-packages)
+(el-get 'wait)
+(unless (require 'el-get nil t)
+  (url-retrieve
+   "https://github.com/dimitri/el-get/raw/master/el-get-install.el"
+   (lambda (s)
+     (end-of-buffer)
+     (eval-print-last-sexp))))
+(el-get 'sync)
+
+(require 'el-get)
+(require 'twittering-mode)
+(require 'midnight)
+(require 'autopair)
+(require 'magit)
+(require 'magit-svn)
+
+(require 'color-theme)
+(require 'color-theme-solarized)
+(eval-after-load "color-theme"
+  '(progn
+     (color-theme-initialize)
+     (color-theme-solarized-dark)))
+
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(global-hl-line-mode t)
+(show-paren-mode t)
+(blink-cursor-mode nil)
+(autopair-global-mode)
+(yas/global-mode 1)
 
 (defun set-exec-path-from-shell-PATH ()
   (let ((path-from-shell (replace-regexp-in-string
@@ -31,141 +95,21 @@
   ;; is the same the user would see in Terminal.app
   (set-exec-path-from-shell-PATH))
 
-(global-set-key [f7] 'magit-status)
+
+; magit
+; highlight-parenthesis
+; yasnippet
+; color-theme: solarized
 
 
-(add-to-list 'load-path "~/.emacs.d/color-theme")
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-
-(unless (require 'el-get nil t)
-  (url-retrieve
-   "https://github.com/dimitri/el-get/raw/master/el-get-install.el"
-   (lambda (s)
-     (end-of-buffer)
-     (eval-print-last-sexp))))
 
 
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-(require 'el-get)
-
-(defmacro el-get-add (item)
-  `(add-to-list 'el-get-sources ',item))
 
 
-(el-get-add
- (:name nxhtml))
-
-;; (el-get-add
-;;  (:name ropemacs))
-
-;; (el-get-add
-;;  (:name grep+
-;; 	:features grep+))
-
-;; (el-get-add
-;;  (:name session
-;; 	:after (lambda () (autoload 'session-initialize "session" nil t)
-;; 		 (add-hook 'after-init-hook 'session-initialize))))
-
-;; (el-get-add
-;;  (:name python-mode))
-
-(el-get-add
- (:name magit))
-
-;; el-get's handling of color-theme is broken, just use the
-;; preinstalled library one
-
-;; (setq color-theme-is-global t)
-;; (el-get-add
-;;  (:name color-theme
-;; 	:after (lambda () (require 'color-theme nil t)
-;; 		 (eval-after-load "color-theme"
-;; 		   '(progn
-;; 		      (load "~/.emacs.d/color-theme/themes/mishok.el")
-;; 		      (color-theme-mishok)
-;; 		      (color-theme-initialize))))))
-
-;; (add-to-list 'load-path "~/.emacs.d/color-theme/")
-(add-to-list 'load-path "~/.emacs.d/color-theme/solarized/")
-(require 'color-theme)
-(require 'color-theme-solarized)
-(eval-after-load "color-theme"
-  '(progn
-     (color-theme-initialize)
-     (color-theme-solarized-dark)))
-
-(el-get-add
- (:name yasnippet
-	:type git-svn
-	:url "http://yasnippet.googlecode.com/svn/trunk/"))
-
-
-;; (el-get-add
-;;  (:name twittering-mode))
-
-;; OH FUCK THIS DOES NOT WORK
-;; (el-get-add
-;;  (:name yasnippet
-;; 	:after (lambda () (require 'yasnippet nil t)
-;; 		 (eval-after-load "yasnippet"
-;; 		   '(progn
-;; 		      (yas/initialize)
-;; 		      (yas/load-directory "~/.emacs.d/snippets/"))))))
-
-(add-to-list 'load-path "~/.emacs.d/yasnippet")
 (require 'yasnippet)
-;; (yas/initialize)
-;; (yas/reload-all)
+;; (setq yas/snippet-dirs "~/.emacs.d/snippets")
+(yas/global-mode 1)
 
-(el-get-add
- (:name highlight-parentheses
-	:after (lambda () (autoload 'highlight-parentheses-mode "highlight-parentheses" nil t)
-		 (dolist (hook '(python-mode-hook
-				 emacs-lisp-mode-hook))
-		   (add-hook hook 'highlight-parentheses-mode)))))
-
-;; smex
-(el-get-add
- (:name smex
-  :features smex
-  :after (lambda ()
-           (setq smex-save-file "~/.emacs.d/smex.save")
-           (smex-initialize)
-           (smex-auto-update)
-           (global-set-key (kbd "M-x") 'smex)
-           (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-           (global-set-key (kbd "C-c M-x") 'smex-update-and-run)
-           (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))))
-
-;; (el-get-add
-;;  (:name breadcrumb
-;;   :features breadcrumb
-;;   :after (lambda ()
-;;            (global-set-key (kbd "C-c M-b" 'bc-set) ;; Shift-SPACE
-;;            (global-set-key (kbd "C-c M-n") 'bc-previous)
-;;            (global-set-key (kbd "C-c M-p") 'bc-next)
-;;            (global-set-key (kbd "C-c M-c") 'bc-goto-current)
-;;            (global-set-key (kbd "C-c M-j") 'bc-list))))
-
-(el-get-add
- (:name scala-mode
-	:type svn
-	:url "http://lampsvn.epfl.ch/svn-repos/scala/scala-tool-support/trunk/src/emacs/"
-	:build ("make")
-	:load-path (".")
-	:features scala-mode-auto
-	:after (lambda ()
-		 (add-hook 'scala-mode-hook
-			   '(lambda ()
-			      (yas/minor-mode-on))))))
-
-(el-get)
-
-
-(global-set-key (kbd "<up>") 'other-frame)
-
-(fset 'yes-or-no-p 'y-or-n-p)
 
 (defun donuts ()
   "For the love of God"
@@ -177,8 +121,6 @@
   (interactive)
   (insert "ಠ_ಠ"))
 
-(require 'magit)
-(require 'magit-svn)
 ;; (global-set-key [f7] 'magit-status)
 
 (require 'uniquify)
@@ -245,7 +187,6 @@
 (global-set-key [f3] 'flymake-display-err-menu-for-current-line)
 (global-set-key [f4] 'flymake-goto-next-error)
 (global-set-key [f5] 'flymake-goto-prev-error)
-
 (global-set-key [f2] 'other-frame)
 
 ;; pylint checking
@@ -264,11 +205,11 @@
     (".*$" flymake-pylint-init)))
 
 ;; Simple hook for python-mode + flymake
-(add-to-list 'load-path "~/.emacs.d/python-mode")
+;; (add-to-list 'load-path "~/.emacs.d/python-mode")
 ;; python related stuff
-(autoload 'python-mode "python-mode" "Python Mode." t)
-(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
-(add-to-list 'interpreter-mode-alist '("python" . python-mode))
+;; (autoload 'python-mode "python-mode" "Python Mode." t)
+;; (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+;; (add-to-list 'interpreter-mode-alist '("python" . python-mode))
 (add-hook 'python-mode-hook
 	  (lambda ()
 	    (set (make-variable-buffer-local 'beginning-of-defun-function)
@@ -283,21 +224,6 @@
 (add-hook 'python-mode-hook 'flymake-python-load)
 (load-library "flymake-cursor")
 
-;; (load-library "pyrex-mode")
-
-;; Loading ropemacs
-;; (pymacs-load "ropemacs" "rope-")
-
-;; show line number on the left pane
-(global-linum-mode 1)
-
-;; show column number
-(column-number-mode 1)
-
-;; Scroll bar is useless
-(scroll-bar-mode -1)
-
-(setq-default fill-column 72)
 
 ;; this should enable copy from emacs to any other X frame
 (setq x-select-enable-clipboard t)
@@ -306,33 +232,6 @@
 (setq scroll-conservatively 50)
 (setq scroll-preserve-screen-position 't)
 
-
-;; TinyURL
-(require 'mm-url)
-(defun get-tinyurl ()
-  "Grabs the url at point and echos the equivalent tinyurl in the
-minibuffer to ease cutting and pasting."
-  (interactive)
-  (let* ((long-url (thing-at-point 'url))
-	 (tinyurl
-	  (save-excursion
-	    (with-temp-buffer
-	      (mm-url-insert
-	       (concat "http://tinyurl.com/api-create.php?url=" long-url))
-	      (kill-ring-save (point-min) (point-max))
-              (buffer-string)))))
-    (message tinyurl)))
-
-
-(ido-mode t)
-
-
-
-
-;; ;; TODO: move my theme to separate file
-(desktop-save-mode 1)
-(setq history-length 250)
-(add-to-list 'desktop-globals-to-save 'file-name-history)
 ;;(setq desktop-buffers-not-to-save
 ;;      (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
 ;;	      "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
@@ -341,18 +240,6 @@ minibuffer to ease cutting and pasting."
 (add-to-list 'desktop-modes-not-to-save 'Info-mode)
 (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
 (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
-
-;; (require 'twit)
-;; (setq twit-show-user-images 1)
-;; (setq twit-user-image-dir "~/.emacs.d/twit-user-images")
-;; (global-set-key [f8] 'twit-show-recent-tweets)
-
-(add-to-list 'load-path "~/.emacs.d/twittering-mode/")
-(require 'twittering-mode)
-
-
-;; midnight mode
-(require 'midnight)
 
 ;;kill buffers if they were last disabled more than this seconds ago
 (setq clean-buffer-list-delay-special 1800)
@@ -387,48 +274,4 @@ minibuffer to ease cutting and pasting."
       (append '("^.*\\.org$")
 	      clean-buffer-list-kill-never-regexps-init))
 
-(global-set-key (kbd "C-z") 'undo)
-
-;; (require 'browse-url)
-;; (setq browse-url-browser-function 'browse-url-firefox
-;;       browse-url-new-window-flag  t
-;;       browse-url-firefox-new-window-is-tab t)
-
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-(setq-default TeX-master nil)
-
-(add-hook 'LaTeX-mode-hook 'visual-line-mode)
-(add-hook 'LaTeX-mode-hook 'flyspell-mode)
-(add-hook 'LaTeX-mode-hook 'flyspell-buffer)
-(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-
-(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-(setq reftex-plug-into-AUCTeX t)
-
-(require 'autopair)
-(autopair-global-mode)
-
 (setq inferior-lisp-program "java -cp /home/mishok/.clojure/clojure.jar:/home/mishok/.clojure/clojure-contrib.jar clojure.main")
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(blink-cursor-mode nil)
- '(ecb-options-version "2.33beta2")
- '(global-hl-line-mode t)
- '(kill-whole-line t)
- '(org-agenda-files (quote ("~/.emacs.d/orgfiles/auth.org" "~/.emacs.d/orgfiles/blog.org" "~/.emacs.d/orgfiles/main.org" "~/.emacs.d/orgfiles/notes.org" "~/.emacs.d/orgfiles/openmapsua.org" "~/.emacs.d/orgfiles/python-api.org" "~/.emacs.d/orgfiles/refile.org" "~/.emacs.d/orgfiles/render.org" "~/.emacs.d/orgfiles/tiles.org" "~/.emacs.d/orgfiles/tilman.org" "~/.emacs.d/orgfiles/triton.org" "~/.emacs.d/orgfiles/vectormaps.org" "~/.emacs.d/orgfiles/work.org")))
- '(safe-local-variable-values (quote ((test-case-name . twisted\.trial\.test\.test_script) (test-case-name . twisted\.trial\.test\.test_runner) (test-case-name . twisted\.trial\.test\.test_tests))))
- '(show-paren-mode t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :foundry "unknown" :family "Consolas"))))
- '(hl-line ((t (:inherit highlight)))))
-
-(setq ring-bell-function 'ignore)
