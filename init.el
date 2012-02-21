@@ -1,35 +1,25 @@
 ;; .emacs
 ;; Andrii V. Mishkovskyi
 
-(set-face-attribute 'default nil :font "Consolas-16")
 
 (add-to-list 'load-path "~/.emacs.d/")
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
 (global-font-lock-mode t)
+(set-face-attribute 'default nil :font "Consolas-16")
+
 (global-unset-key (kbd "<right>"))
 (global-unset-key (kbd "<left>"))
 (global-unset-key (kbd "<up>"))
 (global-unset-key (kbd "<down>"))
-(global-set-key [right] 'next-buffer)
-(global-set-key [left] 'previous-buffer)
-(global-set-key [up] 'other-window)
-;; TODO: turn this into previous window
-(global-set-key [down] 'other-window)
-(global-linum-mode 1)
-(column-number-mode 1)
-(scroll-bar-mode -1)
-(desktop-save-mode 1)
-(setq history-length 250)
-(add-to-list 'desktop-globals-to-save 'file-name-history)
-(ido-mode t)
-
+(global-set-key (kbd "<right>") 'next-buffer)
+(global-set-key (kbd "<left>") 'previous-buffer)
+(global-set-key (kbd "<up>") 'other-window)
+(global-set-key (kbd "<down>") 'other-window)
+(global-set-key (kbd "C-z") 'undo)
 
 ;; 1-2 letters shorter to type!
 (fset 'yes-or-no-p 'y-or-n-p)
-
-(global-set-key (kbd "C-z") 'undo)
-;; (global-set-key [f7] 'magit-status)
 
 (unless (require 'el-get nil t)
   (url-retrieve
@@ -38,17 +28,16 @@
      (end-of-buffer)
      (eval-print-last-sexp))))
 
-;; (require 'color-theme)
-;; (require 'color-theme-solarized)
-;; (eval-after-load "color-theme"
-;;   '(progn
-;;      (color-theme-initialize)
-;;      (color-theme-solarized-dark)))
-
 ;; local sources
 (setq el-get-sources
       '((:name magit
                :after (lambda () (global-set-key (kbd "<f7>") 'magit-status)))
+	(:name expand-region
+	       :type git
+	       :url "https://github.com/magnars/expand-region.el.git"
+	       :description "Increase the selected region by semantic units"
+	       :website "https://github.com/magnars/expand-region.el#readme"
+	       :after (lambda () (global-set-key (kbd "C-@") 'er/expand-region)))
 	(:name yasnippet
 	       :after (lambda () (yas/global-mode 1)))
 	(:name flymake-cursor
@@ -78,7 +67,6 @@
 (el-get 'sync my-packages)
 (el-get 'wait)
 
-(require 'el-get)
 (require 'midnight)
 (require 'autopair)
 (require 'magit)
@@ -88,29 +76,28 @@
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
-(global-hl-line-mode t)
-(show-paren-mode t)
+(scroll-bar-mode -1)
 (blink-cursor-mode -1)
+(global-linum-mode 1)
+(column-number-mode 1)
+(desktop-save-mode 1)
+(setq history-length 250)
+(add-to-list 'desktop-globals-to-save 'file-name-history)
+(ido-mode t)
+(global-hl-line-mode t)
+;; (show-paren-mode t)
 (autopair-global-mode)
 
 (when (and window-system (eq system-type 'darwin))
-  (load "osx.el"))
+  (load "osx.el")) ;; OS X-specific init
 
-(defun donuts ()
-  "For the love of God"
-  (interactive)
-  (print "Mmmm, donuts."))
-
-
-(defun look-of-disapproval ()
-  "Just in case we need this"
-  (interactive)
-  (insert "ಠ_ಠ"))
+(load "stupids.el") ;; stupid utilities
 
 (require 'uniquify)
-(setq
-  uniquify-buffer-name-style 'post-forward
-  uniquify-separator ":")
+(setq uniquify-buffer-name-style 'reverse)
+(setq uniquify-separator "|")
+(setq uniquify-after-kill-buffer-p t)
+(setq uniquify-ignore-buffers-re "^\\*")
 
 (require 'cc-mode)
 (add-hook 'c-mode-common-hook
@@ -141,11 +128,6 @@
 
 (which-func-mode t)
 
-(setq uniquify-buffer-name-style 'reverse)
-(setq uniquify-separator "|")
-(setq uniquify-after-kill-buffer-p t)
-(setq uniquify-ignore-buffers-re "^\\*")
-
 (push '("." . "~/.emacs-backups") backup-directory-alist)
 
 ;; flymake special
@@ -165,12 +147,6 @@
 (defconst flymake-allowed-python-file-name-masks
   '(("\\.py$" flymake-pylint-init)
     (".*$" flymake-pylint-init)))
-
-(add-hook 'python-mode-hook
-	  (lambda ()
-	    (set (make-variable-buffer-local 'beginning-of-defun-function)
-		 'py-beginning-of-def-or-class)
-	    (setq outline-regexp "def\\|class ")))
 
 (defun flymake-python-load ()
   (setq flymake-allowed-file-name-masks
