@@ -49,11 +49,13 @@
 			(color-theme-initialize)
 			(color-theme-solarized-dark)))
 	(:name autopair
-	       :after (lambda () (autopair-global-mode)))
+	       :after (lambda () (autopair-global-mode 1)))
 	(:name highlight-parentheses
-	       :after (lambda () (autoload 'highlight-parentheses-mode "highlight-parentheses" nil t)
-			(dolist (hook '(python-mode-hook emacs-lisp-mode-hook))
-			  (add-hook hook 'highlight-parentheses-mode))))))
+	       :after (lambda ()
+			(define-globalized-minor-mode global-highlight-parentheses-mode
+			  highlight-parentheses-mode
+			  (lambda () (highlight-parentheses-mode t)))
+			(global-highlight-parentheses-mode t)))))
 
 (setq my-packages
       (append
