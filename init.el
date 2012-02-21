@@ -56,6 +56,8 @@
 	       :after (lambda ()
 			(color-theme-initialize)
 			(color-theme-solarized-dark)))
+	(:name autopair
+	       :after (lambda () (autopair-global-mode)))
 	(:name highlight-parentheses
 	       :after (lambda () (autoload 'highlight-parentheses-mode "highlight-parentheses" nil t)
 			(dolist (hook '(python-mode-hook emacs-lisp-mode-hook))
@@ -72,8 +74,6 @@
 (el-get 'sync my-packages)
 (el-get 'wait)
 
-(require 'midnight)
-(require 'autopair)
 (require 'magit)
 (require 'magit-svn)
 (require 'column-marker)
@@ -88,7 +88,6 @@
 (ido-mode t)
 (global-hl-line-mode t)
 ;; (show-paren-mode t)
-(autopair-global-mode)
 (which-func-mode t)
 
 
@@ -100,34 +99,10 @@
 (load "languages/python.el")
 (load "languages/clojure.el")
 
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'reverse)
-(setq uniquify-separator "|")
-(setq uniquify-after-kill-buffer-p t)
-(setq uniquify-ignore-buffers-re "^\\*")
-
-;; clear up files before saving them
-(defun delete-trailing-blank-lines ()
-  "Deletes all blank lines at the end of the file and leaves single newline character."
-  (interactive)
-  (save-excursion
-    (goto-char (point-max))
-    (newline)              ;; ensures that there is at least one
-    (delete-blank-lines))) ;; leaves at most one
-
-;; Don't leave garbage when saving files
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-(add-hook 'before-save-hook 'delete-trailing-blank-lines)
-
-
-(push '("." . "~/.emacs-backups") backup-directory-alist)
-
-;; this should enable copy from emacs to any other X frame
-(setq x-select-enable-clipboard t)
-
-;; make scroll behave more like notepad, he-he
-(setq scroll-conservatively 50)
-(setq scroll-preserve-screen-position 't)
-
 (load "goodies/clean-buffers.el")
 (load "goodies/save-history.el")
+(load "goodies/uniquify-buffer-names.el")
+(load "goodies/remove-trailing-whitespace.el")
+(load "goodies/backups.el")
+(load "goodies/scrolling.el")
+(load "goodies/copying.el")
