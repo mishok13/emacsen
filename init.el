@@ -7,16 +7,6 @@
 (global-font-lock-mode t)
 (set-face-attribute 'default nil :font "Consolas-16")
 
-(global-unset-key (kbd "<right>"))
-(global-unset-key (kbd "<left>"))
-(global-unset-key (kbd "<up>"))
-(global-unset-key (kbd "<down>"))
-(global-set-key (kbd "<right>") 'next-buffer)
-(global-set-key (kbd "<left>") 'previous-buffer)
-(global-set-key (kbd "<up>") 'other-window)
-(global-set-key (kbd "<down>") 'other-window)
-(global-set-key (kbd "C-z") 'undo)
-
 ;; I HATE ANNOYING SPLASH SCREEN
 (setq inhibit-splash-screen t)
 
@@ -33,7 +23,9 @@
 ;; local sources
 (setq el-get-sources
       '((:name magit
-               :after (lambda () (global-set-key (kbd "<f7>") 'magit-status)))
+               :after (lambda ()
+			(global-set-key (kbd "<f7>") 'magit-status)
+			(require 'magit-svn)))
 	(:name expand-region
 	       :type git
 	       :url "https://github.com/magnars/expand-region.el.git"
@@ -74,20 +66,15 @@
 (el-get 'sync my-packages)
 (el-get 'wait)
 
-(require 'magit)
-(require 'magit-svn)
-(require 'column-marker)
-(require 'linum)
-
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (blink-cursor-mode -1)
+
 (global-linum-mode 1)
 (column-number-mode 1)
 (ido-mode t)
 (global-hl-line-mode t)
-;; (show-paren-mode t)
 (which-func-mode t)
 
 
@@ -106,3 +93,4 @@
 (load "goodies/backups.el")
 (load "goodies/scrolling.el")
 (load "goodies/copying.el")
+(load "goodies/keys.el")
