@@ -60,6 +60,7 @@
        '(el-get color-theme python-mode vkill
 	 yaml-mode clojure-mode twittering-mode
 	 ;; fill-column-indicator
+	 ;; expand-region
 	 )
        (mapcar 'el-get-source-name el-get-sources)))
 
