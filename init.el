@@ -61,7 +61,10 @@
 
 (setq my-packages
       (append
-       '(el-get color-theme python-mode vkill yaml-mode clojure-mode twittering-mode)
+       '(el-get color-theme python-mode vkill
+	 yaml-mode clojure-mode twittering-mode
+	 ;; fill-column-indicator
+	 )
        (mapcar 'el-get-source-name el-get-sources)))
 
 (el-get 'sync my-packages)
@@ -87,24 +90,21 @@
 (global-hl-line-mode t)
 ;; (show-paren-mode t)
 (autopair-global-mode)
+(which-func-mode t)
+
 
 (when (and window-system (eq system-type 'darwin))
   (load "osx.el")) ;; OS X-specific init
 
 (load "stupids.el") ;; stupid utilities
+(load "languages/c.el")
+(load "languages/python.el")
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'reverse)
 (setq uniquify-separator "|")
 (setq uniquify-after-kill-buffer-p t)
 (setq uniquify-ignore-buffers-re "^\\*")
-
-(require 'cc-mode)
-(add-hook 'c-mode-common-hook
-          (lambda ()
-            (c-set-style "k&r")
-            (setq c-basic-offset 4)
-	    (setq indent-tabs-mode nil)))
 
 ;; clear up files before saving them
 (defun delete-trailing-blank-lines ()
@@ -124,36 +124,9 @@
 ;; (require 'highlight-parentheses)
 
 
-;; this should highlight any line longer than 80 symbols
-
-(which-func-mode t)
-
 (push '("." . "~/.emacs-backups") backup-directory-alist)
 
 ;; flymake special
-(require 'flymake)
-
-;; pylint checking
-(defun flymake-pylint-init ()
-  (let* ((temp-file (flymake-init-create-temp-buffer-copy
-		     'flymake-create-temp-inplace))
-	 (local-file (file-relative-name
-		      temp-file
-		      (file-name-directory buffer-file-name))))
-    (list "/usr/local/bin/epylint" (list local-file))))
-
-
-;; If I'm ever to change pylint to something else, I should just change init functions
-(defconst flymake-allowed-python-file-name-masks
-  '(("\\.py$" flymake-pylint-init)
-    (".*$" flymake-pylint-init)))
-
-(defun flymake-python-load ()
-  (setq flymake-allowed-file-name-masks
-	(append flymake-allowed-file-name-masks
-		flymake-allowed-python-file-name-masks))
-  (flymake-mode t))
-(add-hook 'python-mode-hook 'flymake-python-load)
 ;; (load-library "flymake-cursor")
 
 
