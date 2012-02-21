@@ -83,9 +83,6 @@
 (blink-cursor-mode -1)
 (global-linum-mode 1)
 (column-number-mode 1)
-(desktop-save-mode 1)
-(setq history-length 250)
-(add-to-list 'desktop-globals-to-save 'file-name-history)
 (ido-mode t)
 (global-hl-line-mode t)
 ;; (show-paren-mode t)
@@ -137,42 +134,6 @@
 (setq scroll-conservatively 50)
 (setq scroll-preserve-screen-position 't)
 
-(add-to-list 'desktop-modes-not-to-save 'dired-mode)
-(add-to-list 'desktop-modes-not-to-save 'Info-mode)
-(add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
-(add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
-
-;;kill buffers if they weren't active for this much seconds
-(setq clean-buffer-list-delay-special 1800)
-
-(defvar clean-buffer-list-timer nil
-  "Stores clean-buffer-list timer if there is one. You can disable clean-buffer-list by (cancel-timer clean-buffer-list-timer).")
-
-;; run clean-buffer-list every 2 hours
-(setq clean-buffer-list-timer (run-at-time t 3600 'clean-buffer-list))
-
-;; kill everything, clean-buffer-list is very intelligent at not killing
-;; unsaved buffer.
-(setq clean-buffer-list-kill-regexps
-      '("^.*$"))
-
-;; keep these buffer untouched
-;; prevent append multiple times
-(defvar clean-buffer-list-kill-never-buffer-names-init
-  clean-buffer-list-kill-never-buffer-names
-  "Init value for clean-buffer-list-kill-never-buffer-names")
-(setq clean-buffer-list-kill-never-buffer-names
-      (append
-       '("*Messages*" "*scratch*")
-       clean-buffer-list-kill-never-buffer-names-init))
-
-;; prevent append multiple times
-(defvar clean-buffer-list-kill-never-regexps-init
-  clean-buffer-list-kill-never-regexps
-  "Init value for clean-buffer-list-kill-never-regexps")
-
-(setq clean-buffer-list-kill-never-regexps
-      (append '("^.*\\.org$")
-	      clean-buffer-list-kill-never-regexps-init))
+(load "goodies/clean-buffers.el")
 
 (setq inferior-lisp-program "java -cp /home/mishok/.clojure/clojure.jar:/home/mishok/.clojure/clojure-contrib.jar clojure.main")
