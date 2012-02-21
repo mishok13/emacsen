@@ -1,7 +1,6 @@
 ;; .emacs
 ;; Andrii V. Mishkovskyi
 
-
 (add-to-list 'load-path "~/.emacs.d/")
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
@@ -17,6 +16,9 @@
 (global-set-key (kbd "<up>") 'other-window)
 (global-set-key (kbd "<down>") 'other-window)
 (global-set-key (kbd "C-z") 'undo)
+
+;; I HATE ANNOYING SPLASH SCREEN
+(setq inhibit-splash-screen t)
 
 ;; 1-2 letters shorter to type!
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -96,6 +98,7 @@
 (load "stupids.el") ;; stupid utilities
 (load "languages/c.el")
 (load "languages/python.el")
+(load "languages/clojure.el")
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'reverse)
@@ -117,15 +120,7 @@
 (add-hook 'before-save-hook 'delete-trailing-blank-lines)
 
 
-;; interesting mode for highlighting parens in different colors
-;; (require 'highlight-parentheses)
-
-
 (push '("." . "~/.emacs-backups") backup-directory-alist)
-
-;; flymake special
-;; (load-library "flymake-cursor")
-
 
 ;; this should enable copy from emacs to any other X frame
 (setq x-select-enable-clipboard t)
@@ -135,5 +130,4 @@
 (setq scroll-preserve-screen-position 't)
 
 (load "goodies/clean-buffers.el")
-
-(setq inferior-lisp-program "java -cp /home/mishok/.clojure/clojure.jar:/home/mishok/.clojure/clojure-contrib.jar clojure.main")
+(load "goodies/save-history.el")
