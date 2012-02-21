@@ -4,10 +4,7 @@
 (set-face-attribute 'default nil :font "Consolas-16")
 
 (add-to-list 'load-path "~/.emacs.d/")
-;; (add-to-list 'load-path "~/.emacs.d/color-theme")
-;; (add-to-list 'load-path "~/.emacs.d/color-theme/solarized/")
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-(add-to-list 'load-path "~/.emacs.d/twittering-mode/")
 
 (global-font-lock-mode t)
 (global-unset-key (kbd "<right>"))
@@ -41,14 +38,33 @@
      (end-of-buffer)
      (eval-print-last-sexp))))
 
+;; (require 'color-theme)
+;; (require 'color-theme-solarized)
+;; (eval-after-load "color-theme"
+;;   '(progn
+;;      (color-theme-initialize)
+;;      (color-theme-solarized-dark)))
+
 ;; local sources
 (setq el-get-sources
       '((:name magit
                :after (lambda () (global-set-key (kbd "<f7>") 'magit-status)))
+	(:name yasnippet
+	       :after (lambda () (yas/global-mode 1)))
 	(:name flymake-cursor
 	       :description "Flymake Cursor minor mode"
 	       :website "http://www.emacswiki.org/emacs/flymake-cursor.el"
-	       :type emacswiki)
+	       :type emacswiki
+	       :features flymake-cursor
+	       :load "flymake-cursor.el"
+	       :after (lambda ()
+			(global-set-key (kbd "<f3>") 'flymake-goto-next-error)
+			(global-set-key (kbd "<f4>") 'flymake-goto-prev-error)
+			(global-set-key (kbd "<f5>") 'flymake-display-err-menu-for-current-line)))
+	(:name color-theme-solarized
+	       :after (lambda ()
+			(color-theme-initialize)
+			(color-theme-solarized-dark)))
 	(:name highlight-parentheses
 	       :after (lambda () (autoload 'highlight-parentheses-mode "highlight-parentheses" nil t)
 			(dolist (hook '(python-mode-hook emacs-lisp-mode-hook))
@@ -56,14 +72,13 @@
 
 (setq my-packages
       (append
-       '(el-get yasnippet color-theme color-theme-solarized python-mode vkill yaml-mode clojure-mode twittering-mode)
+       '(el-get color-theme python-mode vkill yaml-mode clojure-mode twittering-mode)
        (mapcar 'el-get-source-name el-get-sources)))
 
 (el-get 'sync my-packages)
 (el-get 'wait)
 
 (require 'el-get)
-(require 'twittering-mode)
 (require 'midnight)
 (require 'autopair)
 (require 'magit)
@@ -71,62 +86,26 @@
 (require 'column-marker)
 (require 'linum)
 
-
-(require 'color-theme)
-(require 'color-theme-solarized)
-(eval-after-load "color-theme"
-  '(progn
-     (color-theme-initialize)
-     (color-theme-solarized-dark)))
-
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (global-hl-line-mode t)
 (show-paren-mode t)
 (blink-cursor-mode -1)
 (autopair-global-mode)
-(yas/global-mode 1)
-
-(defun set-exec-path-from-shell-PATH ()
-  (let ((path-from-shell (replace-regexp-in-string
-                          "[ \t\n]*$"
-                          ""
-                          (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
-    (setenv "PATH" path-from-shell)
-    (setq exec-path (split-string path-from-shell path-separator))))
 
 (when (and window-system (eq system-type 'darwin))
-  ;; When started from Emacs.app or similar, ensure $PATH
-  ;; is the same the user would see in Terminal.app
-  (set-exec-path-from-shell-PATH))
-
-
-; magit
-; highlight-parenthesis
-; yasnippet
-; color-theme: solarized
-
-
-
-
-
-
-(require 'yasnippet)
-;; (setq yas/snippet-dirs "~/.emacs.d/snippets")
-(yas/global-mode 1)
-
+  (load "osx.el"))
 
 (defun donuts ()
   "For the love of God"
   (interactive)
   (print "Mmmm, donuts."))
 
+
 (defun look-of-disapproval ()
   "Just in case we need this"
   (interactive)
   (insert "ಠ_ಠ"))
-
-;; (global-set-key [f7] 'magit-status)
 
 (require 'uniquify)
 (setq
@@ -162,21 +141,6 @@
 
 (which-func-mode t)
 
-;;'(flymake-allowed-file-name-masks (quote nil))
-;; Pymacs special
-;; (autoload 'pymacs-apply "pymacs")
-;; (autoload 'pymacs-call "pymacs")
-;; (autoload 'pymacs-eval "pymacs" nil t)
-;; (autoload 'pymacs-exec "pymacs" nil t)
-;; (autoload 'pymacs-load "pymacs" nil t)
-
-;; (define-globalized-minor-mode
-;;   global-highlight-parentheses-mode
-;;   highlight-parentheses-mode
-;;   highlight-parentheses-mode)
-;; (global-highlight-parentheses-mode)
-
-
 (setq uniquify-buffer-name-style 'reverse)
 (setq uniquify-separator "|")
 (setq uniquify-after-kill-buffer-p t)
@@ -186,10 +150,6 @@
 
 ;; flymake special
 (require 'flymake)
-(global-set-key [f3] 'flymake-display-err-menu-for-current-line)
-(global-set-key [f4] 'flymake-goto-next-error)
-(global-set-key [f5] 'flymake-goto-prev-error)
-(global-set-key [f2] 'other-frame)
 
 ;; pylint checking
 (defun flymake-pylint-init ()
@@ -206,12 +166,6 @@
   '(("\\.py$" flymake-pylint-init)
     (".*$" flymake-pylint-init)))
 
-;; Simple hook for python-mode + flymake
-;; (add-to-list 'load-path "~/.emacs.d/python-mode")
-;; python related stuff
-;; (autoload 'python-mode "python-mode" "Python Mode." t)
-;; (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
-;; (add-to-list 'interpreter-mode-alist '("python" . python-mode))
 (add-hook 'python-mode-hook
 	  (lambda ()
 	    (set (make-variable-buffer-local 'beginning-of-defun-function)
@@ -234,16 +188,12 @@
 (setq scroll-conservatively 50)
 (setq scroll-preserve-screen-position 't)
 
-;;(setq desktop-buffers-not-to-save
-;;      (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
-;;	      "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
-;;	      "\\)$"))
 (add-to-list 'desktop-modes-not-to-save 'dired-mode)
 (add-to-list 'desktop-modes-not-to-save 'Info-mode)
 (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
 (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
 
-;;kill buffers if they were last disabled more than this seconds ago
+;;kill buffers if they weren't active for this much seconds
 (setq clean-buffer-list-delay-special 1800)
 
 (defvar clean-buffer-list-timer nil
