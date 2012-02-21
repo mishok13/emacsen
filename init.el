@@ -61,6 +61,7 @@
 	 yaml-mode clojure-mode twittering-mode
 	 ;; fill-column-indicator
 	 ;; expand-region
+	 ;; rainbow-mode
 	 )
        (mapcar 'el-get-source-name el-get-sources)))
 
