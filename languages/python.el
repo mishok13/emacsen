@@ -1,4 +1,5 @@
 (require 'flymake)
+(require 'python-mode)
 
 ;; pylint checking
 (defun flymake-pylint-init ()
@@ -21,3 +22,11 @@
 		flymake-allowed-python-file-name-masks))
   (flymake-mode t))
 (add-hook 'python-mode-hook 'flymake-python-load)
+
+
+;; This makes tab-traversal correctly recognize function scope
+(add-hook 'python-mode-hook
+          (lambda ()
+            (set (make-variable-buffer-local 'beginning-of-defun-function)
+                 'py-beginning-of-def-or-class)
+            (setq outline-regexp "def\\|class ")))
