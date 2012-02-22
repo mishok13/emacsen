@@ -80,7 +80,7 @@
 (ido-mode t)
 (global-hl-line-mode t)
 (which-func-mode t)
-(indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
 
 
 (when (and window-system (eq system-type 'darwin))
