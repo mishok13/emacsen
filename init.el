@@ -87,6 +87,8 @@
   (load "osx.el")) ;; OS X-specific init
 
 (load "stupids.el") ;; stupid utilities
+
+;; Different languages support
 (load "languages/c.el")
 (load "languages/python.el")
 (load "languages/clojure.el")
