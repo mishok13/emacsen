@@ -1,5 +1,6 @@
 (require 'flymake)
 (require 'python-mode)
+(require 'autopair)
 
 ;; pylint checking
 (defun flymake-pylint-init ()
@@ -30,3 +31,10 @@
             (set (make-variable-buffer-local 'beginning-of-defun-function)
                  'py-beginning-of-def-or-class)
             (setq outline-regexp "def\\|class ")))
+
+
+(add-hook 'python-mode-hook
+          #'(lambda ()
+              (setq autopair-handle-action-fns
+                    (list #'autopair-default-handle-action
+                          #'autopair-python-triple-quote-action))))
