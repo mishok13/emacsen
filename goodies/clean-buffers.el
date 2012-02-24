@@ -12,11 +12,11 @@
 
 ;; Don't ever kill these buffers
 (add-to-list 'clean-buffer-list-kill-never-buffer-names
-	     '("*Messages*" "*scratch*" ":home" "*Python*"))
+	     '("*Messages*" "*scratch*" ":home"))
 
 ;; Every buffer that haven't been active for specified amount
 ;; of seconds will be considered "inactive" and will be closed
 ;; duing next clean-buffer-list run
 (setq clean-buffer-list-delay-special (* 60 60))
 
-;; (run-at-time t 3600 'clean-buffer-list)
+(run-at-time t 3600 'clean-buffer-list)
