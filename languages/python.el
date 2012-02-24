@@ -38,3 +38,10 @@
               (setq autopair-handle-action-fns
                     (list #'autopair-default-handle-action
                           #'autopair-python-triple-quote-action))))
+
+
+(global-set-key (kbd "<f6>") 'py-shell)
+
+
+;; (add-hook 'kill-emacs-hook
+;;           (lambda () )
