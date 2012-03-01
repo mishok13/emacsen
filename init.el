@@ -64,7 +64,7 @@
 (setq my-packages
       (append
        '(el-get color-theme python-mode vkill
-	 yaml-mode clojure-mode twittering-mode
+	 yaml-mode clojure-mode twittering-mode virtualenv
 	 ;; fill-column-indicator
 	 ;; expand-region
 	 ;; rainbow-mode

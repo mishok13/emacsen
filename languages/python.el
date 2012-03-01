@@ -1,6 +1,7 @@
 (require 'flymake)
 (require 'python-mode)
 (require 'autopair)
+(require 'virtualenv)
 
 ;; pylint checking
 (defun flymake-pylint-init ()
