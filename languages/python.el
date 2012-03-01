@@ -40,7 +40,11 @@
                           #'autopair-python-triple-quote-action))))
 
 
-(global-set-key (kbd "<f6>") 'py-shell)
+(define-key python-mode-map (kbd "<f2>") 'pep8)
+(define-key python-mode-map (kbd "<f3>") 'flymake-goto-next-error)
+(define-key python-mode-map (kbd "<f4>") 'flymake-goto-prev-error)
+(define-key python-mode-map (kbd "<f5>") 'flymake-display-err-menu-for-current-line)
+(define-key python-mode-map (kbd "<f6>") 'py-shell)
 
 
 ;; (add-hook 'kill-emacs-hook

@@ -39,17 +39,21 @@
 	       :website "http://www.emacswiki.org/emacs/flymake-cursor.el"
 	       :type emacswiki
 	       :features flymake-cursor
-	       :load "flymake-cursor.el"
-	       :after (lambda ()
-			(global-set-key (kbd "<f3>") 'flymake-goto-next-error)
-			(global-set-key (kbd "<f4>") 'flymake-goto-prev-error)
-			(global-set-key (kbd "<f5>") 'flymake-display-err-menu-for-current-line)))
+	       :load "flymake-cursor.el")
 	(:name color-theme-solarized
 	       :after (lambda ()
 			(color-theme-initialize)
 			(color-theme-solarized-dark)))
 	(:name autopair
 	       :after (lambda () (autopair-global-mode 1)))
+        (:name smex
+               :after (lambda ()
+                        (require 'smex)
+                        (smex-initialize)
+                        (global-set-key (kbd "M-x") 'smex)
+                        (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+                        (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)))
+        (:name python-pep8)
 	(:name highlight-parentheses
 	       :after (lambda ()
 			(define-globalized-minor-mode global-highlight-parentheses-mode
