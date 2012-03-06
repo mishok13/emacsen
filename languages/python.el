@@ -2,6 +2,11 @@
 (require 'python-mode)
 (require 'autopair)
 (require 'virtualenv)
+(require 'compile)
+
+
+;; don't run py-shell on startup
+(setq py-start-run-py-shell nil)
 
 ;; pylint checking
 (defun flymake-pylint-init ()
@@ -10,7 +15,7 @@
 	 (local-file (file-relative-name
 		      temp-file
 		      (file-name-directory buffer-file-name))))
-    (list "/usr/local/bin/epylint" (list local-file))))
+    (list "~/.emacs.d/tools/epylint" (list local-file))))
 
 
 ;; If I'm ever to change pylint to something else, I should just change init functions

@@ -11,10 +11,18 @@
 (setq clean-buffer-list-kill-regexps '("^.*$"))
 
 ;; Don't ever kill these buffers
-(add-to-list 'clean-buffer-list-kill-never-buffer-names
-	     '("*Messages*" "*scratch*" ":home"))
+;; (add-to-list 'clean-buffer-list-kill-never-buffer-names
+;;              '("*eshell*"
+;;                "*ielm*"
+;;                "*mail*"
+;;                "*w3m*"
+;;                "*w3m-cache*"))
+(setq clean-buffer-list-kill-never-buffer-names
+      '("*Messages*" "*scratch*" ":home" "*server*"))
+;; (add-to-list 'clean-buffer-list-kill-never-buffer-names
+;; 	     '("*Messages*" "*scratch*" ":home"))
 
-;; Every buffer that haven't been active for specified amount
+;; every buffer that haven't been active for specified amount
 ;; of seconds will be considered "inactive" and will be closed
 ;; duing next clean-buffer-list run
 (setq clean-buffer-list-delay-special (* 60 60))

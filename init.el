@@ -53,7 +53,9 @@
                         (global-set-key (kbd "M-x") 'smex)
                         (global-set-key (kbd "M-X") 'smex-major-mode-commands)
                         (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)))
-        (:name python-pep8)
+        (:name twittering-mode
+               :after (lambda ()
+                        (setq twittering-use-master-password t)))
 	(:name highlight-parentheses
 	       :after (lambda ()
 			(define-globalized-minor-mode global-highlight-parentheses-mode
@@ -64,23 +66,40 @@
 (setq my-packages
       (append
        '(el-get color-theme python-mode vkill
-	 yaml-mode clojure-mode twittering-mode virtualenv
+	 yaml-mode clojure-mode virtualenv python-pep8
+         maxframe ;; needed for stupid mac
 	 ;; fill-column-indicator
+         ;; selective-display
+         ;; hideshow
 	 ;; expand-region
 	 ;; rainbow-mode
+         ;; zencoding-mode
+         ;; iedit http://emacs-fu.blogspot.com/2010/02/interactive-replacement.html
+         ;; anything
+         ;; workgroups https://github.com/tlh/workgroups.el
+         ;; org-mode
+         ;; org-babel
+         ;; dizzee
+         ;; easypg
+         ;; remember
+         ;; erc
+         ;; http://www.reddit.com/r/emacs/comments/pm9n7/what_are_your_musthave_modes/
 	 )
        (mapcar 'el-get-source-name el-get-sources)))
 
 (el-get 'sync my-packages)
 (el-get 'wait)
 
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(blink-cursor-mode -1)
+(tool-bar-mode 0)
+(menu-bar-mode 0)
+(tooltip-mode 0)
+(setq initial-scratch-message nil)
+(scroll-bar-mode 0)
+(blink-cursor-mode 0)
+(line-move-visual 0)
 
-(global-linum-mode 1)
-(column-number-mode 1)
+(global-linum-mode t)
+(column-number-mode t)
 (ido-mode t)
 (global-hl-line-mode t)
 (which-func-mode t)
