@@ -117,10 +117,10 @@
 (load "languages/clojure.el")
 
 (load "goodies/clean-buffers.el")
-(load "goodies/save-history.el")
 (load "goodies/uniquify-buffer-names.el")
 (load "goodies/remove-trailing-whitespace.el")
 (load "goodies/backups.el")
 (load "goodies/scrolling.el")
 (load "goodies/copying.el")
 (load "goodies/keys.el")
+(load "goodies/save-history.el")
