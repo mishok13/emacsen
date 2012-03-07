@@ -4,6 +4,13 @@
 (require 'virtualenv)
 (require 'compile)
 
+;; Python-mode keybindings
+(define-key python-mode-map (kbd "<f2>") 'pep8)
+(define-key python-mode-map (kbd "<f3>") 'flymake-goto-next-error)
+(define-key python-mode-map (kbd "<f4>") 'flymake-goto-prev-error)
+(define-key python-mode-map (kbd "<f5>") 'flymake-display-err-menu-for-current-line)
+(define-key python-mode-map (kbd "<f6>") 'py-shell)
+(define-key python-mode-map (kbd "<f7>") 'compile)
 
 ;; don't run py-shell on startup
 (setq py-start-run-py-shell nil)
@@ -17,7 +24,7 @@
 		      (file-name-directory buffer-file-name))))
     (list "~/.emacs.d/tools/epylint"
           (if virtualenv-default-directory
-              (list (format "-w %s" virtualenv-default-directory) local-file)
+              (list (format "-w %s " virtualenv-default-directory) local-file)
             (list local-file)))))
 
 
@@ -27,13 +34,16 @@
 ;;     (".*$" flymake-pylint-init)))
 
 (defun flymake-python-init ()
-  (message (format "wtf: %s" 'virtualenv-default-directory))
   (add-to-list 'flymake-allowed-file-name-masks
                '("\\.py$" flymake-pylint-init))
-  (add-to-list 'flymake-allowed-file-name-masks
-               '(".*$" flymake-pylint-init))
   (flymake-mode t))
-(add-hook 'python-mode-hook 'flymake-python-init)
+
+(add-hook 'python-mode-hook
+          ;; make sure flymake-python-init is only called after all buffer-local
+          ;; variables have been loaded
+          ;; this enables use for .dir-locals.el + virtualenv.el for pylint checks
+          (lambda ()
+            (add-hook 'hack-local-variables-hook 'flymake-python-init)))
 
 
 ;; This makes tab-traversal correctly recognize function scope
@@ -49,10 +59,3 @@
               (setq autopair-handle-action-fns
                     (list #'autopair-default-handle-action
                           #'autopair-python-triple-quote-action))))
-
-
-(define-key python-mode-map (kbd "<f2>") 'pep8)
-(define-key python-mode-map (kbd "<f3>") 'flymake-goto-next-error)
-(define-key python-mode-map (kbd "<f4>") 'flymake-goto-prev-error)
-(define-key python-mode-map (kbd "<f5>") 'flymake-display-err-menu-for-current-line)
-(define-key python-mode-map (kbd "<f6>") 'py-shell)

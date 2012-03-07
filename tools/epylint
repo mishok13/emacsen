@@ -7,11 +7,13 @@ from os import environ
 from subprocess import Popen, PIPE
 
 def main(source, working_dir):
-    env = environ.copy()
     if working_dir:
-        env['PYTHONPATH'] = working_dir
-    p = Popen("pylint -f parseable -r n {}".format(source),
-              shell=True, stdout=PIPE, env=env)
+        command = 'PYTHONPATH={} pylint -f parseable -r n {}'.format(working_dir.strip(), source)
+    else:
+        command = "pylint -f parseable -r n {}".format(source)
+    with open('/tmp/pylint.out', 'a') as f:
+        f.write('command is: {}\n'.format(command))
+    p = Popen(command, shell=True, stdout=PIPE)
     stdout = p.communicate()[0]
     fullpattern = re.compile("(.*?):" # filename
                              "([0-9]):" # line number
