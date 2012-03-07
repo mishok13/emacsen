@@ -15,20 +15,25 @@
 	 (local-file (file-relative-name
 		      temp-file
 		      (file-name-directory buffer-file-name))))
-    (list "~/.emacs.d/tools/epylint" (list local-file))))
+    (list (if virtualenv-default-directory
+          (format "~/.emacs.d/tools/epylint -w %s" virtualenv-default-directory)
+          "~/.emacs.d/tools/epylint")
+          (list local-file))))
 
 
 ;; If I'm ever to change pylint to something else, I should just change init functions
-(defconst flymake-allowed-python-file-name-masks
-  '(("\\.py$" flymake-pylint-init)
-    (".*$" flymake-pylint-init)))
+;; (defconst flymake-allowed-python-file-name-masks
+;;   '(("\\.py$" flymake-pylint-init)
+;;     (".*$" flymake-pylint-init)))
 
-(defun flymake-python-load ()
-  (setq flymake-allowed-file-name-masks
-	(append flymake-allowed-file-name-masks
-		flymake-allowed-python-file-name-masks))
+(defun flymake-python-init ()
+  (message (format "wtf: %s" 'virtualenv-default-directory))
+  (add-to-list 'flymake-allowed-file-name-masks
+               '("\\.py$" flymake-pylint-init))
+  (add-to-list 'flymake-allowed-file-name-masks
+               '(".*$" flymake-pylint-init))
   (flymake-mode t))
-(add-hook 'python-mode-hook 'flymake-python-load)
+(add-hook 'python-mode-hook 'flymake-python-init)
 
 
 ;; This makes tab-traversal correctly recognize function scope
@@ -51,7 +56,3 @@
 (define-key python-mode-map (kbd "<f4>") 'flymake-goto-prev-error)
 (define-key python-mode-map (kbd "<f5>") 'flymake-display-err-menu-for-current-line)
 (define-key python-mode-map (kbd "<f6>") 'py-shell)
-
-
-;; (add-hook 'kill-emacs-hook
-;;           (lambda () )
