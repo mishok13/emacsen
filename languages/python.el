@@ -15,10 +15,10 @@
 	 (local-file (file-relative-name
 		      temp-file
 		      (file-name-directory buffer-file-name))))
-    (list (if virtualenv-default-directory
-          (format "~/.emacs.d/tools/epylint -w %s" virtualenv-default-directory)
-          "~/.emacs.d/tools/epylint")
-          (list local-file))))
+    (list "~/.emacs.d/tools/epylint"
+          (if virtualenv-default-directory
+              (list (format "-w %s" virtualenv-default-directory) local-file)
+            (list local-file)))))
 
 
 ;; If I'm ever to change pylint to something else, I should just change init functions
