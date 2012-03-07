@@ -15,6 +15,9 @@
 ;; don't run py-shell on startup
 (setq py-start-run-py-shell nil)
 
+;; default path to epylint
+(setq epylint-path "~/.emacs.d/tools/epylint.py")
+
 ;; pylint checking
 (defun flymake-pylint-init ()
   (let* ((temp-file (flymake-init-create-temp-buffer-copy
@@ -22,7 +25,7 @@
 	 (local-file (file-relative-name
 		      temp-file
 		      (file-name-directory buffer-file-name))))
-    (list "~/.emacs.d/tools/epylint"
+    (list epylint-path
           (if virtualenv-default-directory
               (list (format "-w %s " virtualenv-default-directory) local-file)
             (list local-file)))))
