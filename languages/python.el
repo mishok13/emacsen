@@ -10,7 +10,7 @@
 (define-key python-mode-map (kbd "<f4>") 'flymake-goto-prev-error)
 (define-key python-mode-map (kbd "<f5>") 'flymake-display-err-menu-for-current-line)
 (define-key python-mode-map (kbd "<f6>") 'py-shell)
-(define-key python-mode-map (kbd "<f7>") 'compile)
+(define-key python-mode-map (kbd "<f8>") 'compile)
 
 ;; don't run py-shell on startup
 (setq py-start-run-py-shell nil)
