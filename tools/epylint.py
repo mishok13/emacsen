@@ -11,6 +11,7 @@ from subprocess import Popen, PIPE
 
 def main(source, working_dir):
     """Main entry point"""
+    # TODO: add support for project local pylint.rc's
     if working_dir:
         command = 'PYTHONPATH={} pylint -f parseable -r n {}'.format(
             working_dir.strip(), source)
@@ -34,7 +35,7 @@ def main(source, working_dir):
             description = description.strip()
             level = {'E': 'Error', 'F': 'Error'}.get(errtype, 'Warning')
             print(('{level} {error_type}{error_id} '
-                   '{description} {path} {line}').format(
+                   '{description} at {path} line {line}.').format(
                        level=level, error_type=errtype,
                        error_id=errnum, description=description,
                        path=filename, line=linenum))
