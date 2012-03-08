@@ -18,6 +18,8 @@
 ;; default path to epylint
 (setq epylint-path "~/.emacs.d/tools/epylint.py")
 
+(setq flymake-log-level 0)
+
 ;; pylint checking
 (defun flymake-pylint-init ()
   (let* ((temp-file (flymake-init-create-temp-buffer-copy
