@@ -9,3 +9,4 @@
 (global-set-key (kbd "<up>") 'other-window)
 (global-set-key (kbd "<down>") 'other-window)
 (global-set-key (kbd "C-z") 'undo)
+(global-set-key (kbd "M-o") 'ido-switch-buffer)
