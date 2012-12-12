@@ -1,0 +1,9 @@
+(:name four-clj
+       :website "https://github.com/dcluna/4clj-el"
+       :description "Emacs minor mode for 4Clojure"
+       :type git
+       :branch "master"
+       :url "https://github.com/dcluna/4clj-el.git"
+       :features four-clj
+       :load "four-clj.el"
+       :compile "four-clj.el")
