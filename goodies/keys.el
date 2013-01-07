@@ -17,3 +17,11 @@
 
 
 (global-set-key (kbd "<f8>") 'org-capture)
+
+(require 'expand-region)
+(global-set-key (kbd "C-@") 'er/expand-region)
+
+(require 'smex)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
