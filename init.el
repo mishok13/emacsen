@@ -127,7 +127,8 @@
 (load "goodies/git.el")
 
 (set-face-attribute 'default (not 'this-frame-only)
-                    :font "Consolas")
+                    :font "Consolas"
+                    :height 120)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
