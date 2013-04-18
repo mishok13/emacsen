@@ -46,7 +46,9 @@
 
 
 (global-font-lock-mode t)
-(set-face-attribute 'default nil :font "Consolas-16")
+(set-face-attribute 'default (not 'this-frame-only)
+                    :font "Consolas"
+                    :height 120)
 
 ;; I HATE ANNOYING SPLASH SCREEN
 (setq inhibit-splash-screen t)
@@ -126,9 +128,6 @@
 (load "goodies/org.el")
 (load "goodies/git.el")
 
-(set-face-attribute 'default (not 'this-frame-only)
-                    :font "Consolas"
-                    :height 120)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
