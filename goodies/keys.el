@@ -15,6 +15,8 @@
 (global-set-key (kbd "C-z") 'undo)
 (global-set-key (kbd "M-o") 'ido-switch-buffer)
 
+(global-set-key (kbd "<f4>") 'flycheck-previous-error)
+(global-set-key (kbd "<f5>") 'flycheck-next-error)
 
 (global-set-key (kbd "<f8>") 'org-capture)
 
