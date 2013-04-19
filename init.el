@@ -127,6 +127,7 @@
 (load "goodies/open-files.el")
 (load "goodies/org.el")
 (load "goodies/git.el")
+(load "goodies/flyspell.el")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
