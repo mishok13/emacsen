@@ -81,7 +81,7 @@
 (global-highlight-parentheses-mode t)
 
 (require 'powerline)
-(powerline-default)
+(powerline-default-theme)
 
 (require 'paredit)
 (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
