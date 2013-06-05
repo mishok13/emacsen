@@ -60,7 +60,7 @@
 (load-theme 'mishok-dark t)
 
 (require 'yasnippet)
-(yas/global-mode t)
+(yas-global-mode t)
 
 (require 'autopair)
 (autopair-global-mode t)
