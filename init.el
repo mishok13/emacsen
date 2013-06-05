@@ -128,6 +128,8 @@
 (load "goodies/org.el")
 (load "goodies/git.el")
 (load "goodies/flyspell.el")
+(load "goodies/undo.el")
+(load "goodies/nrepl.el")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
