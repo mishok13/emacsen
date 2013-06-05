@@ -101,7 +101,7 @@
 (column-number-mode t)
 (ido-mode t)
 (global-hl-line-mode t)
-(which-func-mode t)
+(which-function-mode t)
 (setq-default indent-tabs-mode nil)
 
 
