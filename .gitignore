@@ -3,3 +3,4 @@ el-get/
 elpa/
 backups/
 auto-save-list/
+*.elc
