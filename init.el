@@ -21,32 +21,64 @@
 
 ;; This should be moved to another module, to speedup startup time
 (defvar prelude-packages
-  '(clojure-snippets ack-and-a-half auctex autopair expand-region
-    fill-column-indicator flycheck flymake-cursor helm highlight-parentheses
-    kibit-mode magit markdown-mode nrepl-ritz fringe-helper nrepl clojure-mode
-    org paredit php-mode powerline projectile dash python-mode python-pep8
-    rainbow-mode s smex twittering-mode virtualenv yasnippet zencoding-mode)
+  '(ack-and-a-half
+    auctex
+    autopair
+    clojure-mode
+    dash
+    emmet-mode
+    expand-region
+    fill-column-indicator
+    flycheck
+    flymake
+    flymake-cursor
+    fringe-helper
+    helm
+    highlight-parentheses
+    js2-mode
+    js3-mode
+    kibit-mode
+    magit
+    markdown-mode
+    nrepl
+    nrepl-ritz
+    org
+    paredit
+    pivotal-tracker
+    powerline
+    projectile
+    pymacs
+    python-pep8
+    rainbow-mode
+    rect-mark
+    s
+    scala-mode2
+    smart-tabs-mode
+    smex
+    twittering-mode
+    undo-tree
+    virtualenv
+    yaml-mode
+    zencoding-mode)
   "A list of packages to ensure are installed at launch.")
 
+(require 'cl)
 (defun prelude-packages-installed-p ()
-  (loop for p in prelude-packages
-        when (not (package-installed-p p)) do (return nil)
-        finally (return t)))
+  "Check if all packages in `prelude-packages' are installed."
+  (every #'package-installed-p prelude-packages))
 
-(unless (prelude-packages-installed-p)
-  ;; check for new packages (package versions)
-  (message "%s" "Emacs Prelude is now refreshing its package database...")
-  (package-refresh-contents)
-  (message "%s" " done.")
-  ;; install the missing packages
-  (dolist (p prelude-packages)
-    (when (not (package-installed-p p))
-      (package-install p))))
+(defun prelude-install-packages ()
+  "Install all packages listed in `prelude-packages'."
+  (unless (prelude-packages-installed-p)
+    ;; check for new packages (package versions)
+    (message "%s" "Emacs Prelude is now refreshing its package database...")
+    (package-refresh-contents)
+    (message "%s" " done.")
+    ;; install the missing packages
+    (mapc #'package-install
+     (remove-if #'package-installed-p prelude-packages))))
 
-(provide 'prelude-packages)
-
-
-
+(prelude-install-packages)
 
 (global-font-lock-mode t)
 (set-face-attribute 'default (not 'this-frame-only)
@@ -61,9 +93,6 @@
 
 
 (load-theme 'mishok-dark t)
-
-(require 'yasnippet)
-(yas-global-mode t)
 
 (require 'autopair)
 (autopair-global-mode t)
@@ -88,9 +117,7 @@
 
 (require 'paredit)
 (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
-(add-hook 'clojure-mode-hook 'enable-paredit-mode)
 (add-hook 'lisp-mode-hook 'enable-paredit-mode)
-(add-hook 'clojure-mode-hook 'enable-paredit-mode)
 
 (tool-bar-mode 0)
 (menu-bar-mode 0)
@@ -115,10 +142,10 @@
 
 ;; Different languages support
 (load "languages/c.el")
-(load "languages/python.el")
+;; (load "languages/python.el")
 (load "languages/clojure.el")
 
-(load "goodies/flymake-init.el")
+;; (load "goodies/flymake-init.el")
 (load "goodies/clean-buffers.el")
 (load "goodies/uniquify-buffer-names.el")
 (load "goodies/remove-trailing-whitespace.el")
@@ -132,7 +159,33 @@
 (load "goodies/git.el")
 (load "goodies/flyspell.el")
 (load "goodies/undo.el")
-(load "goodies/nrepl.el")
+
+(require 'flycheck)
+(add-hook 'after-init-hook #'global-flycheck-mode)
+(defun flymake-xml-init ())
+(defun flymake-java-init ())
+
+
+(require 'emmet-mode)
+(setq emmet-preview-default nil)
+(define-key emmet-mode-keymap (kbd "C-j") 'newline-and-indent)
+(define-key emmet-mode-keymap (kbd "C-m") 'emmet-expand-line)
+
+
+(require 'flyspell)
+(add-hook 'markdown-mode-hook 'flyspell-mode)
+(define-key flyspell-mode-map (kbd "<f2>") 'ispell-word)
+(define-key flyspell-mode-map (kbd "<f3>") 'flyspell-buffer)
+(define-key flyspell-mode-map (kbd "<f4>") 'flyspell-check-previous-highlighted-word)
+(defun flyspell-check-next-highlighted-word ()
+  "Custom function to spell check next highlighted word"
+  (interactive)
+  (flyspell-goto-next-error)
+  (ispell-word))
+(define-key flyspell-mode-map (kbd "<f5>") 'flyspell-check-next-highlighted-word)
+
+
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
