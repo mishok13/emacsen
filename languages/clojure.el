@@ -1,9 +1,17 @@
+(require 'nrepl)
+(require 'paredit)
 (require 'clojure-mode)
 (require 'kibit-mode)
 
-(add-hook 'nrepl-interaction-mode-hook 'my-nrepl-mode-setup)
-(defun my-nrepl-mode-setup ()
-  (require 'nrepl-ritz))
+;; (add-to-list 'same-window-buffer-names "*nrepl*")
+
+(add-hook 'nrepl-connected-hook 'bury-buffer) ;;; don't send me to the repl on connect
+;; (add-hook 'nrepl-connected-hook 'reset-nrepl-connection-to-default)
+;;; always default to first connection
+
+;; (add-hook 'nrepl-interaction-mode-hook 'my-nrepl-mode-setup)
+;; (defun my-nrepl-mode-setup ()
+;;   (require 'nrepl-ritz))
 
 
 (defun mishok-pretty-partial ()
@@ -34,5 +42,7 @@
 (add-hook 'clojure-mode-hook 'mishok-pretty-partial)
 (add-hook 'clojure-mode-hook 'mishok-pretty-comp)
 (add-hook 'clojure-mode-hook 'fci-mode)
-(add-hook 'clojure-mode-hook 'flycheck-mode)
 (add-hook 'clojure-mode-hook 'kibit-mode)
+(add-hook 'clojure-mode-hook 'enable-paredit-mode)
+(add-hook 'nrepl-mode-hook 'paredit-mode)
+(add-hook 'nrepl-interaction-mode-hook 'nrepl-turn-on-eldoc-mode)
