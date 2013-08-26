@@ -1,6 +1,9 @@
 ;; .emacs
 ;; Andrii V. Mishkovskyi
 
+;; Recompile everything on startup
+(byte-recompile-directory (expand-file-name "~/.emacs.d") 0)
+
 (add-to-list 'load-path "~/.emacs.d/")
 
 (require 'package)
