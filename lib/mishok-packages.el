@@ -75,5 +75,5 @@
 
 (prelude-install-packages)
 
-(provide 'mishok)
+(provide 'mishok-packages)
 ;;; mishok-packages ends here

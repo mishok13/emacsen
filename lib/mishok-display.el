@@ -3,6 +3,8 @@
 ;;; Code:
 
 (require 'powerline)
+(require 'uniquify)
+
 
 ;; Switch off splash screen at Emacs startup
 (setq inhibit-splash-screen t)
@@ -26,7 +28,7 @@
                     :font "Consolas"
                     :height 120)
 
-(load-theme 'mishok-dark t)
+(load-theme 'zenburn t)
 
 (powerline-default-theme)
 ;; (add-hook 'after-setting-font-hook 'powerline-reset)
@@ -39,5 +41,27 @@
 (setq minibuffer-prompt-properties
       (plist-put minibuffer-prompt-properties 'point-entered 'minibuffer-avoid-prompt))
 
+;; 1-2 letters shorter to type!
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; Set up cleaning of unused buffers
+(run-at-time t 3600 'clean-buffer-list)
+
+;; Make sure every file name has unique name
+(setq uniquify-buffer-name-style 'reverse)
+(setq uniquify-separator "|")
+(setq uniquify-after-kill-buffer-p t)
+(setq uniquify-ignore-buffers-re "^\\*")
+;; Setup scrolling behaviour
+
+;; make scroll behave more like notepad, he-he
+(setq scroll-conservatively 10000)
+(setq scroll-step 1)
+(setq scroll-preserve-screen-position 't)
+(require 'smex)
+(smex-initialize)
+
 (provide 'mishok-display)
 ;;; mishok-display ends here
+
+
