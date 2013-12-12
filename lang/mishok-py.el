@@ -1,7 +1,6 @@
 ;;; mishok-py --- Python setup
 ;;; Commentary:
 ;;; Code:
-
 (require 'python)
 
 (provide 'mishok-py)
