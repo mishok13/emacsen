@@ -1,7 +1,7 @@
-(require 'nrepl)
+(require 'cider)
+
 (require 'paredit)
 (require 'clojure-mode)
-(require 'kibit-mode)
 
 ;; (add-to-list 'same-window-buffer-names "*nrepl*")
 
@@ -41,8 +41,13 @@
 (add-hook 'clojure-mode-hook 'mishok-pretty-fn)
 (add-hook 'clojure-mode-hook 'mishok-pretty-partial)
 (add-hook 'clojure-mode-hook 'mishok-pretty-comp)
-(add-hook 'clojure-mode-hook 'fci-mode)
-(add-hook 'clojure-mode-hook 'kibit-mode)
+
+;; (add-hook 'clojure-mode-hook 'kibit-mode)
 (add-hook 'clojure-mode-hook 'enable-paredit-mode)
-(add-hook 'nrepl-mode-hook 'paredit-mode)
-(add-hook 'nrepl-interaction-mode-hook 'nrepl-turn-on-eldoc-mode)
+;; (add-hook 'nrepl-mode-hook 'paredit-mode)
+;; (add-hook 'nrepl-interaction-mode-hook 'nrepl-turn-on-eldoc-mode)
+(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+(setq cider-popup-stacktraces nil)
+(setq cider-repl-popup-stacktraces t)
+(setq cider-repl-history-file "/tmp/replhistory")
+(add-hook 'cider-repl-mode-hook 'paredit-mode)

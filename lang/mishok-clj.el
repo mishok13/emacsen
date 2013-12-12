@@ -5,6 +5,17 @@
 (require 'cider)
 (require 'paredit)
 
+;; Enable Paredit for Clojure source code
+(add-hook 'clojure-mode-hook 'enable-paredit-mode)
+
+;; Cider (formerly nrepl.el) setup
+(setq cider-popup-stacktraces nil)
+(setq cider-repl-popup-stacktraces t)
+(setq cider-repl-history-file "/tmp/replhistory")
+(add-hook 'cider-repl-mode-hook 'paredit-mode)
+(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+
+;; Pretty printing for partial, comp and fn form
 (defun mishok-pretty-partial ()
   (font-lock-add-keywords nil
                           `(("(\\(partial\\)[[:space:]]"
@@ -32,14 +43,6 @@
 (add-hook 'clojure-mode-hook 'mishok-pretty-fn)
 (add-hook 'clojure-mode-hook 'mishok-pretty-partial)
 (add-hook 'clojure-mode-hook 'mishok-pretty-comp)
-(add-hook 'clojure-mode-hook 'fci-mode)
-(add-hook 'clojure-mode-hook 'enable-paredit-mode)
-(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
-(setq cider-popup-stacktraces nil)
-(setq cider-repl-popup-stacktraces t)
-(setq cider-repl-history-file "/tmp/replhistory")
-(add-hook 'cider-repl-mode-hook 'paredit-mode)
-
 
 (provide 'mishok-clj)
 ;;; mishok-clj ends here
