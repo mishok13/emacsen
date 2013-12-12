@@ -6,6 +6,11 @@
 
 (require 'mishok-packages)
 (require 'mishok-editing)
+(require 'mishok-keybindings)
+(require 'mishok-git)
+(require 'mishok-twit)
+(require 'mishok-utils)
+(require 'mishok-org)
 (require 'mishok-display)
 
 ;; (projectile-global-mode)

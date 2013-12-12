@@ -9,3 +9,5 @@
              "* On %U:\n%?  %i\n")
         ("j" "Journal" entry (file+datetree (concat org-directory "/journal.org"))
              "* %?\nEntered on %U\n  %i\n  %a")))
+
+(provide 'mishok-org)

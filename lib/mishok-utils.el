@@ -8,3 +8,5 @@
   "Just in case we need this"
   (interactive)
   (insert "ಠ_ಠ"))
+
+(provide 'mishok-utils)

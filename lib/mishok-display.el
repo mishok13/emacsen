@@ -4,7 +4,10 @@
 
 (require 'powerline)
 (require 'uniquify)
+(require 'smex)
 
+(custom-set-variables
+ '(initial-frame-alist (quote ((fullscreen . maximized)))))
 
 ;; Switch off splash screen at Emacs startup
 (setq inhibit-splash-screen t)
@@ -28,10 +31,8 @@
                     :font "Consolas"
                     :height 120)
 
-(load-theme 'zenburn t)
-
 (powerline-default-theme)
-;; (add-hook 'after-setting-font-hook 'powerline-reset)
+(add-hook 'window-setup-hook 'powerline-reset)
 
 ;; Make scrolling with C-v work on last page, instead of notifying
 ;; "end of buffer" error
@@ -58,10 +59,11 @@
 (setq scroll-conservatively 10000)
 (setq scroll-step 1)
 (setq scroll-preserve-screen-position 't)
-(require 'smex)
+
+;; Make your M-x autocomplete commands
 (smex-initialize)
+
+(load-theme 'zenburn t)
 
 (provide 'mishok-display)
 ;;; mishok-display ends here
-
-
