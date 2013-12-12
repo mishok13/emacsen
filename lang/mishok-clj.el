@@ -4,9 +4,11 @@
 (require 'clojure-mode)
 (require 'cider)
 (require 'paredit)
+(require 'rainbow-delimiters)
 
-;; Enable Paredit for Clojure source code
+;; Clojure source code editing setup
 (add-hook 'clojure-mode-hook 'enable-paredit-mode)
+(add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
 
 ;; Cider (formerly nrepl.el) setup
 (setq cider-popup-stacktraces nil)

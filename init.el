@@ -1,99 +1,11 @@
 ;; .emacs
 ;; Andrii V. Mishkovskyi
 
-;; Recompile everything on startup
-(byte-recompile-directory (expand-file-name "~/.emacs.d") 0)
-
 (add-to-list 'load-path "~/.emacs.d/")
 
-(require 'package)
-(add-to-list 'package-archives
-             '("tromey" . "http://tromey.com/elpa/") t)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/"))
-
-(package-initialize)
-
-(when (not package-archive-contents)
-  (package-refresh-contents))
-
-;; This should be moved to another module, to speedup startup time
-(defvar prelude-packages
-  '(ack-and-a-half
-    auctex
-    autopair
-    clojure-mode
-    dash
-    emmet-mode
-    expand-region
-    fill-column-indicator
-    flycheck
-    flymake
-    flymake-cursor
-    fringe-helper
-    helm
-    highlight-parentheses
-    js2-mode
-    js3-mode
-    kibit-mode
-    magit
-    magit-svn
-    markdown-mode
-    nrepl
-    nrepl-ritz
-    org
-    paredit
-    pivotal-tracker
-    powerline
-    projectile
-    pymacs
-    python-pep8
-    rainbow-mode
-    rect-mark
-    s
-    scala-mode2
-    smart-tabs-mode
-    smex
-    twittering-mode
-    undo-tree
-    virtualenv
-    yaml-mode
-    zencoding-mode)
-  "A list of packages to ensure are installed at launch.")
-
-(require 'cl)
-(defun prelude-packages-installed-p ()
-  "Check if all packages in `prelude-packages' are installed."
-  (every #'package-installed-p prelude-packages))
-
-(defun prelude-install-packages ()
-  "Install all packages listed in `prelude-packages'."
-  (unless (prelude-packages-installed-p)
-    ;; check for new packages (package versions)
-    (message "%s" "Emacs Prelude is now refreshing its package database...")
-    (package-refresh-contents)
-    (message "%s" " done.")
-    ;; install the missing packages
-    (mapc #'package-install
-     (remove-if #'package-installed-p prelude-packages))))
-
-(prelude-install-packages)
-
-(global-font-lock-mode t)
-(set-face-attribute 'default (not 'this-frame-only)
-                    :font "Consolas"
-                    :height 120)
-
-;; I HATE ANNOYING SPLASH SCREEN
-(setq inhibit-splash-screen t)
-
+(projectile-global-mode)
 ;; 1-2 letters shorter to type!
 (fset 'yes-or-no-p 'y-or-n-p)
-
-
-(load-theme 'mishok-dark t)
 
 (require 'autopair)
 (autopair-global-mode t)
@@ -101,44 +13,9 @@
 (require 'smex)
 (smex-initialize)
 
-(require 'twittering-mode)
-(setq twittering-use-master-password t)
 
-(require 'fill-column-indicator)
-(setq-default fill-column 80)
-
-
-(define-globalized-minor-mode global-highlight-parentheses-mode
- highlight-parentheses-mode
- (lambda () (highlight-parentheses-mode t)))
-(global-highlight-parentheses-mode t)
-
-(require 'powerline)
-(powerline-default-theme)
-(add-hook 'after-setting-font-hook 'powerline-reset)
-
-(require 'paredit)
-(add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
-(add-hook 'lisp-mode-hook 'enable-paredit-mode)
-
-(tool-bar-mode 0)
-(menu-bar-mode 0)
-(tooltip-mode 0)
-(setq initial-scratch-message nil)
-(scroll-bar-mode 0)
-(blink-cursor-mode 0)
-(line-move-visual 0)
-
-(global-linum-mode t)
-(column-number-mode t)
 (ido-mode t)
-(global-hl-line-mode t)
-(which-function-mode t)
 (setq-default indent-tabs-mode nil)
-
-
-(when (and window-system (eq system-type 'darwin))
-  (load "osx.el")) ;; OS X-specific init
 
 (load "stupids.el") ;; stupid utilities
 
