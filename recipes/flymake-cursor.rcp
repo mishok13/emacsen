@@ -1,6 +1,0 @@
-(:name flymake-cursor
-       :description "Flymake Cursor minor mode"
-       :website "http://www.emacswiki.org/emacs/flymake-cursor.el"
-       :type emacswiki
-       :features flymake-cursor
-       :load "flymake-cursor.el")
