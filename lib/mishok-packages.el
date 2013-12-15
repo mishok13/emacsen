@@ -55,6 +55,7 @@
     undo-tree
     virtualenv
     yaml-mode
+    rainbow-delimiters
     zencoding-mode)
   "A list of packages to ensure are installed at launch.")
 
