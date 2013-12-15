@@ -8,6 +8,7 @@
 (require 'flx-ido)
 (require 'recentf)
 (require 'flyspell)
+(require 'undo-tree)
 
 (ido-mode t)
 (ido-everywhere t)
@@ -91,6 +92,7 @@
 (define-key flyspell-mode-map (kbd "<f5>") 'flyspell-check-next-highlighted-word)
 
 (projectile-global-mode)
+(global-undo-tree-mode)
 
 (provide 'mishok-editing)
 ;;; mishok-editing ends here

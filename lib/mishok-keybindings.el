@@ -5,6 +5,7 @@
 (require 'cc-mode)
 (require 'expand-region)
 (require 'smex)
+(require 'undo-tree)
 
 (global-unset-key (kbd "<right>"))
 (global-unset-key (kbd "<left>"))
@@ -32,6 +33,10 @@
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
 (global-set-key (kbd "M-c") 'c-hungry-delete-forward)
+(global-unset-key (kbd "C-z"))
+(global-unset-key (kbd "C-_"))
+(global-set-key (kbd "C-z") 'undo-tree-undo)
+(global-set-key (kbd "C-S-z") 'undo-tree-redo)
 
 (provide 'mishok-keybindings)
 ;;; mishok-keybindings ends here
