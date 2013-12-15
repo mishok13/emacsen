@@ -1,4 +1,10 @@
-;; Globally set keys
+;;; mishok-keybindings --- Globally set keys
+;;; Commentary:
+;;; Code:
+
+(require 'cc-mode)
+(require 'expand-region)
+(require 'smex)
 
 (global-unset-key (kbd "<right>"))
 (global-unset-key (kbd "<left>"))
@@ -20,11 +26,12 @@
 
 (global-set-key (kbd "<f8>") 'org-capture)
 
-(require 'expand-region)
 (global-set-key (kbd "C-@") 'er/expand-region)
 
-(require 'smex)
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
+(global-set-key (kbd "M-c") 'c-hungry-delete-forward)
+
 (provide 'mishok-keybindings)
+;;; mishok-keybindings ends here
