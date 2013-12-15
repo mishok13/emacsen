@@ -5,17 +5,24 @@
 (require 'cider)
 (require 'paredit)
 (require 'rainbow-delimiters)
+(require 'highlight-parentheses)
 
 ;; Clojure source code editing setup
 (add-hook 'clojure-mode-hook 'enable-paredit-mode)
 (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'clojure-mode-hook 'highlight-parentheses-mode)
 
 ;; Cider (formerly nrepl.el) setup
 (setq cider-popup-stacktraces nil)
-(setq cider-repl-popup-stacktraces t)
+(setq cider-repl-popup-stacktraces nil)
 (setq cider-repl-history-file "/tmp/replhistory")
 (add-hook 'cider-repl-mode-hook 'paredit-mode)
 (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+
+(add-hook 'clojure-mode-hook
+          (lambda ()
+            (push '("<=" . ?≤) prettify-symbols-alist)
+            (prettify-symbols-mode)))
 
 ;; Pretty printing for partial, comp and fn form
 (defun mishok-pretty-partial ()

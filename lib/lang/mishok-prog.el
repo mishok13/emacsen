@@ -8,8 +8,8 @@
 (require 'fill-column-indicator)
 (require 'flycheck)
 
+(setq-default fci-rule-column 80)
 (add-hook 'prog-mode-hook 'fci-mode)
-(setq fci-rule-column 80)
 (which-function-mode t)
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
