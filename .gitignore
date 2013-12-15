@@ -2,5 +2,6 @@ swank/
 el-get/
 elpa/
 backups/
+.backups/
 auto-save-list/
 *.elc
