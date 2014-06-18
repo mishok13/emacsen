@@ -5,6 +5,7 @@
 (require 'powerline)
 (require 'uniquify)
 (require 'smex)
+(require 'midnight)
 
 (custom-set-variables
  '(initial-frame-alist (quote ((fullscreen . maximized)))))
@@ -24,6 +25,8 @@
 
 ;; FIXME: disable line numbers for certain modes
 (global-linum-mode t)
+
+(global-visual-line-mode t)
 
 ;; Setup fonts
 (global-font-lock-mode t)
@@ -46,7 +49,10 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Set up cleaning of unused buffers
-(run-at-time t 3600 'clean-buffer-list)
+(setq midnight-period 3600)
+(setq clean-buffer-list-delay-general 1)
+(add-hook 'midnight-hook 'clean-buffer-list)
+;; (run-at-time t 3600 'clean-buffer-list)
 
 ;; Make sure every file name has unique name
 (setq uniquify-buffer-name-style 'reverse)

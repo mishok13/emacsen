@@ -10,3 +10,4 @@
   (insert "ಠ_ಠ"))
 
 (provide 'mishok-utils)
+;;; mishok-utils.el ends here

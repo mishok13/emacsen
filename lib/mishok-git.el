@@ -4,8 +4,6 @@
 (require 'magit-svn)
 
 
-(global-set-key (kbd "<f7>") 'magit-status)
-
 (add-hook 'magit-mode-hook 'magit-load-config-extensions)
 
 (defadvice magit-status (around magit-fullscreen activate)

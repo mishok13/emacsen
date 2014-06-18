@@ -26,9 +26,7 @@
 
 (visual-line-mode t)
 
-
 ;; clear up files before saving them
-
 (defun delete-trailing-blank-lines ()
   "Delete all blank lines at the end of the file and leave single newline character."
   (interactive)
@@ -41,7 +39,6 @@
 (add-hook 'before-save-hook 'delete-trailing-blank-lines)
 
 ;; Setup kill-buffer and system clipboard
-
 ;; this should enable copy from emacs to any other X frame
 (setq x-select-enable-clipboard t)
 
@@ -93,6 +90,38 @@
 
 (projectile-global-mode)
 (global-undo-tree-mode)
+
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
+;; uncamelcase
+(defun un-camelcase-string (s &optional sep start)
+  "Convert CamelCase string S to lower case with word separator SEP.
+Default for SEP is a hyphen \"-\".
+
+If third argument START is non-nil, convert words after that
+index in STRING."
+  (let ((case-fold-search nil))
+    (while (string-match "[A-Z]" s (or start 1))
+      (setq s (replace-match (concat (or sep "-")
+                                     (downcase (match-string 0 s)))
+                             t nil s)))
+    (downcase s)))
+
+(defun uncamelcase-word-at-point ()
+  (interactive)
+  (let* ((case-fold-search nil)
+         (start-point (point))
+         (beg (and (skip-chars-backward "[:alnum:]:_-") (point)))
+         (end (and (skip-chars-forward "[:alnum:]:_-") (point)))
+         (txt (buffer-substring beg end))
+         (cml (un-camelcase-string txt "-")) )
+    (if cml (progn (delete-region beg end) (insert cml)))
+    (goto-char start-point)))
+
+
 
 (provide 'mishok-editing)
 ;;; mishok-editing ends here
