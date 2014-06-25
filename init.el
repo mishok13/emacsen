@@ -8,6 +8,9 @@
 (add-to-list 'load-path "~/.emacs.d/lib")
 (add-to-list 'load-path "~/.emacs.d/lib/lang")
 
+(when (eq system-type 'darwin)
+  (load-file "~/.emacs.d/osx.el"))
+
 (require 'mishok-packages)
 
 (require 'mishok-prog)
