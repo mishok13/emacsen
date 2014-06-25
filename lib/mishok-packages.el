@@ -23,6 +23,7 @@
     auctex
     autopair
     clojure-mode
+    cider
     dash
     emmet-mode
     expand-region
@@ -30,6 +31,7 @@
     flycheck
     flymake
     flymake-cursor
+    flx-ido
     fringe-helper
     helm
     highlight-parentheses
@@ -47,9 +49,11 @@
     python-pep8
     rainbow-mode
     rect-mark
+    rust-mode
     s
     scala-mode2
     smart-tabs-mode
+    smartparens
     smex
     twittering-mode
     undo-tree
