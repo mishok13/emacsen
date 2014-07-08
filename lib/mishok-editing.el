@@ -121,7 +121,8 @@ index in STRING."
     (if cml (progn (delete-region beg end) (insert cml)))
     (goto-char start-point)))
 
-
+;; Don't create .#filenames
+(setq create-lockfiles nil)
 
 (provide 'mishok-editing)
 ;;; mishok-editing ends here
