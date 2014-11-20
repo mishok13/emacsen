@@ -1,3 +1,7 @@
+;;; mishok-org --- Org-mode related functions
+;;; Commentary:
+;;; Code:
+
 (require 'org)
 
 (setq org-directory "~/Dropbox/org/")
@@ -11,3 +15,4 @@
              "* %?\nEntered on %U\n  %i\n  %a")))
 
 (provide 'mishok-org)
+;;; mishok-org ends here
