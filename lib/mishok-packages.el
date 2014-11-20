@@ -17,36 +17,54 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-
 (defvar prelude-packages
   '(ack-and-a-half
+    aggressive-indent
+    ample-theme
+    async
     auctex
     autopair
-    clojure-mode
+    bubbleberry-theme
     cider
+    clj-refactor
+    clojure-mode
     dash
     emmet-mode
+    epl
     expand-region
-    fill-column-indicator
-    flycheck
-    flymake
-    flymake-cursor
+    f
+    fill-column-ind...
+    firebelly-theme
+    flatui-theme
+    flx
     flx-ido
+    flycheck
+    flymake-cursor
     fringe-helper
+    git-commit-mode
+    git-rebase-mode
     helm
-    highlight-parentheses
+    helm-projectile
+    highlight-paren...
     js2-mode
     js3-mode
     magit
     magit-svn
     markdown-mode
+    monokai-theme
+    multiple-cursors
+    nginx-mode
     org
     paredit
     pivotal-tracker
+    pkg-info
     powerline
     projectile
+    puppet-mode
     pymacs
     python-pep8
+    queue
+    rainbow-delimiters
     rainbow-mode
     rect-mark
     rust-mode
@@ -59,8 +77,10 @@
     undo-tree
     virtualenv
     yaml-mode
-    rainbow-delimiters
+    yasnippet
+    zenburn-theme
     zencoding-mode)
+
   "A list of packages to ensure are installed at launch.")
 
 (defun prelude-packages-installed-p ()
