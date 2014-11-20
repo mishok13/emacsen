@@ -6,11 +6,15 @@
 (require 'paredit)
 (require 'rainbow-delimiters)
 (require 'highlight-parentheses)
+(require 'clj-refactor)
 
 ;; Clojure source code editing setup
 (add-hook 'clojure-mode-hook 'enable-paredit-mode)
 (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'clojure-mode-hook 'highlight-parentheses-mode)
+(add-hook 'clojure-mode-hook (lambda ()
+                               (clj-refactor-mode 1)
+                               (cljr-add-keybindings-with-prefix "C-c C-b")))
 
 ;; Cider (formerly nrepl.el) setup
 (setq cider-popup-stacktraces nil)
