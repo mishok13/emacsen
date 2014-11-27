@@ -20,6 +20,7 @@
 (require 'mishok-clj)
 (require 'mishok-c)
 (require 'mishok-rust)
+(require 'mishok-haskell)
 
 (require 'mishok-editing)
 (require 'mishok-keybindings)
