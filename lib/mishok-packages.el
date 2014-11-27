@@ -5,13 +5,9 @@
 (require 'package)
 (require 'cl)
 
-(add-to-list 'package-archives
-             '("tromey" . "http://tromey.com/elpa/") t)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/"))
-
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
 (package-initialize)
 
 (when (not package-archive-contents)
@@ -33,7 +29,7 @@
     epl
     expand-region
     f
-    fill-column-ind...
+    fill-column-indicator
     firebelly-theme
     flatui-theme
     flx
@@ -45,7 +41,7 @@
     git-rebase-mode
     helm
     helm-projectile
-    highlight-paren...
+    highlight-parentheses
     js2-mode
     js3-mode
     magit
