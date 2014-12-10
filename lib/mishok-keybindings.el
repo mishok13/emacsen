@@ -1,5 +1,6 @@
-;;; mishok-keybindings --- Globally set keys
+;;; mishok-keybindings --- Global key-bindings
 ;;; Commentary:
+;;; All other bindings are set per major mode.
 ;;; Code:
 
 (require 'cc-mode)
@@ -32,11 +33,15 @@
 (global-set-key (kbd "C-z") 'undo)
 (global-set-key (kbd "M-o") 'ido-switch-buffer)
 
+;; This should probably go to prog-mode setup
 (global-set-key (kbd "<f4>") 'flycheck-previous-error)
 (global-set-key (kbd "<f5>") 'flycheck-next-error)
 
 (global-set-key (kbd "<f8>") 'org-capture)
+(global-set-key (kbd "<f10>") 'org-agenda)
 
+;; Expand region support, enables nice selection when in programming
+;; modes, works great for markdown and latex as well
 (global-set-key (kbd "M-@") 'er/expand-region)
 
 (global-set-key (kbd "M-x") 'smex)
@@ -46,7 +51,7 @@
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "C-_"))
 (global-set-key (kbd "C-z") 'undo-tree-undo)
-(global-set-key (kbd "C-S-z") 'undo-tree-redo)
+(global-set-key (kbd "C-M-z") 'undo-tree-redo)
 
 (provide 'mishok-keybindings)
 ;;; mishok-keybindings ends here
