@@ -10,7 +10,9 @@
 (require 'aggressive-indent)
 (require 'flyspell)
 
-(add-hook 'prog-mode-hook #'aggressive-indent-mode)
+(global-aggressive-indent-mode 1)
+(add-to-list 'aggressive-indent-excluded-modes 'html-mode)
+(add-to-list 'aggressive-indent-excluded-modes 'markdown-mode)
 (setq-default fci-rule-column 80)
 (add-hook 'prog-mode-hook 'fci-mode)
 (which-function-mode t)
