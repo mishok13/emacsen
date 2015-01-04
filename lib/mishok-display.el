@@ -2,7 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-(require 'powerline)
+(require 'smart-mode-line)
 (require 'uniquify)
 (require 'smex)
 (require 'midnight)
@@ -30,12 +30,14 @@
 
 ;; Setup fonts
 (global-font-lock-mode t)
-(set-face-attribute 'default (not 'this-frame-only)
-                    :font "Consolas"
-                    :height 120)
+(set-face-attribute 'default nil
+                    :font "Consolas-14")
+(set-frame-font "Consolas-14")
 
-(powerline-default-theme)
-(add-hook 'window-setup-hook 'powerline-reset)
+;; Mode line setup
+(setq sml/no-confirm-load-theme t)
+(sml/setup)
+(sml/apply-theme 'respectful)
 
 ;; Make scrolling with C-v work on last page, instead of notifying
 ;; "end of buffer" error
