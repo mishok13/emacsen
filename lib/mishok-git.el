@@ -3,8 +3,8 @@
 (require 'magit)
 (require 'magit-svn)
 
-
 (add-hook 'magit-mode-hook 'magit-load-config-extensions)
+(add-hook 'magit-commit-mode-hook 'flyspell-mode)
 
 (defadvice magit-status (around magit-fullscreen activate)
   (window-configuration-to-register :magit-fullscreen)
