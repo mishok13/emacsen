@@ -4,6 +4,7 @@
 
 (use-package magit
   :bind (("<f7>" . magit-status))
+  :ensure t
   :init
   (defadvice magit-status (around magit-fullscreen activate)
     (window-configuration-to-register :magit-fullscreen)
