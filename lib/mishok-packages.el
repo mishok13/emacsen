@@ -1,21 +1,10 @@
 ;;; mishok-packages --- Dependencies downloaded and packages setup
 ;;; Commentary:
 ;;; Code:
-
-(require 'package)
 (require 'cl)
-
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "https://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
-(package-initialize)
-
-(when (not package-archive-contents)
-  (package-refresh-contents))
 
 (defvar prelude-packages
   '(ack-and-a-half
-    aggressive-indent
     ample-theme
     async
     auctex
@@ -29,7 +18,6 @@
     epl
     expand-region
     f
-    fill-column-indicator
     firebelly-theme
     flatui-theme
     flx
@@ -37,40 +25,26 @@
     flycheck
     flymake-cursor
     fringe-helper
-    git-commit-mode
-    git-rebase-mode
     helm
-    helm-projectile
-    highlight-parentheses
-    js2-mode
-    js3-mode
-    magit
-    magit-svn
     markdown-mode
     monokai-theme
     multiple-cursors
     nginx-mode
     org
     paredit
-    pivotal-tracker
     pkg-info
-    powerline
-    projectile
     puppet-mode
     pymacs
     python-pep8
     queue
-    rainbow-delimiters
     rainbow-mode
     rect-mark
     rust-mode
     s
-    scala-mode2
     smart-tabs-mode
+    smart-mode-line
     smartparens
     smex
-    twittering-mode
-    undo-tree
     virtualenv
     yaml-mode
     yasnippet
