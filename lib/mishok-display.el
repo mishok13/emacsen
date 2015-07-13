@@ -4,7 +4,6 @@
 
 (require 'smart-mode-line)
 (require 'uniquify)
-(require 'smex)
 (require 'midnight)
 
 (custom-set-variables
@@ -67,9 +66,6 @@
 (setq scroll-conservatively 10000)
 (setq scroll-step 1)
 (setq scroll-preserve-screen-position 't)
-
-;; Make your M-x autocomplete commands
-(smex-initialize)
 
 (load-theme 'zenburn t)
 
