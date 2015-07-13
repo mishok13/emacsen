@@ -1,28 +1,28 @@
 ;;; mishok-prog --- All programming-global setups
-
 ;;; Commentary:
-
 ;;; Code:
 
-(require 'prog-mode)
-(require 'fill-column-indicator)
-(require 'flycheck)
-(require 'aggressive-indent)
-(require 'flyspell)
+(require 'use-package)
 
-(global-aggressive-indent-mode 1)
-(add-to-list 'aggressive-indent-excluded-modes 'html-mode)
-(add-to-list 'aggressive-indent-excluded-modes 'markdown-mode)
-(setq-default fci-rule-column 80)
-(add-hook 'prog-mode-hook 'fci-mode)
-(which-function-mode t)
+(use-package fill-column-indicator
+  :ensure t
+  :init
+  (setq-default fci-rule-column 80))
 
-(add-hook 'after-init-hook #'global-flycheck-mode)
-(defun flymake-xml-init ())
-(defun flymake-java-init ())
+(use-package prog-mode
+  :config
+  (add-hook 'prog-mode-hook 'fci-mode))
 
-(add-hook 'prog-mode-hook (lambda () (interactive) (setq show-trailing-whitespace 1)))
-(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+(use-package which-func
+  :config
+  (which-function-mode t))
+
+(use-package flycheck
+  :ensure t
+  :bind (("<f4>" . flycheck-previous-error)
+         ("<f5>" . flycheck-next-error))
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode))
 
 (provide 'mishok-prog)
 ;;; mishok-prog ends here

@@ -2,18 +2,20 @@
 ;;; Commentary:
 ;;; Code:
 
-(require 'lisp-mode)
-(require 'paredit)
-(require 'highlight-parentheses)
+(use-package paredit
+  :ensure t
+  :config
+  (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode))
 
-;; (define-globalized-minor-mode global-highlight-parentheses-mode
-;;  highlight-parentheses-mode
-;;  (lambda () (highlight-parentheses-mode t)))
-;; (global-highlight-parentheses-mode t)
+(use-package rainbow-delimiters
+  :ensure t
+  :config
+  (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
 
-(add-hook 'lisp-mode-hook 'highlight-parentheses-mode)
-(add-hook 'lisp-mode-hook 'enable-paredit-mode)
-(add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
+(use-package aggressive-indent
+  :ensure t
+  :config
+  (add-hook 'emacs-lisp-mode-hook 'aggressive-indent-mode))
 
 (provide 'mishok-lisp)
 ;;; mishok-lisp ends here

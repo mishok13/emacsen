@@ -2,10 +2,12 @@
 ;;; Commentary:
 ;;; Code:
 
-(require 'rust-mode)
-(require 'smartparens)
+(require 'use-package)
 
-(add-hook 'rust-mode-hook 'smartparens-mode)
+(use-package rust-mode
+  :ensure t
+  :config
+  (add-hook 'rust-mode-hook 'smartparens-mode))
 
 (provide 'mishok-rust)
 ;;; mishok-rust ends here
