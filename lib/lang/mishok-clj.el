@@ -1,64 +1,45 @@
-;;; mishok-clj --- Summary
+;;; mishok-clj --- Clojure setup
 ;;; Commentary:
 ;;; Code:
-(require 'clojure-mode)
-(require 'cider)
-(require 'paredit)
-(require 'rainbow-delimiters)
-(require 'highlight-parentheses)
-(require 'clj-refactor)
+(require 'use-package)
 
-;; Clojure source code editing setup
-(add-hook 'clojure-mode-hook 'enable-paredit-mode)
-(add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'clojure-mode-hook 'highlight-parentheses-mode)
-(add-hook 'clojure-mode-hook (lambda ()
-                               (clj-refactor-mode 1)
-                               (cljr-add-keybindings-with-prefix "C-c C-b")))
+(use-package clojure-mode
+  :ensure t
+  :config
+  (add-hook 'clojure-mode-hook 'enable-paredit-mode)
+  (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
+  (add-hook 'clojure-mode-hook 'aggressive-indent-mode))
 
-;; Cider (formerly nrepl.el) setup
-(setq cider-popup-stacktraces nil)
-(setq cider-repl-popup-stacktraces nil)
-(setq cider-repl-history-file "/tmp/replhistory")
-(add-hook 'cider-repl-mode-hook 'paredit-mode)
-(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+(use-package clj-refactor
+  :ensure t
+  :config
+  (add-hook 'clojure-mode-hook (lambda ()
+                                 (clj-refactor-mode 1)
+                                 (cljr-add-keybindings-with-prefix "C-c C-b"))))
 
-(setq cider-show-error-buffer 'except-in-repl)
-(setq cider-auto-select-error-buffer nil)
+(use-package cider
+  :ensure t
+  :config
+  (setq cider-show-error-buffer 'only-in-repl)
+  (setq cider-auto-select-error-buffer nil)
+  (setq nrepl-hide-special-buffers t)
+  ;; Wrap stacktraces at whatever fill-column is set to
+  (setq cider-stacktrace-fill-column t)
+  ;; Don't prompt for symbol names when jumping to definitions
+  (setq cider-prompt-for-symbol nil)
+  ;; Write REPL history to file
+  (setq cider-repl-history-file "/tmp/replhistory")
+  (setq cider-auto-select-error-buffer nil)
+  ;; Enable paredit in REPL
+  (add-hook 'cider-repl-mode-hook 'paredit-mode)
+  ;; Enable eldoc in REPL
+  (add-hook 'cider-mode-hook 'eldoc-mode))
 
-(add-hook 'clojure-mode-hook
-          (lambda ()
-            (push '("<=" . ?≤) prettify-symbols-alist)
-            (prettify-symbols-mode)))
-
-;; Pretty printing for partial, comp and fn form
-(defun mishok-pretty-partial ()
-  (font-lock-add-keywords nil
-                          `(("(\\(partial\\)[[:space:]]"
-                             (0 (progn (compose-region (match-beginning 1)
-                                                       (match-end 1)
-                                                       "\u03a0"
-                                                       'decompose-region)))))))
-
-(defun mishok-pretty-comp ()
-  (font-lock-add-keywords nil
-                          `(("(\\(comp\\)[[:space:]]"
-                             (0 (progn (compose-region (match-beginning 1)
-                                                       (match-end 1)
-                                                       "\u2218"
-                                                       'decompose-region)))))))
-
-(defun mishok-pretty-fn ()
-  (font-lock-add-keywords nil
-                          `(("(\\(\\<fn\\>\\)"
-                             (0 (progn (compose-region (match-beginning 1)
-                                                       (match-end 1)
-                                                       "\u0192"
-                                                       'decompose-region)))))))
-
-(add-hook 'clojure-mode-hook 'mishok-pretty-fn)
-(add-hook 'clojure-mode-hook 'mishok-pretty-partial)
-(add-hook 'clojure-mode-hook 'mishok-pretty-comp)
+(use-package company
+  :ensure t
+  :config
+  (add-hook 'cider-repl-mode-hook #'company-mode)
+  (add-hook 'cider-mode-hook #'company-mode))
 
 (provide 'mishok-clj)
 ;;; mishok-clj ends here
