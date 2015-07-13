@@ -10,9 +10,10 @@
   :ensure t
   :bind (("C-x b" . ido-switch-buffer)
          ("M-o" . ido-switch-buffer))
-  :config
-  (ido-mode t)
-  (ido-everywhere t))
+  ;; :config
+  ;; (ido-mode t)
+  ;; (ido-everywhere t)
+  )
 
 (setq-default indent-tabs-mode nil)
 

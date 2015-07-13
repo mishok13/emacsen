@@ -44,8 +44,7 @@
 
 (use-package smex
   :ensure t
-  :bind (("M-x" . smex)
-         ("M-X" . smex-major-mode-commands)))
+  :bind (("M-X" . smex-major-mode-commands)))
 
 (provide 'mishok-keybindings)
 ;;; mishok-keybindings ends here
