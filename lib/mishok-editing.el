@@ -66,14 +66,7 @@
     (add-to-list 'recentf-exclude path))
   (recentf-mode t)
   :init
-  (setq recentf-max-saved-items 50)
-  ;; Get ido to handle recentf results
-  (defun ido-recentf-open ()
-    "Use `ido-completing-read' to \\[find-file] a recent file."
-    (interactive)
-    (if (find-file (ido-completing-read "Find recent file: " recentf-list))
-        (message "Opening file...")
-      (message "Aborting"))))
+  (setq recentf-max-saved-items 100))
 
 (use-package flyspell
   :ensure t
