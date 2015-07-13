@@ -1,11 +1,16 @@
 ;;; mishok-haskell --- Haskell support
 ;;; Commentary:
 ;;; Code:
-(require 'haskell-mode)
-(require 'shm)
+(require 'use-package)
 
-(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-(add-hook 'haskell-mode-hook 'structured-haskell-mode)
+(use-package haskell-mode
+  :ensure t)
+
+(use-package shm
+  :ensure t
+  :config
+  (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+  (add-hook 'haskell-mode-hook 'structured-haskell-mode))
 
 (provide 'mishok-haskell)
 ;;; mishok-haskell.el ends here
