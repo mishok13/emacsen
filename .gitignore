@@ -5,3 +5,9 @@ backups/
 .backups/
 auto-save-list/
 *.elc
+projectile.cache
+ido.last
+org-clock-save.el
+recentf
+smex-items
+projectile-bookmarks.eld
