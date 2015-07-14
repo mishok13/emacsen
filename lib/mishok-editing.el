@@ -70,6 +70,7 @@
   (setq recentf-max-saved-items 100))
 
 (use-package flyspell
+  ;; Look into using https://github.com/syohex/emacs-ac-ispell
   :ensure t
   :init
   (defun flyspell-check-next-highlighted-word ()
