@@ -7,7 +7,8 @@
   :init
   (setq helm-M-x-fuzzy-match t)
   :bind (("M-x" . helm-M-x)
-         ("C-x C-f" . helm-find-files)))
+         ("C-x C-f" . helm-find-files)
+         ("C-x b" . helm-mini)))
 
 (provide 'mishok-commands)
 ;;; mishok-commands.el ends here
