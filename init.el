@@ -25,8 +25,6 @@
   (load-file "~/.emacs.d/osx.el"))
 
 ;; Setup the package sources
-(use-package mishok-packages)
-
 (use-package mishok-prog)
 (use-package mishok-lisp)
 (use-package mishok-sgml)
@@ -43,3 +41,5 @@
 (use-package mishok-utils)
 (use-package mishok-org)
 (use-package mishok-display)
+(use-package mishok-commands)
+;;; init.el ends here
