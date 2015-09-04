@@ -11,3 +11,10 @@ org-clock-save.el
 recentf
 smex-items
 projectile-bookmarks.eld
+*.lock
+.places
+places
+url/cookies
+request/
+.emacs.desktop
+tramp
