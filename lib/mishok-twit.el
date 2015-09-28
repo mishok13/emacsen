@@ -9,7 +9,9 @@
   ;; Use password for accessing private key
   (setq twittering-use-master-password t)
   ;; Don't put message in echo area
-  (setq twittering-url-show-status nil))
+  (setq twittering-url-show-status nil)
+  ;; Open links from twits in EWW
+  (setq browse-url-browser-function 'eww-browse-url))
 
 (provide 'mishok-twit)
 ;;; mishok-twit.el ends here
