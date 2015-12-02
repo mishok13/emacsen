@@ -24,6 +24,15 @@
 (when (eq system-type 'darwin)
   (load-file "~/.emacs.d/osx.el"))
 
+(use-package undo-tree
+  :ensure t)
+
+(use-package expand-region
+  :ensure t)
+
+(use-package smex
+  :ensure t)
+
 ;; Setup the package sources
 (use-package mishok-prog)
 (use-package mishok-lisp)
