@@ -18,5 +18,8 @@
       (when (eq 'magit-status-mode current-mode)
         (jump-to-register :magit-fullscreen)))))
 
+(use-package travis
+  :ensure t)
+
 (provide 'mishok-git)
 ;;; mishok-git.el ends here

@@ -62,12 +62,12 @@
 (use-package recentf
   :ensure t
   :bind (("C-x C-r" . helm-recentf))
+  :init
+  (setq recentf-max-saved-items 100)
+  (setq helm-recentf-fuzzy-match t)
   :config
   (dolist (path '("/.emacs.d/el-get/" "~$" "/.autosaves/" "/emacs.d/elpa/" "/emacs.d/url/"))
-    (add-to-list 'recentf-exclude path))
-  (recentf-mode t)
-  :init
-  (setq recentf-max-saved-items 100))
+    (add-to-list 'recentf-exclude path)))
 
 (use-package flyspell
   ;; Look into using https://github.com/syohex/emacs-ac-ispell

@@ -9,21 +9,24 @@
   ;; Disable preview before expanding
   (setq emmet-preview-default nil)
   ;; Move the cursor to next edit point
-  (setq emmet-move-cursor-between-quotes t))
-
-(use-package web-mode
-  :ensure t
-  :mode "\\.html\\'"
+  (setq emmet-move-cursor-between-quotes t)
   :config
-  (add-hook 'web-mode-hook 'emmet-mode))
+  (define-key emmet-mode-keymap (kbd "C-m") 'emmet-expand-line)
+  (define-key emmet-mode-keymap (kbd "C-j") 'newline-and-indent))
 
-(defun web-mode-django-setup ()
-  "Hooks and general setup for Django templating support."
-  (setq web-mode-markup-indent-offset 4)
-  (setq web-mode-code-indent-offset 4)
-  (setq web-mode-enable-control-block-indentation t)
-  (web-mode-set-engine "django")
-  (setq indent-tabs-mode nil))
+;; (use-package web-mode
+;;   :ensure t
+;;   :mode "\\.html\\'"
+;;   :config
+;;   (add-hook 'web-mode-hook 'emmet-mode))
+
+;; (defun web-mode-django-setup ()
+;;   "Hooks and general setup for Django templating support."
+;;   (setq web-mode-markup-indent-offset 4)
+;;   (setq web-mode-code-indent-offset 4)
+;;   (setq web-mode-enable-control-block-indentation t)
+;;   (web-mode-set-engine "django")
+;;   (setq indent-tabs-mode nil))
 
 (provide 'mishok-sgml)
 ;;; mishok-sgml.el ends here

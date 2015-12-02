@@ -8,7 +8,8 @@
 (setq package-enable-at-startup nil)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+                         ("melpa" . "http://melpa.milkbox.net/packages/")
+                         ("org" . "http://orgmode.org/elpa/")))
 (package-initialize)
 
 ;; Bootstrap `use-package'
@@ -33,7 +34,14 @@
 (use-package smex
   :ensure t)
 
-;; Setup the package sources
+(use-package yasnippet
+  :ensure t
+  :config
+  (setq yas-snippet-dirs
+        '("~/nonwork/yasnippet-snippets"
+          "~/nonwork/emacsen/snippets/"))
+  (add-hook 'prog-mode-hook 'yas-minor-mode))
+
 (use-package mishok-prog)
 (use-package mishok-lisp)
 (use-package mishok-sgml)
