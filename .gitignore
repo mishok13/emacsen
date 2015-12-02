@@ -18,3 +18,4 @@ url/cookies
 request/
 .emacs.desktop
 tramp
+url/*
