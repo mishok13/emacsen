@@ -22,9 +22,15 @@
   (flycheck-add-next-checker 'python-flake8 'python-pylint)
   (flycheck-mode t))
 
+(use-package py-isort
+  :ensure t
+  :init
+  (add-hook 'before-save-hook 'py-isort-before-save))
+
 (use-package python
   :bind ("C-j" . newline-and-indent)
   :init
+  (add-hook 'python-mode-hook (lambda () (yas-reload-all)))
   (add-hook 'hack-local-variables-hook 'mishok/python-flycheck-setup nil 'local))
 
 (use-package jedi
