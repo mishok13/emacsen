@@ -3,13 +3,6 @@
 ;;; All other bindings are set per major mode.
 ;;; Code:
 (require 'use-package)
-(require 'cc-mode)
-(require 'expand-region)
-(require 'smex)
-(require 'undo-tree)
-(require 'windmove)
-(require 'magit)
-
 
 (use-package expand-region
   :ensure t
