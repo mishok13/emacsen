@@ -2,9 +2,13 @@
 ;;; Commentary:
 ;;; Code:
 
-(require 'smart-mode-line)
-(require 'uniquify)
-(require 'midnight)
+(require 'use-package)
+
+(use-package smart-mode-line
+  :ensure t)
+
+(use-package midnight
+  :ensure t)
 
 (custom-set-variables
  '(initial-frame-alist (quote ((fullscreen . maximized)))))
@@ -67,6 +71,8 @@
 (setq scroll-step 1)
 (setq scroll-preserve-screen-position 't)
 
+(use-package zenburn-theme
+  :ensure t)
 (load-theme 'zenburn t)
 
 (provide 'mishok-display)
