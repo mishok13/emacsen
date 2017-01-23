@@ -23,9 +23,7 @@
 
 (use-package magit-gitflow
   :ensure t
-  :bind  (("<f6>" . magit-gitflow-popup))
   :init
-  (setq magit-gitflow-popup-key "<f6>")
   (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
 
 (provide 'mishok-git)
