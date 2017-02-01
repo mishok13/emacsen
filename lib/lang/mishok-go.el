@@ -7,9 +7,10 @@
   :ensure t
   :bind (("C-c C-r" . go-remove-unused-imports)
          ("C-c C-i" . go-goto-imports)
-         ("M-." . godef-jump)))
+         ("M-." . godef-jump))
   :config
-  (add-hook 'before-save-hook 'gofmt-before-save))
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  (add-hook 'go-mode-hook 'company-mode))
 
 (provide 'mishok-go)
 ;;; mishok-py ends here
