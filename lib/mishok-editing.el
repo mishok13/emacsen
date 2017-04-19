@@ -6,6 +6,8 @@
 (require 'saveplace)
 (require 'undo-tree)
 
+(setq initial-major-mode 'fundamental-mode)
+
 (use-package ido
   :ensure t
   :bind (("C-x b" . ido-switch-buffer)
@@ -96,6 +98,10 @@
 (use-package helm-projectile
   :ensure t)
 
+(use-package helm
+  :ensure t
+  :bind ("C-M-y" . helm-show-kill-ring))
+
 (use-package projectile
   :ensure t
   :init
@@ -168,6 +174,13 @@ index in STRING."
     (package-menu-mark-upgrades)
     (package-menu-execute 'noquery)))
 
+(use-package protobuf-mode
+  :ensure t
+  :init
+  (setq protobuf-c-style
+        '((c-basic-offset . 4)))
+  :config
+  (add-hook 'protobuf-mode-hook (lambda () (c-add-style "protobuf-style" protobuf-c-style t))))
 
 ;; Don't create .#filenames
 (setq create-lockfiles nil)

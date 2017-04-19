@@ -10,7 +10,8 @@
          ("M-." . godef-jump))
   :config
   (add-hook 'before-save-hook 'gofmt-before-save)
-  (add-hook 'go-mode-hook 'company-mode))
+  (add-hook 'go-mode-hook 'company-mode)
+  (add-hook 'go-mode-hook 'smartparens-mode))
 
 (provide 'mishok-go)
 ;;; mishok-py ends here
