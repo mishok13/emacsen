@@ -56,21 +56,21 @@
 (use-package mishok-org)
 (use-package mishok-display)
 
-;; (add-to-list 'initial-frame-alist '(fullscreen . maximized))
-;; ;;; init.el ends here
-;; (custom-set-variables
-;;  ;; custom-set-variables was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  '(helm-completion-style (quote emacs))
-;;  '(initial-frame-alist (quote ((fullscreen . maximized))))
-;;  '(package-selected-packages
-;;    (quote
-;;     (web-mode blacken feature-mode company-terraform terraform-mode smart-mode-line twittering-mode magit-gitflow travis magit transpose-frame yasnippet-snippets projectile-ripgrep protobuf-mode neotree helm-projectile helm-rg helm flx-ido markdown-mode shm haskell-mode racer clj-refactor clojure-mode company tide json-mode typescript-mode go-mode pipenv jedi smartparens emmet-mode aggressive-indent rainbow-delimiters paredit dockerfile-mode yaml-mode flycheck fill-column-indicator smex expand-region undo-tree exec-path-from-shell use-package))))
-;; (custom-set-faces
-;;  ;; custom-set-faces was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  )
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(helm-completion-style 'emacs t)
+ '(initial-frame-alist '((fullscreen . maximized)))
+ '(org-trello-current-prefix-keybinding "C-c o") )
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

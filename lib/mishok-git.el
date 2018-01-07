@@ -17,10 +17,6 @@
   :straight t
   :init
   (add-hook 'magit-mode-hook 'helm-mode)
-  (defadvice magit-status (around magit-fullscreen activate)
-    (window-configuration-to-register :magit-fullscreen)
-    ad-do-it
-    (delete-other-windows))
   (add-hook 'git-commit-mode-hook 'flyspell-mode)
   (add-hook 'git-commit-setup-hook 'insert-jira-issue-key-into-commit)
   :config
