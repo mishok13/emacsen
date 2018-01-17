@@ -105,6 +105,9 @@
 (use-package projectile
   :ensure t
   :init
+  (define-key projectile-mode-map projectile-keymap-prefix nil)
+  (define-key projectile-mode-map (kbd "C-c p") #'projectile-command-map)
+  (define-key projectile-mode-map (kbd "C-c p s") #'projectile-ripgrep)
   (setq projectile-enable-caching t)
   :config
   (projectile-global-mode))
@@ -181,6 +184,11 @@ index in STRING."
         '((c-basic-offset . 4)))
   :config
   (add-hook 'protobuf-mode-hook (lambda () (c-add-style "protobuf-style" protobuf-c-style t))))
+
+(use-package projectile-ripgrep
+  :ensure t
+  :init
+  (setq ripgrep-arguments '("--smart-case")))
 
 ;; Don't create .#filenames
 (setq create-lockfiles nil)

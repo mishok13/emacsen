@@ -6,8 +6,12 @@
 
 (use-package rust-mode
   :ensure t
+  :init
   :config
-  (add-hook 'rust-mode-hook 'smartparens-mode))
+  (setq rust-mode-hook nil)
+  (add-hook 'rust-mode-hook 'smartparens-mode)
+  (add-hook 'rust-mode-hook 'company-mode)
+  (add-hook 'rust-mode-hook (lambda () (flycheck-rust-setup))))
 
 (provide 'mishok-rust)
 ;;; mishok-rust ends here

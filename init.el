@@ -47,6 +47,7 @@
 (use-package mishok-sgml)
 (use-package mishok-py)
 (use-package mishok-go)
+(use-package mishok-js)
 (use-package mishok-clj)
 (use-package mishok-c)
 (use-package mishok-rust)

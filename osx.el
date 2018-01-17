@@ -1,16 +1,12 @@
 ;;; osx -- OS X related setup
 ;;; Commentary:
 ;;; Code:
-(defun set-exec-path-from-shell-PATH ()
-  (let ((path-from-shell (replace-regexp-in-string
-                          "[ \t\n]*$"
-                          ""
-                          (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
-    (setenv "PATH" path-from-shell)
-    (setq exec-path (split-string path-from-shell path-separator))))
+(use-package exec-path-from-shell
+  :ensure t
+  :init
+  (exec-path-from-shell-initialize))
 
-;; Need to make sure Emacs successfully inherits PATH variable
-(set-exec-path-from-shell-PATH)
+;; (setq test (shell-command-to-string "source ~/.bashrc; echo -n $PATH"))
 
 (setq mac-allow-anti-aliasing t)
 
