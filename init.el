@@ -50,6 +50,8 @@
 (use-package mishok-c)
 (use-package mishok-rust)
 (use-package mishok-haskell)
+(use-package mishok-typescript)
+
 
 (use-package mishok-editing)
 (use-package mishok-keybindings)
