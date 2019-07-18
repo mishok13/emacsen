@@ -10,12 +10,7 @@
 
 (use-package ido
   :ensure t
-  :bind (("C-x b" . ido-switch-buffer)
-         ("M-o" . ido-switch-buffer))
-  ;; :config
-  ;; (ido-mode t)
-  ;; (ido-everywhere t)
-  )
+  :bind (("M-o" . ido-switch-buffer)))
 
 (setq-default indent-tabs-mode nil)
 
@@ -73,44 +68,39 @@
 
 (use-package flyspell
   ;; Look into using https://github.com/syohex/emacs-ac-ispell
-  :ensure t
-  :init
-  (defun flyspell-check-next-highlighted-word ()
-    "Custom function to spell check next highlighted word."
-    (interactive)
-    (flyspell-goto-next-error)
-    (ispell-word))
-  :bind (("<f2>" . ispell-word)
-         ("<f3>" . flyspell-buffer)
-         ("<f4>" . flyspell-check-previous-highlighted-word)
-         ("<f5>" . flyspell-check-next-highlighted-word)))
+  :ensure t)
 
 (use-package markdown-mode
   :ensure t
-  :init
-  (add-hook 'markdown-mode-hook 'flyspell-mode))
+  :hook (markdown-mode-hook . flyspell-mode))
 
 (use-package flx-ido
   :ensure t
   :config
   (flx-ido-mode 1))
 
-(use-package helm-projectile
-  :ensure t)
-
 (use-package helm
   :ensure t
   :bind ("C-M-y" . helm-show-kill-ring))
 
+(use-package helm-rg
+  :ensure t)
+
+(use-package helm-projectile
+  :ensure t
+  :requires projectile)
+
 (use-package projectile
   :ensure t
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
   :init
-  (define-key projectile-mode-map projectile-keymap-prefix nil)
-  (define-key projectile-mode-map (kbd "C-c p") #'projectile-command-map)
-  (define-key projectile-mode-map (kbd "C-c p s") #'projectile-ripgrep)
   (setq projectile-enable-caching t)
   :config
-  (projectile-global-mode))
+  (setq projectile-switch-project-action 'helm-projectile)
+  (projectile-global-mode)
+  (setq projectile-completion-system 'helm)
+  (helm-projectile-on))
 
 (use-package undo-tree
   :ensure t
@@ -189,6 +179,25 @@ index in STRING."
   :ensure t
   :init
   (setq ripgrep-arguments '("--smart-case")))
+
+(use-package multiple-cursors
+  :ensure t
+  :init
+  (global-unset-key (kbd "M-<down-mouse-1>"))
+  :bind (("M-<mouse-1>" . mc/add-cursor-on-click)))
+
+(use-package hungry-delete
+  :bind (("M-c" . c-hungry-delete-forward)))
+
+(use-package yasnippet
+  :ensure t
+  :bind ("C-<tab>" . yas-expand)
+  :config
+  (yas-reload-all)
+  (add-hook 'prog-mode-hook 'yas-minor-mode))
+
+(use-package yasnippet-snippets
+  :ensure t)
 
 ;; Don't create .#filenames
 (setq create-lockfiles nil)

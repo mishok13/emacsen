@@ -34,14 +34,6 @@
 (use-package smex
   :ensure t)
 
-(use-package yasnippet
-  :ensure t
-  :config
-  (setq yas-snippet-dirs
-        '("~/nonwork/yasnippet-snippets"
-          "~/nonwork/emacsen/snippets/"))
-  (add-hook 'prog-mode-hook 'yas-minor-mode))
-
 (use-package mishok-prog)
 (use-package mishok-lisp)
 (use-package mishok-sgml)
@@ -53,13 +45,16 @@
 (use-package mishok-rust)
 (use-package mishok-haskell)
 
+(use-package mishok-navigating)
 (use-package mishok-editing)
 (use-package mishok-viewing)
-(use-package mishok-keybindings)
 (use-package mishok-git)
 (use-package mishok-twit)
 (use-package mishok-utils)
 (use-package mishok-org)
 (use-package mishok-display)
-(use-package mishok-commands)
+
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
 ;;; init.el ends here
