@@ -35,6 +35,7 @@
   :bind (("M-X" . smex-major-mode-commands)))
 
 (use-package helm
+  :custom (helm-completion-style 'emacs)
   :init
   (setq helm-M-x-fuzzy-match t)
   ;; Enable fuzzy matching for recent files
@@ -42,6 +43,9 @@
   ;; Prevent helm from annoying message pop up when fuzzy-completing
   ;; https://github.com/emacs-helm/helm/issues/550
   (setq helm-exit-idle-delay 0)
+  (setq completion-styles
+        `(basic partial-completion emacs22 initials
+                ,(if (version<= emacs-version "27.0") 'helm-flex 'flex)))
   :bind (("M-x" . helm-M-x)
          ("C-x C-f" . helm-find-files)
          ("C-x b" . helm-mini)))

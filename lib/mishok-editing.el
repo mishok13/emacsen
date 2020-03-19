@@ -199,6 +199,12 @@ index in STRING."
 (use-package yasnippet-snippets
   :ensure t)
 
+(use-package terraform-mode
+  :ensure t)
+
+(use-package company-terraform
+  :ensure t)
+
 ;; Don't create .#filenames
 (setq create-lockfiles nil)
 
