@@ -65,11 +65,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(helm-completion-style (quote emacs))
+ '(helm-completion-style (quote emacs) t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (blacken feature-mode company-terraform terraform-mode smart-mode-line twittering-mode magit-gitflow travis magit transpose-frame yasnippet-snippets projectile-ripgrep protobuf-mode neotree helm-projectile helm-rg helm flx-ido markdown-mode shm haskell-mode racer clj-refactor clojure-mode company tide json-mode typescript-mode go-mode pipenv jedi smartparens emmet-mode aggressive-indent rainbow-delimiters paredit dockerfile-mode yaml-mode flycheck fill-column-indicator smex expand-region undo-tree exec-path-from-shell use-package))))
+    (company-terraform terraform-mode zencoding-mode yaml-mode virtualenvwrapper virtualenv undo-tree twittering-mode travis transpose-frame toml-mode sql-indent smex smart-tabs-mode smart-mode-line-powerline-theme shorten shm scala-mode2 rect-mark rainbow-delimiters racer python-pep8 pymacs py-isort puppet-mode protobuf-mode projectile-ripgrep pivotal-tracker pipenv org-trello nginx-mode neotree names monokai-theme markdown-mode magit-gitflow lui lcs jsx-mode json-mode js3-mode js2-mode jedi highlight-parentheses highlight-indentation helm-rg helm-projectile helm-ag graphql gradle-mode fringe-helper flymake-cursor flycheck-clojure flx-ido flatui-theme firebelly-theme find-file-in-project fill-column-indicator exec-path-from-shell emmet-mode elm-mode edn dockerfile-mode diminish company-jedi circe bubbleberry-theme avy autopair auctex ample-theme aggressive-indent ag ack-and-a-half))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
