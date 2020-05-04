@@ -44,6 +44,8 @@
 (use-package mishok-c)
 (use-package mishok-rust)
 (use-package mishok-haskell)
+(use-package mishok-typescript)
+
 
 (use-package mishok-navigating)
 (use-package mishok-editing)

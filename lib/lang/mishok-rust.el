@@ -15,5 +15,18 @@
   (add-hook 'rust-mode-hook 'company-mode)
   (add-hook 'rust-mode-hook 'flycheck-mode))
 
+(use-package racer
+  :ensure t
+  :config
+  (add-hook 'rust-mode-hook 'racer-mode)
+  (add-hook 'racer-mode-hook 'eldoc-mode))
+
+(use-package company
+  :ensure t
+  :bind ("TAB" . company-indent-or-complete-common)
+  :config
+  (add-hook 'racer-mode-hook #'company-mode)
+  (setq company-tooltip-align-annotations t))
+
 (provide 'mishok-rust)
 ;;; mishok-rust ends here
