@@ -1,4 +1,4 @@
-;;; mishok-keybindings --- Global key-bindings
+;;; mishok-navigating --- Global key-bindings
 ;;; Commentary:
 ;;; All other bindings are set per major mode.
 ;;; Code:
@@ -21,12 +21,7 @@
   :bind (("<left>" . windmove-left)
          ("<right>" . windmove-right)
          ("<up>" . windmove-up)
-         ("<down>" . windmove-down))
-  :config
-  (windmove-default-keybindings))
-
-(use-package hungry-delete
-  :bind (("M-c" . c-hungry-delete-forward)))
+         ("<down>" . windmove-down)))
 
 (use-package undo-tree
   :ensure t
@@ -39,5 +34,21 @@
   :ensure t
   :bind (("M-X" . smex-major-mode-commands)))
 
-(provide 'mishok-keybindings)
-;;; mishok-keybindings ends here
+(use-package helm
+  :custom (helm-completion-style 'emacs)
+  :init
+  (setq helm-M-x-fuzzy-match t)
+  ;; Enable fuzzy matching for recent files
+  (setq helm-recentf-fuzzy-match t)
+  ;; Prevent helm from annoying message pop up when fuzzy-completing
+  ;; https://github.com/emacs-helm/helm/issues/550
+  (setq helm-exit-idle-delay 0)
+  (setq completion-styles
+        `(basic partial-completion emacs22 initials
+                ,(if (version<= emacs-version "27.0") 'helm-flex 'flex)))
+  :bind (("M-x" . helm-M-x)
+         ("C-x C-f" . helm-find-files)
+         ("C-x b" . helm-mini)))
+
+(provide 'mishok-navigating)
+;;; mishok-navigating ends here

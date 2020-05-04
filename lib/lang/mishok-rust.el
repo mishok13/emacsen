@@ -4,10 +4,16 @@
 
 (require 'use-package)
 
+(use-package racer
+  :ensure t
+  :hook (rust-mode . racer-mode))
+
 (use-package rust-mode
   :ensure t
-  :config
-  (add-hook 'rust-mode-hook 'smartparens-mode))
+  :init
+  (add-hook 'rust-mode-hook 'smartparens-mode)
+  (add-hook 'rust-mode-hook 'company-mode)
+  (add-hook 'rust-mode-hook 'flycheck-mode))
 
 (use-package racer
   :ensure t

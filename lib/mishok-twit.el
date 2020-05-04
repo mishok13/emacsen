@@ -11,7 +11,8 @@
   ;; Don't put message in echo area
   (setq twittering-url-show-status nil)
   ;; Open links from twits in EWW
-  (setq browse-url-browser-function 'eww-browse-url))
+  ;; (setq browse-url-browser-function 'osx-browse-url-firefox)
+  )
 
 (provide 'mishok-twit)
 ;;; mishok-twit.el ends here

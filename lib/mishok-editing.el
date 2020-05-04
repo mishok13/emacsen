@@ -6,14 +6,11 @@
 (require 'saveplace)
 (require 'undo-tree)
 
+(setq initial-major-mode 'fundamental-mode)
+
 (use-package ido
   :ensure t
-  :bind (("C-x b" . ido-switch-buffer)
-         ("M-o" . ido-switch-buffer))
-  ;; :config
-  ;; (ido-mode t)
-  ;; (ido-everywhere t)
-  )
+  :bind (("M-o" . ido-switch-buffer)))
 
 (setq-default indent-tabs-mode nil)
 
@@ -71,42 +68,62 @@
 
 (use-package flyspell
   ;; Look into using https://github.com/syohex/emacs-ac-ispell
-  :ensure t
-  :init
-  (defun flyspell-check-next-highlighted-word ()
-    "Custom function to spell check next highlighted word."
-    (interactive)
-    (flyspell-goto-next-error)
-    (ispell-word))
-  :bind (("<f2>" . ispell-word)
-         ("<f3>" . flyspell-buffer)
-         ("<f4>" . flyspell-check-previous-highlighted-word)
-         ("<f5>" . flyspell-check-next-highlighted-word)))
+  :ensure t)
 
 (use-package markdown-mode
   :ensure t
-  :init
-  (add-hook 'markdown-mode-hook 'flyspell-mode))
+  :hook (markdown-mode-hook . flyspell-mode))
 
 (use-package flx-ido
   :ensure t
   :config
   (flx-ido-mode 1))
 
-(use-package helm-projectile
+(use-package helm
+  :ensure t
+  :bind ("C-M-y" . helm-show-kill-ring))
+
+(use-package helm-rg
   :ensure t)
+
+(use-package helm-projectile
+  :ensure t
+  :requires projectile)
 
 (use-package projectile
   :ensure t
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
   :init
   (setq projectile-enable-caching t)
   :config
-  (projectile-global-mode))
+  (setq projectile-switch-project-action 'helm-projectile)
+  (projectile-global-mode)
+  (setq projectile-completion-system 'helm)
+  (helm-projectile-on))
 
 (use-package undo-tree
   :ensure t
   :config
   (global-undo-tree-mode))
+
+(use-package neotree
+  :ensure t
+  :bind ("<f6>" . neotree-project-dir)
+  :config
+  (setq neo-smart-open t)
+  (defun neotree-project-dir ()
+    "Open NeoTree using the git root."
+    (interactive)
+    (let ((project-dir (projectile-project-root))
+          (file-name (buffer-file-name)))
+      (neotree-toggle)
+      (if project-dir
+          (if (neo-global--window-exists-p)
+              (progn
+                (neotree-dir project-dir)
+                (neotree-find file-name)))
+        (message "Could not find git project root.")))))
 
 (setq backup-directory-alist
       `((".*" . ,temporary-file-directory)))
@@ -150,6 +167,43 @@ index in STRING."
     (package-menu-mark-upgrades)
     (package-menu-execute 'noquery)))
 
+(use-package protobuf-mode
+  :ensure t
+  :init
+  (setq protobuf-c-style
+        '((c-basic-offset . 4)))
+  :config
+  (add-hook 'protobuf-mode-hook (lambda () (c-add-style "protobuf-style" protobuf-c-style t))))
+
+(use-package projectile-ripgrep
+  :ensure t
+  :init
+  (setq ripgrep-arguments '("--smart-case")))
+
+(use-package multiple-cursors
+  :ensure t
+  :init
+  (global-unset-key (kbd "M-<down-mouse-1>"))
+  :bind (("M-<mouse-1>" . mc/add-cursor-on-click)))
+
+(use-package hungry-delete
+  :bind (("M-c" . c-hungry-delete-forward)))
+
+(use-package yasnippet
+  :ensure t
+  :bind ("C-<tab>" . yas-expand)
+  :config
+  (yas-reload-all)
+  (add-hook 'prog-mode-hook 'yas-minor-mode))
+
+(use-package yasnippet-snippets
+  :ensure t)
+
+(use-package terraform-mode
+  :ensure t)
+
+(use-package company-terraform
+  :ensure t)
 
 ;; Don't create .#filenames
 (setq create-lockfiles nil)

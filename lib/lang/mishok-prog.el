@@ -6,12 +6,9 @@
 
 (use-package fill-column-indicator
   :ensure t
+  :hook (prog-mode . fci-mode)
   :init
   (setq-default fci-rule-column 80))
-
-(use-package prog-mode
-  :config
-  (add-hook 'prog-mode-hook 'fci-mode))
 
 (use-package which-func
   :config
@@ -20,9 +17,13 @@
 (use-package flycheck
   :ensure t
   :bind (("<f4>" . flycheck-previous-error)
-         ("<f5>" . flycheck-next-error))
-  :config
-  (add-hook 'after-init-hook #'global-flycheck-mode))
+         ("<f5>" . flycheck-next-error)))
+
+(use-package yaml-mode
+  :ensure t)
+
+(use-package dockerfile-mode
+  :ensure t)
 
 (provide 'mishok-prog)
 ;;; mishok-prog ends here
