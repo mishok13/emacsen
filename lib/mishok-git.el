@@ -2,6 +2,16 @@
 ;;; Commentary:
 ;;; Code:
 
+(defun insert-jira-issue-key-into-commit ()
+  (let ((ISSUEKEY "[[:upper:]]+-[[:digit:]]+"))
+    (when (string-match-p ISSUEKEY (magit-get-current-branch))
+      (insert
+       (replace-regexp-in-string
+        (concat ".*?\\(" ISSUEKEY "\\).*")
+        "\n\nRefs \\1"
+        (magit-get-current-branch)))
+      (beginning-of-buffer))))
+
 (use-package magit
   :bind (("<f7>" . magit-status))
   :ensure t
@@ -11,6 +21,7 @@
     ad-do-it
     (delete-other-windows))
   (add-hook 'git-commit-mode-hook 'flyspell-mode)
+  (add-hook 'git-commit-setup-hook 'insert-jira-issue-key-into-commit)
   :config
   (defadvice magit-quit-window (around magit-restore-screen activate)
     (let ((current-mode major-mode))
