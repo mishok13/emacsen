@@ -11,6 +11,11 @@
 (use-package jedi
   :ensure t)
 
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable))
+
 (use-package flycheck
   :ensure t
   :hook (python-mode . flycheck-mode))
