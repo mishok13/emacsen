@@ -14,11 +14,15 @@
   (define-key emmet-mode-keymap (kbd "C-m") 'emmet-expand-line)
   (define-key emmet-mode-keymap (kbd "C-j") 'newline-and-indent))
 
-;; (use-package web-mode
-;;   :ensure t
-;;   :mode "\\.html\\'"
-;;   :config
-;;   (add-hook 'web-mode-hook 'emmet-mode))
+(use-package web-mode
+  :ensure t
+  :mode (("\\.html\\'" . web-mode)
+         ("\\.hbs\\'" . web-mode))
+  :init
+  (setq web-mode-engines-alist
+        '(("ctemplate" . "\\.hbs\\'")))
+  :config
+  (add-hook 'web-mode-hook 'emmet-mode))
 
 ;; (defun web-mode-django-setup ()
 ;;   "Hooks and general setup for Django templating support."
