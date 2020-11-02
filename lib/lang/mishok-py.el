@@ -13,7 +13,19 @@
 
 (use-package elpy
   :straight t
-  :init
+  :bind ("C-c C-f" . elpy-black-fix-code)
+  :config
+  (if (executable-find "python3")
+      (progn
+        (setq elpy-rpc-python-command "python3")
+        (setq python-shell-interpreter "python3")))
+  (use-package jedi
+    :ensure t)
+  ;; (add-hook 'elpy-mode-hook
+  ;;           '(lambda ()
+  ;;              (when (eq major-mode 'python-mode)
+  ;;                (add-hook 'after-save-hook 'elpy-black-fix-code))))
+  (add-hook 'elpy-mode-hook 'flycheck-mode)
   (elpy-enable))
 
 (use-package flycheck
