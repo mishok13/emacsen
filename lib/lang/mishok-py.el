@@ -36,6 +36,10 @@
   :straight t
   :hook (python-mode . pipenv-mode))
 
+(use-package poetry
+  :ensure t
+  :straight t)
+
 (use-package python
   :bind ("C-j" . newline-and-indent)
   :init
