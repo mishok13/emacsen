@@ -6,7 +6,7 @@
   :config
   (setenv "LANG" "en_US.UTF-8")
   :init
-  (exec-path-from-shell-copy-envs '("LC_ALL" "WORKON_HOME"))
+  (exec-path-from-shell-copy-envs '("LC_ALL" "WORKON_HOME" "RUST_SRC_PATH"))
   (setq exec-path-from-shell-check-startup-files nil)
   (exec-path-from-shell-initialize))
 
