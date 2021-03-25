@@ -4,12 +4,12 @@
 (require 'use-package)
 
 (use-package company
-  :ensure t
+  :straight t
   :config
   (global-set-key (kbd "TAB") #'company-indent-or-complete-common))
 
 (use-package clojure-mode
-  :ensure t
+  :straight t
   :config
   (add-hook 'clojure-mode-hook 'enable-paredit-mode)
   (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
@@ -18,14 +18,14 @@
   (add-hook 'cider-mode-hook 'company-mode))
 
 (use-package clj-refactor
-  :ensure t
+  :straight t
   :config
   (add-hook 'clojure-mode-hook (lambda ()
                                  (clj-refactor-mode 1)
                                  (cljr-add-keybindings-with-prefix "C-c C-b"))))
 
 (use-package cider
-  :ensure t
+  :straight t
   :config
   (setq cider-show-error-buffer 'only-in-repl)
   (setq cider-auto-select-error-buffer nil)
@@ -43,7 +43,7 @@
   (add-hook 'cider-mode-hook 'eldoc-mode))
 
 (use-package company
-  :ensure t
+  :straight t
   :config
   (add-hook 'cider-repl-mode-hook #'company-mode)
   (add-hook 'cider-mode-hook #'company-mode))

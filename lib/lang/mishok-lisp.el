@@ -3,17 +3,17 @@
 ;;; Code:
 
 (use-package paredit
-  :ensure t
+  :straight t
   :config
   (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode))
 
 (use-package rainbow-delimiters
-  :ensure t
+  :straight t
   :config
   (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
 
 (use-package aggressive-indent
-  :ensure t
+  :straight t
   :config
   (add-hook 'emacs-lisp-mode-hook 'aggressive-indent-mode))
 

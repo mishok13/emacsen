@@ -14,7 +14,7 @@
 
 (use-package magit
   :bind (("<f7>" . magit-status))
-  :ensure t
+  :straight t
   :init
   (defadvice magit-status (around magit-fullscreen activate)
     (window-configuration-to-register :magit-fullscreen)
@@ -30,10 +30,10 @@
         (jump-to-register :magit-fullscreen)))))
 
 (use-package travis
-  :ensure t)
+  :straight t)
 
 (use-package magit-gitflow
-  :ensure t
+  :straight t
   :init
   (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
 

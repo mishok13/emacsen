@@ -5,7 +5,7 @@
 (require 'windmove)
 
 (use-package hydra
-  :ensure t)
+  :straight t)
 
 ;;* Helpers
 
@@ -42,7 +42,7 @@
     (enlarge-window arg)))
 
 (use-package transpose-frame
-  :ensure t
+  :straight t
   :config
   (global-set-key
    (kbd "C-S-o")

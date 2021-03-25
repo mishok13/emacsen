@@ -4,10 +4,10 @@
 (require 'use-package)
 
 (use-package haskell-mode
-  :ensure t)
+  :straight t)
 
 (use-package shm
-  :ensure t
+  :straight t
   :config
   (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
   (add-hook 'haskell-mode-hook 'structured-haskell-mode))

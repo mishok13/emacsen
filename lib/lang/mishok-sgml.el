@@ -4,7 +4,7 @@
 (require 'use-package)
 
 (use-package emmet-mode
-  :ensure t
+  :straight t
   :init
   ;; Disable preview before expanding
   (setq emmet-preview-default nil)
@@ -15,7 +15,7 @@
   (define-key emmet-mode-keymap (kbd "C-j") 'newline-and-indent))
 
 ;; (use-package web-mode
-;;   :ensure t
+;;   :straight t
 ;;   :mode "\\.html\\'"
 ;;   :config
 ;;   (add-hook 'web-mode-hook 'emmet-mode))

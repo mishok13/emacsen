@@ -4,7 +4,7 @@
 (require 'use-package)
 
 (use-package tide
-  :ensure t
+  :straight t
   :config
   (require 'web-mode)
   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))

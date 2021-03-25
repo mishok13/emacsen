@@ -6,10 +6,13 @@
 (require 'saveplace)
 (require 'undo-tree)
 
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+
 (setq initial-major-mode 'fundamental-mode)
 
 (use-package ido
-  :ensure t
+  :straight t
   :bind (("M-o" . ido-switch-buffer)))
 
 (setq-default indent-tabs-mode nil)
@@ -42,7 +45,7 @@
 
 ;; Save history
 (use-package desktop
-  :ensure t
+  :straight t
   :init
   (setq history-length 250)
   (add-to-list 'desktop-globals-to-save 'file-name-history)
@@ -57,7 +60,7 @@
   (desktop-save-mode t))
 
 (use-package recentf
-  :ensure t
+  :straight t
   :bind (("C-x C-r" . helm-recentf))
   :init
   (setq recentf-max-saved-items 100)
@@ -68,30 +71,30 @@
 
 (use-package flyspell
   ;; Look into using https://github.com/syohex/emacs-ac-ispell
-  :ensure t)
+  :straight t)
 
 (use-package markdown-mode
-  :ensure t
+  :straight t
   :hook (markdown-mode-hook . flyspell-mode))
 
 (use-package flx-ido
-  :ensure t
+  :straight t
   :config
   (flx-ido-mode 1))
 
 (use-package helm
-  :ensure t
+  :straight t
   :bind ("C-M-y" . helm-show-kill-ring))
 
 (use-package helm-rg
-  :ensure t)
+  :straight t)
 
 (use-package helm-projectile
-  :ensure t
+  :straight t
   :requires projectile)
 
 (use-package projectile
-  :ensure t
+  :straight t
   :bind-keymap
   ("C-c p" . projectile-command-map)
   :init
@@ -103,12 +106,12 @@
   (helm-projectile-on))
 
 (use-package undo-tree
-  :ensure t
+  :straight t
   :config
   (global-undo-tree-mode))
 
 (use-package neotree
-  :ensure t
+  :straight t
   :bind ("<f6>" . neotree-project-dir)
   :config
   (setq neo-smart-open t)
@@ -168,7 +171,7 @@ index in STRING."
     (package-menu-execute 'noquery)))
 
 (use-package protobuf-mode
-  :ensure t
+  :straight t
   :init
   (setq protobuf-c-style
         '((c-basic-offset . 4)))
@@ -176,12 +179,12 @@ index in STRING."
   (add-hook 'protobuf-mode-hook (lambda () (c-add-style "protobuf-style" protobuf-c-style t))))
 
 (use-package projectile-ripgrep
-  :ensure t
+  :straight t
   :init
   (setq ripgrep-arguments '("--smart-case")))
 
 (use-package multiple-cursors
-  :ensure t
+  :straight t
   :init
   (global-unset-key (kbd "M-<down-mouse-1>"))
   :bind (("M-<mouse-1>" . mc/add-cursor-on-click)))
@@ -190,20 +193,20 @@ index in STRING."
   :bind (("M-c" . c-hungry-delete-forward)))
 
 (use-package yasnippet
-  :ensure t
+  :straight t
   :bind ("C-<tab>" . yas-expand)
   :config
   (yas-reload-all)
   (add-hook 'prog-mode-hook 'yas-minor-mode))
 
 (use-package yasnippet-snippets
-  :ensure t)
+  :straight t)
 
 (use-package terraform-mode
-  :ensure t)
+  :straight t)
 
 (use-package company-terraform
-  :ensure t)
+  :straight t)
 
 ;; Don't create .#filenames
 (setq create-lockfiles nil)

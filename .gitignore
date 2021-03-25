@@ -1,6 +1,7 @@
 swank/
 el-get/
 elpa/
+straight/
 backups/
 .backups/
 auto-save-list/
