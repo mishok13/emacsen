@@ -33,9 +33,9 @@
 
 ;; Setup fonts
 (global-font-lock-mode t)
-;; (set-face-attribute 'default nil
-;;                     :font "Consolas-14")
-;; (set-frame-font "Consolas-14")
+(set-face-attribute 'default nil
+                    :font "Consolas-14")
+(set-frame-font "Consolas-14")
 
 ;; (seq-filter (lambda (font)
 ;;               (when-let ((info (font-info font)))
