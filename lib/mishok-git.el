@@ -29,6 +29,10 @@
       (when (eq 'magit-status-mode current-mode)
         (jump-to-register :magit-fullscreen)))))
 
+(use-package ediff
+  :init
+  (setq ediff-setup-windows-plain 'ediff-setup-windows-plain))
+
 (use-package travis
   :straight t)
 
