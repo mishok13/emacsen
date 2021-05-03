@@ -4,7 +4,7 @@
 (require 'use-package)
 
 (use-package yaml-mode
-  :ensure t)
+  :straight t)
 
 (provide 'mishok-yaml)
 ;;; mishok-clj ends here

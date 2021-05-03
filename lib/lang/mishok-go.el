@@ -4,7 +4,7 @@
 (require 'use-package)
 
 (use-package go-mode
-  :ensure t)
+  :straight t)
 
 (provide 'mishok-go)
 ;;; mishok-py ends here

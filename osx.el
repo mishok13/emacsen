@@ -2,7 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 (use-package exec-path-from-shell
-  :ensure t
+  :straight t
   :config
   (setenv "LANG" "en_US.UTF-8")
   :init

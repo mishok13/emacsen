@@ -5,14 +5,14 @@
 (require 'use-package)
 
 (use-package expand-region
-  :ensure t
+  :straight t
   :bind (("M-@" . er/expand-region)))
 
 ;; Activate windmove
 ;; Temporary workaround for windmove bug: http://debbugs.gnu.org/cgi/bugreport.cgi?bug=16017#11
 ;; (setq windmove-window-distance-delta 2)
 (use-package windmove
-  :ensure t
+  :straight t
   :init
   (global-unset-key (kbd "<right>"))
   (global-unset-key (kbd "<left>"))
@@ -24,17 +24,18 @@
          ("<down>" . windmove-down)))
 
 (use-package undo-tree
-  :ensure t
+  :straight t
   :bind (("C-z" . undo-tree-undo)
          ("C-M-z" . undo-tree-redo))
   :config
   (global-undo-tree-mode))
 
 (use-package smex
-  :ensure t
+  :straight t
   :bind (("M-X" . smex-major-mode-commands)))
 
 (use-package helm
+  :straight t
   :custom (helm-completion-style 'emacs)
   :init
   (setq helm-M-x-fuzzy-match t)

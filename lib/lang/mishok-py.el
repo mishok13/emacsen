@@ -4,24 +4,24 @@
 (require 'use-package)
 
 (use-package smartparens
-  :ensure t
+  :straight t
   :hook ((python-mode . smartparens-mode)
          (rust-mode . smartparens-mode)))
 
 (use-package jedi
-  :ensure t)
+  :straight t)
 
 (use-package elpy
-  :ensure t
+  :straight t
   :init
   (elpy-enable))
 
 (use-package flycheck
-  :ensure t
+  :straight t
   :hook (python-mode . flycheck-mode))
 
 (use-package pipenv
-  :ensure t
+  :straight t
   :hook (python-mode . pipenv-mode))
 
 (use-package python

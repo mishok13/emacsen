@@ -5,24 +5,24 @@
 (require 'use-package)
 
 (use-package racer
-  :ensure t
+  :straight t
   :hook (rust-mode . racer-mode))
 
 (use-package rust-mode
-  :ensure t
+  :straight t
   :init
   (add-hook 'rust-mode-hook 'smartparens-mode)
   (add-hook 'rust-mode-hook 'company-mode)
   (add-hook 'rust-mode-hook 'flycheck-mode))
 
 (use-package racer
-  :ensure t
+  :straight t
   :config
   (add-hook 'rust-mode-hook 'racer-mode)
   (add-hook 'racer-mode-hook 'eldoc-mode))
 
 (use-package company
-  :ensure t
+  :straight t
   :bind ("TAB" . company-indent-or-complete-common)
   :config
   (add-hook 'racer-mode-hook #'company-mode)

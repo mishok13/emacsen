@@ -4,7 +4,7 @@
 (require 'use-package)
 
 (use-package cc-mode
-  :ensure t
+  :straight t
   :config
   (add-hook 'c-mode-common-hook
             (lambda ()
