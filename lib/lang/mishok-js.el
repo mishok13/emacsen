@@ -21,7 +21,9 @@
   (setq json-reformat:indent-width 2))
 
 (use-package web-mode
-  :straight t)
+  :straight t
+  :config
+  (setq web-mode-enable-auto-indentation nil))
 
 (use-package tide
   :straight t
