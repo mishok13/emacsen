@@ -203,7 +203,9 @@ index in STRING."
   :straight t)
 
 (use-package terraform-mode
-  :straight t)
+  :straight t
+  :init
+  (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode))
 
 (use-package company-terraform
   :straight t)
