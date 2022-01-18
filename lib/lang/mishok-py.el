@@ -19,8 +19,6 @@
       (progn
         (setq elpy-rpc-python-command "python3")
         (setq python-shell-interpreter "python3")))
-  (use-package jedi
-    :ensure t)
   ;; (add-hook 'elpy-mode-hook
   ;;           '(lambda ()
   ;;              (when (eq major-mode 'python-mode)
