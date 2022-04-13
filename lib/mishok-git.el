@@ -34,15 +34,20 @@
   :init
   (setq ediff-setup-windows-plain 'ediff-setup-windows-plain))
 
-(use-package travis
-  :straight t)
-
 (use-package magit-gitflow
   :straight t
+  :after magit
   :init
   (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
 
 (use-package transient
+  :straight t)
+
+(use-package yaml
+  :straight t)
+
+(use-package forge
+  :after magit
   :straight t)
 
 (provide 'mishok-git)

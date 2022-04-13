@@ -213,5 +213,15 @@ index in STRING."
 ;; Don't create .#filenames
 (setq create-lockfiles nil)
 
+(use-package which-key
+  :straight t)
+
+(use-package lsp-mode
+  :straight t
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :hook ((rust-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration)))
+
 (provide 'mishok-editing)
 ;;; mishok-editing ends here
