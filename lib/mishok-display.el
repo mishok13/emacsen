@@ -27,15 +27,16 @@
 (column-number-mode t)
 
 ;; FIXME: disable line numbers for certain modes
-(global-linum-mode t)
+(global-display-line-numbers-mode t)
 
-(global-visual-line-mode t)
+;; (global-visual-line-mode t)
 
 ;; Setup fonts
 (global-font-lock-mode t)
 (set-face-attribute 'default nil
-                    :font "Consolas-14")
-(set-frame-font "Consolas-14")
+                    :font "Hack-12")
+(set-frame-font "Hack-12")
+(setq native-comp-async-report-warnings-errors nil)
 
 ;; (seq-filter (lambda (font)
 ;;               (when-let ((info (font-info font)))

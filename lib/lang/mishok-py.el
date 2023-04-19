@@ -40,8 +40,7 @@
 
 (use-package python
   :bind ("C-j" . newline-and-indent)
-  :init
-  (add-hook 'python-mode-hook (lambda () (yas-reload-all))))
+  :init)
 
 (provide 'mishok-py)
 ;;; mishok-py ends here
