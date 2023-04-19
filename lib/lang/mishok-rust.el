@@ -1,32 +1,27 @@
 ;;; mishok-rust --- Rust specific setup
 ;;; Commentary:
 ;;; Code:
-
 (require 'use-package)
 
-(use-package racer
-  :straight t
-  :hook (rust-mode . racer-mode))
+(use-package eglot)
 
-(use-package rust-mode
+(use-package rustic
   :straight t
-  :init
-  (add-hook 'rust-mode-hook 'smartparens-mode)
-  (add-hook 'rust-mode-hook 'company-mode)
-  (add-hook 'rust-mode-hook 'flycheck-mode))
-
-(use-package racer
-  :straight t
+  :after eglot
+  :bind (:map rustic-mode-map
+              ;; ("M-j" . lsp-ui-imenu)
+              ;; ("M-?" . lsp-find-references)
+              ("C-c C-c l" . flycheck-list-errors)
+              ("C-c C-c a" . eglot-code-actions)
+              ("C-c C-c r" . eglot-rename)
+              ;; ("C-c C-c q" . lsp-workspace-restart)
+              ("C-c C-c Q" . eglot-shutdown-all)
+              ;; ("C-c C-c s" . lsp-rust-analyzer-status)
+              )
   :config
-  (add-hook 'rust-mode-hook 'racer-mode)
-  (add-hook 'racer-mode-hook 'eldoc-mode))
-
-(use-package company
-  :straight t
-  :bind ("TAB" . company-indent-or-complete-common)
-  :config
-  (add-hook 'racer-mode-hook #'company-mode)
-  (setq company-tooltip-align-annotations t))
+  (setq rustic-format-on-save t)
+  (setq rustic-lsp-client 'eglot)
+  (add-hook 'rustic-mode-hook 'eglot-ensure))
 
 (provide 'mishok-rust)
 ;;; mishok-rust ends here

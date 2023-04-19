@@ -20,4 +20,8 @@ straight/
 swank/
 tramp
 url/*
-url/cookies
+.undo/*
+/eln-cache/
+/*.sqlite
+/transient/
+/projects

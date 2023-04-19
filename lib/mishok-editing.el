@@ -4,40 +4,31 @@
 (require 'use-package)
 (require 'desktop)
 (require 'saveplace)
-(require 'undo-tree)
 
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
+;; https://github.com/emacscollective/no-littering
+;; https://github.com/KaratasFurkan/.emacs.d
+;; https://github.com/minad/vertico
 
-(setq initial-major-mode 'fundamental-mode)
+(setq visible-bell       nil
+      ring-bell-function #'ignore)
 
-(use-package ido
-  :straight t
-  :bind (("M-o" . ido-switch-buffer)))
+(use-package emacs
+  :config
+  (setq initial-major-mode 'fundamental-mode)
+  (put 'upcase-region 'disabled nil)
+  (put 'downcase-region 'disabled nil)
+  (setq-default indent-tabs-mode nil)
+  (setq backup-by-copying t
+        backup-directory-alist '(("." . "~/.emacs.d/.backups"))
+        delete-old-versions t
+        kept-new-versions 6
+        kept-old-versions 2
+        version-control t)
+  (setq visible-bell       nil
+        ring-bell-function #'ignore)
+  (global-visual-line-mode 1)
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)  )
 
-(setq-default indent-tabs-mode nil)
-
-;; Set up backups
-(setq backup-by-copying t
-      backup-directory-alist '(("." . "~/.emacs.d/.backups"))
-      delete-old-versions t
-      kept-new-versions 6
-      kept-old-versions 2
-      version-control t)
-
-(visual-line-mode t)
-
-;; clear up files before saving them
-(defun delete-trailing-blank-lines ()
-  "Delete all blank lines at the end of the file and leave single newline character."
-  (interactive)
-  (save-excursion
-    (goto-char (point-max))
-    (newline)              ;; ensures that there is at least one
-    (delete-blank-lines))) ;; leaves at most one
-
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-(add-hook 'before-save-hook 'delete-trailing-blank-lines)
 
 ;; Setup kill-buffer and system clipboard
 ;; this should enable copy from emacs to any other X frame
@@ -47,7 +38,7 @@
 (use-package desktop
   :straight t
   :init
-  (setq history-length 250)
+  (setq history-length 500)
   (add-to-list 'desktop-globals-to-save 'file-name-history)
   (add-to-list 'desktop-modes-not-to-save 'dired-mode)
   (add-to-list 'desktop-modes-not-to-save 'Info-mode)
@@ -59,16 +50,6 @@
   :config
   (desktop-save-mode t))
 
-(use-package recentf
-  :straight t
-  :bind (("C-x C-r" . helm-recentf))
-  :init
-  (setq recentf-max-saved-items 100)
-  (setq helm-recentf-fuzzy-match t)
-  :config
-  (dolist (path '("/.emacs.d/el-get/" "~$" "/.autosaves/" "/emacs.d/elpa/" "/emacs.d/url/"))
-    (add-to-list 'recentf-exclude path)))
-
 (use-package flyspell
   ;; Look into using https://github.com/syohex/emacs-ac-ispell
   :straight t)
@@ -77,111 +58,13 @@
   :straight t
   :hook (markdown-mode-hook . flyspell-mode))
 
-(use-package flx-ido
-  :straight t
-  :config
-  (flx-ido-mode 1))
-
-(use-package helm
-  :straight t
-  :bind ("C-M-y" . helm-show-kill-ring))
-
-(use-package helm-rg
+(use-package project
   :straight t)
-
-(use-package helm-projectile
-  :straight t
-  :requires projectile)
-
-(use-package projectile
-  :straight t
-  :bind-keymap
-  ("C-c p" . projectile-command-map)
-  :init
-  (setq projectile-enable-caching t)
-  :config
-  (setq projectile-switch-project-action 'helm-projectile)
-  (projectile-global-mode)
-  (setq projectile-completion-system 'helm)
-  (helm-projectile-on))
-
-(use-package undo-tree
-  :straight t
-  :config
-  (global-undo-tree-mode))
-
-(use-package neotree
-  :straight t
-  :bind ("<f6>" . neotree-project-dir)
-  :config
-  (setq neo-smart-open t)
-  (defun neotree-project-dir ()
-    "Open NeoTree using the git root."
-    (interactive)
-    (let ((project-dir (projectile-project-root))
-          (file-name (buffer-file-name)))
-      (neotree-toggle)
-      (if project-dir
-          (if (neo-global--window-exists-p)
-              (progn
-                (neotree-dir project-dir)
-                (neotree-find file-name)))
-        (message "Could not find git project root.")))))
 
 (setq backup-directory-alist
       `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
-
-;; uncamelcase
-(defun mishok/uncamelcase-string (s &optional sep start)
-  "Convert CamelCase string S to lower case with word separator SEP.
-Default for SEP is a hyphen \"-\".
-
-If third argument START is non-nil, convert words after that
-index in STRING."
-  (let ((case-fold-search nil))
-    (while (string-match "[A-Z]" s (or start 1))
-      (setq s (replace-match (concat (or sep "-")
-                                     (downcase (match-string 0 s)))
-                             t nil s)))
-    (downcase s)))
-
-(defun mishok/uncamelcase-word-at-point ()
-  "Translate camelCase into camel-case."
-  (interactive)
-  (let* ((case-fold-search nil)
-         (start-point (point))
-         (beg (and (skip-chars-backward "[:alnum:]:_-") (point)))
-         (end (and (skip-chars-forward "[:alnum:]:_-") (point)))
-         (txt (buffer-substring beg end))
-         (cml (uncamelcase-string txt "-")) )
-    (if cml
-        (progn
-          (delete-region beg end)
-          (insert cml)))
-    (goto-char start-point)))
-
-(defun mishok/update-all-packages ()
-  "Update all current packages."
-  (interactive)
-  (save-window-excursion
-    (list-packages)
-    (package-menu-mark-upgrades)
-    (package-menu-execute 'noquery)))
-
-(use-package protobuf-mode
-  :straight t
-  :init
-  (setq protobuf-c-style
-        '((c-basic-offset . 4)))
-  :config
-  (add-hook 'protobuf-mode-hook (lambda () (c-add-style "protobuf-style" protobuf-c-style t))))
-
-(use-package projectile-ripgrep
-  :straight t
-  :init
-  (setq ripgrep-arguments '("--smart-case")))
 
 (use-package multiple-cursors
   :straight t
@@ -192,20 +75,38 @@ index in STRING."
 (use-package hungry-delete
   :bind (("M-c" . c-hungry-delete-forward)))
 
+(use-package yasnippet-snippets
+  :straight t)
+
 (use-package yasnippet
   :straight t
   :bind ("C-<tab>" . yas-expand)
+  :hook prog-mode
   :config
-  (yas-reload-all)
-  (add-hook 'prog-mode-hook 'yas-minor-mode))
-
-(use-package yasnippet-snippets
-  :straight t)
+  (yas-reload-all))
 
 (use-package terraform-mode
   :straight t
   :init
   (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode))
+
+(use-package company
+  :after yasnippet
+  :straight t
+  :config
+  (setq company-idle-delay 0.5) ;; how long to wait until popup
+  (setq company-tooltip-align-annotations t)
+  (setq company-backends '(company-bbdb company-semantic company-cmake (company-capf :with company-yasnippet) company-clang company-files
+                                        (company-dabbrev-code company-gtags company-etags company-keywords)
+                                        company-oddmuse company-dabbrev))
+  (global-company-mode)
+  :bind
+  ("TAB" . company-indent-or-complete-common)
+  (:map company-active-map
+	("C-n". company-select-next)
+	("C-p". company-select-previous)
+	("M-<". company-select-first)
+	("M->". company-select-last)))
 
 (use-package company-terraform
   :straight t)
@@ -216,12 +117,100 @@ index in STRING."
 (use-package which-key
   :straight t)
 
-(use-package lsp-mode
+(use-package clipetty
+  :straight t
+  :hook (after-init . global-clipetty-mode))
+
+;; https://git.sr.ht/~ashton314/emacs-bedrock/tree/main/item/mixins/base.el
+;; https://codeberg.org/vifon/emacs-config/src/branch/master/emacs.d/lisp/20-completion-engine.el
+(use-package vertico
   :straight t
   :init
-  (setq lsp-keymap-prefix "C-c l")
-  :hook ((rust-mode . lsp)
-         (lsp-mode . lsp-enable-which-key-integration)))
+  (vertico-mode))
+
+(use-package marginalia
+  :straight t
+  :bind (:map minibuffer-local-map
+              ("M-A" . marginalia-cycle))
+  :init
+  (marginalia-mode))
+
+;; Smart(er) fuzzy completion matching (similar to flex)
+(use-package hotfuzz
+  :straight t)
+
+;;
+(use-package orderless
+  :straight t
+  :init
+  (setq completion-styles '(hotfuzz orderless basic)
+        completion-category-defaults nil
+        orderless-matching-styles '(orderless-flex)
+        completion-category-overrides '((file (styles partial-completion)))))
+
+(use-package consult
+  :straight t
+  :init (progn
+          (defvar consult-mode-map (make-sparse-keymap))
+          (define-minor-mode consult-mode
+            "Provide the `consult' commands in a single keymap."
+            :global t
+            (if consult-mode
+                (define-key minibuffer-local-map
+                            [remap previous-matching-history-element]
+                            #'consult-history)
+              (define-key minibuffer-local-map
+                          [remap previous-matching-history-element]
+                          nil)))
+          (consult-mode 1))
+  :bind
+  (:map consult-mode-map
+         ("M-s u" . consult-focus-lines)
+         ("M-s k" . consult-keep-lines)
+         ("M-s e" . consult-isearch-history)
+         ("M-s d" . consult-find)
+         ;; M-g …
+         ("M-g g" . consult-line)
+         ("M-g o" . consult-outline)
+         ("M-g i" . consult-imenu)
+         ("M-g I" . consult-info)
+         ("M-g r" . consult-ripgrep)
+         ("M-g m" . consult-mark)
+         ("M-g M" . consult-global-mark)
+         ;; Misc.
+         ("C-x C-r" . consult-recent-file)))
+
+(use-package embark
+  :straight t
+
+  :bind
+  (("C-." . embark-act)         ;; pick some comfortable binding
+   ("C-;" . embark-dwim)        ;; good alternative: M-.
+   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+
+  :init
+
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+
+  ;; Show the Embark target at point via Eldoc.  You may adjust the Eldoc
+  ;; strategy, if you want to see the documentation from multiple providers.
+  (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
+
+  :config
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+;; Consult users will also want the embark-consult package.
+(use-package embark-consult
+  :straight t
+  :after (embark consult)
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
 
 (provide 'mishok-editing)
 ;;; mishok-editing ends here

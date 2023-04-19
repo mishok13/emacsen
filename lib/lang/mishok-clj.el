@@ -3,11 +3,6 @@
 ;;; Code:
 (require 'use-package)
 
-(use-package company
-  :straight t
-  :config
-  (global-set-key (kbd "TAB") #'company-indent-or-complete-common))
-
 (use-package clojure-mode
   :straight t
   :config
@@ -41,12 +36,6 @@
   (add-hook 'cider-repl-mode-hook 'paredit-mode)
   ;; Enable eldoc in REPL
   (add-hook 'cider-mode-hook 'eldoc-mode))
-
-(use-package company
-  :straight t
-  :config
-  (add-hook 'cider-repl-mode-hook #'company-mode)
-  (add-hook 'cider-mode-hook #'company-mode))
 
 (provide 'mishok-clj)
 ;;; mishok-clj ends here
