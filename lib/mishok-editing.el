@@ -36,7 +36,6 @@
 
 ;; Save history
 (use-package desktop
-  :straight t
   :init
   (setq history-length 500)
   (add-to-list 'desktop-globals-to-save 'file-name-history)
@@ -52,14 +51,13 @@
 
 (use-package flyspell
   ;; Look into using https://github.com/syohex/emacs-ac-ispell
-  :straight t)
+  )
 
 (use-package markdown-mode
   :straight t
-  :hook (markdown-mode-hook . flyspell-mode))
+  :hook flyspell-mode)
 
-(use-package project
-  :straight t)
+(use-package project)
 
 (setq backup-directory-alist
       `((".*" . ,temporary-file-directory)))
@@ -81,7 +79,6 @@
 (use-package yasnippet
   :straight t
   :bind ("C-<tab>" . yas-expand)
-  :hook prog-mode
   :config
   (yas-reload-all))
 
@@ -181,7 +178,7 @@
          ("C-x C-r" . consult-recent-file)))
 
 (use-package embark
-  :straight t
+  :ensure t
 
   :bind
   (("C-." . embark-act)         ;; pick some comfortable binding
@@ -207,7 +204,7 @@
 
 ;; Consult users will also want the embark-consult package.
 (use-package embark-consult
-  :straight t
+  :ensure t
   :after (embark consult)
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))

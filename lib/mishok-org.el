@@ -4,7 +4,7 @@
 (require 'use-package)
 
 (use-package org
-  :straight t
+  :ensure t
   :bind (("<f8>" . org-capture)
          ("<f10>" . org-agenda))
   :init
