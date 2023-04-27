@@ -8,6 +8,8 @@
 ;; https://github.com/emacscollective/no-littering
 ;; https://github.com/KaratasFurkan/.emacs.d
 ;; https://github.com/minad/vertico
+;; https://www.lucacambiaghi.com/vanilla-emacs/readme.html#h:EC68944C-F745-45D8-9905-420E0813DBAF
+;; https://github.com/minad/consult/blob/main/README.org#use-package-example
 
 (setq visible-bell       nil
       ring-bell-function #'ignore)
@@ -26,6 +28,7 @@
         version-control t)
   (setq visible-bell       nil
         ring-bell-function #'ignore)
+  (recentf-mode t)
   (global-visual-line-mode 1)
   (add-hook 'before-save-hook 'delete-trailing-whitespace)  )
 
@@ -112,7 +115,9 @@
 (setq create-lockfiles nil)
 
 (use-package which-key
-  :straight t)
+  :straight t
+  :config
+  (which-key-mode))
 
 (use-package clipetty
   :straight t
@@ -160,22 +165,26 @@
                           [remap previous-matching-history-element]
                           nil)))
           (consult-mode 1))
+  :config
+  (setq consult-narrow-key "<")
   :bind
   (:map consult-mode-map
-         ("M-s u" . consult-focus-lines)
-         ("M-s k" . consult-keep-lines)
-         ("M-s e" . consult-isearch-history)
-         ("M-s d" . consult-find)
-         ;; M-g …
-         ("M-g g" . consult-line)
-         ("M-g o" . consult-outline)
-         ("M-g i" . consult-imenu)
-         ("M-g I" . consult-info)
-         ("M-g r" . consult-ripgrep)
-         ("M-g m" . consult-mark)
-         ("M-g M" . consult-global-mark)
-         ;; Misc.
-         ("C-x C-r" . consult-recent-file)))
+        ("C-x b" . consult-buffer)
+        ("M-s u" . consult-focus-lines)
+        ("M-s k" . consult-keep-lines)
+        ("M-s e" . consult-isearch-history)
+        ("M-s d" . consult-find)
+        ;; M-g …
+        ("M-g g" . consult-line)
+        ("M-g M-g" . consult-line)
+        ("M-g o" . consult-outline)
+        ("M-g i" . consult-imenu)
+        ("M-g I" . consult-info)
+        ("M-g r" . consult-ripgrep)
+        ("M-g m" . consult-mark)
+        ("M-g M" . consult-global-mark)
+        ;; Misc.
+        ("C-x C-r" . consult-recent-file)))
 
 (use-package embark
   :ensure t
