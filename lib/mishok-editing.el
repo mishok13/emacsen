@@ -58,7 +58,7 @@
 
 (use-package markdown-mode
   :straight t
-  :hook flyspell-mode)
+  :hook (markdown-mode . flyspell-mode))
 
 (use-package project)
 
@@ -176,7 +176,7 @@
         ("M-s d" . consult-find)
         ;; M-g …
         ("M-g g" . consult-line)
-        ("M-g M-g" . consult-line)
+        ("M-g M-g" . consult-goto-line)
         ("M-g o" . consult-outline)
         ("M-g i" . consult-imenu)
         ("M-g I" . consult-info)
