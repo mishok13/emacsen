@@ -34,6 +34,13 @@
 (when (eq system-type 'darwin)
   (load-file "~/.emacs.d/osx.el"))
 
+(use-package denote
+  :straight t
+  :config
+  (setq denote-known-keywords '("emacs" "life" "work" "joy" "rust" "programming" "python")))
+
+
+
 (use-package mishok-editing)
 (use-package mishok-navigating)
 (use-package mishok-viewing)
