@@ -55,6 +55,7 @@
   :init (load-theme 'zenburn t))
 
 (use-package treesit
+  :defer t
   :config
   (setq treesit-language-source-alist
         '((yaml . ("https://github.com/ikatyang/tree-sitter-yaml" nil nil nil nil))
@@ -79,9 +80,6 @@
 (use-package clojure-mode
   :straight t
   :config
-  (add-hook 'clojure-mode-hook 'enable-paredit-mode)
-  (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
-  (add-hook 'clojure-mode-hook 'aggressive-indent-mode)
   (add-hook 'cider-repl-mode-hook 'company-mode)
   (add-hook 'cider-mode-hook 'company-mode))
 
@@ -105,8 +103,6 @@
   ;; Write REPL history to file
   (setq cider-repl-history-file "/tmp/replhistory")
   (setq cider-auto-select-error-buffer nil)
-  ;; Enable paredit in REPL
-  (add-hook 'cider-repl-mode-hook 'paredit-mode)
   ;; Enable eldoc in REPL
   (add-hook 'cider-mode-hook 'eldoc-mode))
 
@@ -126,8 +122,6 @@
   :custom
   (jsonian-no-so-long-mode))
 
-
-
 (use-package tide
   :straight t
   :after (web-mode)
@@ -144,16 +138,15 @@
 
 (use-package paredit
   :straight t
-  :hook (emacs-lisp-mode))
+  :hook (emacs-lisp-mode clojure-mode cider-repl-mode))
 
 (use-package rainbow-delimiters
   :straight t
-  :hook (emacs-lisp-mode python-mode python-ts-mode))
+  :hook (emacs-lisp-mode clojure-mode cider-repl-mode python-mode python-ts-mode))
 
 (use-package aggressive-indent
   :straight t
-  :config
-  (add-hook 'emacs-lisp-mode-hook 'aggressive-indent-mode))
+  :hook (emacs-lisp-mode clojure-mode))
 
 
 (use-package fill-column-indicator
@@ -175,7 +168,7 @@
 
 (use-package smartparens
   :straight t
-  :hook (python-mode python-ts-mode rustic-mode))
+  :hook (python-mode python-ts-mode rustic-mode typescript-mode))
 
 (use-package jedi
   :straight t)
@@ -188,26 +181,12 @@
       (progn
         (setq elpy-rpc-python-command "python3")
         (setq python-shell-interpreter "python3")))
-  ;; (add-hook 'elpy-mode-hook
-  ;;           '(lambda ()
-  ;;              (when (eq major-mode 'python-mode)
-  ;;                (add-hook 'after-save-hook 'elpy-black-fix-code))))
   (add-hook 'elpy-mode-hook 'flycheck-mode)
   (elpy-enable))
-
-
-
-(use-package pipenv
-  :straight t
-  :hook (python-mode . pipenv-mode))
 
 (use-package poetry
   :ensure t
   :straight t)
-
-(use-package python
-  :bind ("C-j" . newline-and-indent)
-  :init)
 
 (use-package eglot)
 
@@ -523,12 +502,6 @@
   :config
   (setq magit-bury-buffer-function 'magit-restore-window-configuration))
 
-(use-package magit-gitflow
-  :straight t
-  :after (magit)
-  :init
-  (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
-
 (use-package ediff
   :init
   (setq ediff-setup-windows-plain 'ediff-setup-windows-plain))
@@ -550,14 +523,6 @@
          ("<right>" . windmove-right)
          ("<up>" . windmove-up)
          ("<down>" . windmove-down)))
-
-(use-package undo-tree
-  :straight t
-  :bind (("C-z" . undo-tree-undo)
-         ("C-M-z" . undo-tree-redo))
-  :config
-  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/.undo")))
-  (global-undo-tree-mode))
 
 (use-package org
   :straight t
