@@ -23,16 +23,36 @@
 
 (straight-use-package 'use-package)
 
-(use-package zenburn-theme
-  :straight t
-  :init (load-theme 'zenburn t))
-
-
-(add-to-list 'load-path "~/.emacs.d/lib")
-(add-to-list 'load-path "~/.emacs.d/lib/lang")
+(use-package emacs
+  :config
+  (setq initial-major-mode 'fundamental-mode)
+  (put 'upcase-region 'disabled nil)
+  (put 'downcase-region 'disabled nil)
+  (setq-default indent-tabs-mode nil)
+  (defalias 'yes-or-no-p 'y-or-n-p)
+  (setq backup-by-copying t
+        backup-directory-alist`((".*" . ,temporary-file-directory))
+        auto-save-file-name-transforms`((".*" ,temporary-file-directory t))
+        scroll-error-top-bottom 'true
+        delete-old-versions t
+        kept-new-versions 6
+        kept-old-versions 2
+        version-control t
+        visible-bell nil
+        x-select-enable-clipboard t
+        ring-bell-function #'ignore
+        create-lockfiles nil)
+  (recentf-mode t)
+  (global-visual-line-mode t)
+  (pixel-scroll-precision-mode t)
+  (add-hook 'before-save-hook 'delete-trailing-whitespace))
 
 (when (eq system-type 'darwin)
   (load-file "~/.emacs.d/osx.el"))
+
+(use-package zenburn-theme
+  :straight t
+  :init (load-theme 'zenburn t))
 
 (use-package treesit
   :config
@@ -47,7 +67,6 @@
   :bind (("C-x m" . denote))
   :config
   (setq denote-known-keywords '("emacs" "life" "work" "joy" "rust" "programming" "python")))
-
 
 (use-package cc-mode
   :straight t
@@ -91,22 +110,8 @@
   ;; Enable eldoc in REPL
   (add-hook 'cider-mode-hook 'eldoc-mode))
 
-
 (use-package go-mode
   :straight t)
-
-
-(use-package haskell-mode
-  :straight t)
-
-(use-package shm
-  :straight t
-  :config
-  (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-  (add-hook 'haskell-mode-hook 'structured-haskell-mode))
-
-;; (add-hook 'java-mode-hook 'smartparens-mode)
-
 
 (use-package typescript-mode
   :straight t
@@ -115,25 +120,18 @@
   (add-hook 'typescript-mode-hook 'company-mode)
   (add-hook 'typescript-mode-hook 'smartparens-mode))
 
-(use-package json-mode
+(use-package jsonian
   :straight t
-  :config
-  (setq js-indent-level 2))
+  :after (so-long)
+  :custom
+  (jsonian-no-so-long-mode))
 
-(use-package json-reformat
-  :straight t
-  :config
-  (setq json-reformat:indent-width 2))
 
-(use-package web-mode
-  :straight t
-  :config
-  (setq web-mode-enable-auto-indentation nil))
 
 (use-package tide
   :straight t
+  :after (web-mode)
   :config
-  (require 'web-mode)
   (add-hook 'before-save-hook 'tide-format-before-save)
   (add-hook 'typescript-mode-hook #'tide-setup)
   (add-hook 'typescript-mode-hook 'smartparens-mode)
@@ -142,30 +140,15 @@
             (lambda ()
               (when (string-equal "tsx" (file-name-extension buffer-file-name))
                 (setup-tide-mode))))
-  ;; enable typescript-tslint checker
-  (flycheck-add-mode 'typescript-tslint 'web-mode))
-
-(use-package tide
-  :straight t
-  :config
-  (require 'web-mode)
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-  (add-hook 'web-mode-hook
-            (lambda ()
-              (when (string-equal "tsx" (file-name-extension buffer-file-name))
-                (setup-tide-mode))))
-  ;; enable typescript-tslint checker
   (flycheck-add-mode 'typescript-tslint 'web-mode))
 
 (use-package paredit
   :straight t
-  :config
-  (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode))
+  :hook (emacs-lisp-mode))
 
 (use-package rainbow-delimiters
   :straight t
-  :config
-  (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
+  :hook (emacs-lisp-mode python-mode python-ts-mode))
 
 (use-package aggressive-indent
   :straight t
@@ -183,11 +166,6 @@
   :config
   (which-function-mode t))
 
-(use-package flycheck
-  :straight t
-  :bind (("<f4>" . flycheck-previous-error)
-         ("<f5>" . flycheck-next-error)))
-
 (use-package yaml-mode
   :straight t)
 
@@ -197,8 +175,7 @@
 
 (use-package smartparens
   :straight t
-  :hook ((python-mode . smartparens-mode)
-         (rust-mode . smartparens-mode)))
+  :hook (python-mode python-ts-mode rustic-mode))
 
 (use-package jedi
   :straight t)
@@ -218,9 +195,7 @@
   (add-hook 'elpy-mode-hook 'flycheck-mode)
   (elpy-enable))
 
-(use-package flycheck
-  :straight t
-  :hook (python-mode . flycheck-mode))
+
 
 (use-package pipenv
   :straight t
@@ -238,11 +213,11 @@
 
 (use-package rustic
   :straight t
-  :after eglot
+  :after (eglot)
+  :mode ("\\.rs\\'" . rustic-mode)
   :bind (:map rustic-mode-map
               ;; ("M-j" . lsp-ui-imenu)
               ;; ("M-?" . lsp-find-references)
-              ("C-c C-c l" . flycheck-list-errors)
               ("C-c C-c a" . eglot-code-actions)
               ("C-c C-c r" . eglot-rename)
               ;; ("C-c C-c q" . lsp-workspace-restart)
@@ -270,6 +245,8 @@
   :straight t
   :mode (("\\.html\\'" . web-mode)
          ("\\.hbs\\'" . web-mode))
+  :custom
+  (web-mode-enable-auto-indentation nil)
   :init
   (setq web-mode-engines-alist
         '(("ctemplate" . "\\.hbs\\'")))
@@ -287,20 +264,8 @@
 
 ;; (require 'tex-site)
 
-(use-package web-mode
-  :straight t)
-
-
-
-(use-package yaml-mode
-  :straight t)
-
-
-;;; mishok-display --- All display specific things
-;;; Commentary:
-;;; Code:
-
-(require 'use-package)
+(use-package flymake
+  )
 
 (use-package smart-mode-line
   :straight t)
@@ -347,72 +312,43 @@
 
 ;; Make scrolling with C-v work on last page, instead of notifying
 ;; "end of buffer" error
-(setq scroll-error-top-bottom 'true)
+
 
 ;; Don't let minibufer cursor jump into read-only prompt
 (setq minibuffer-prompt-properties
       (plist-put minibuffer-prompt-properties 'point-entered 'minibuffer-avoid-prompt))
 
-;; 1-2 letters shorter to type!
-(fset 'yes-or-no-p 'y-or-n-p)
-
-;; Set up cleaning of unused buffers
-(setq midnight-period 3600)
-(setq clean-buffer-list-delay-general 1)
-(add-hook 'midnight-hook 'clean-buffer-list)
-;; (run-at-time t 3600 'clean-buffer-list)
 
 ;; Make sure every file name has unique name
 (setq uniquify-buffer-name-style 'reverse)
 (setq uniquify-separator "|")
 (setq uniquify-after-kill-buffer-p t)
 (setq uniquify-ignore-buffers-re "^\\*")
-;; Setup scrolling behaviour
 
-;; make scroll behave more like notepad, he-he
-(setq scroll-conservatively 10000)
-(setq scroll-step 1)
-(setq scroll-preserve-screen-position 't)
-
-
-(require 'desktop)
-(require 'saveplace)
+(use-package midnight
+  :init
+  ;; Days are shorter in emacs world
+  (setq midnight-period (* 60 60 8))
+  ;; Ensures buffers are cleaned up after a single "day"
+  (setq clean-buffer-list-delay-general 1)
+  (midnight-mode t))
 
 ;; https://github.com/emacscollective/no-littering
 ;; https://github.com/KaratasFurkan/.emacs.d
 ;; https://github.com/minad/vertico
 ;; https://www.lucacambiaghi.com/vanilla-emacs/readme.html#h:EC68944C-F745-45D8-9905-420E0813DBAF
 ;; https://github.com/minad/consult/blob/main/README.org#use-package-example
+;; https://github.com/caisah/emacs.dz
 
-(setq visible-bell       nil
-      ring-bell-function #'ignore)
 
-(use-package emacs
+(use-package saveplace
   :config
-  (setq initial-major-mode 'fundamental-mode)
-  (put 'upcase-region 'disabled nil)
-  (put 'downcase-region 'disabled nil)
-  (setq-default indent-tabs-mode nil)
-  (setq backup-by-copying t
-        backup-directory-alist '(("." . "~/.emacs.d/.backups"))
-        delete-old-versions t
-        kept-new-versions 6
-        kept-old-versions 2
-        version-control t)
-  (setq visible-bell       nil
-        ring-bell-function #'ignore)
-  (recentf-mode t)
-  (global-visual-line-mode 1)
-  (add-hook 'before-save-hook 'delete-trailing-whitespace)  )
+  (setq save-place-file (expand-file-name ".places" user-emacs-directory))
+  (save-place-mode t))
 
-
-;; Setup kill-buffer and system clipboard
-;; this should enable copy from emacs to any other X frame
-(setq x-select-enable-clipboard t)
-
-;; Save history
+;; Save buffer state
 (use-package desktop
-  :init
+  :config
   (setq history-length 500)
   (add-to-list 'desktop-globals-to-save 'file-name-history)
   (add-to-list 'desktop-modes-not-to-save 'dired-mode)
@@ -420,25 +356,17 @@
   (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
   (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
   ;; Save point position between sessions
-  (setq-default save-place t)
-  (setq save-place-file (expand-file-name ".places" user-emacs-directory))
-  :config
   (desktop-save-mode t))
+
+(use-package markdown-mode
+  :straight t)
 
 (use-package flyspell
   ;; Look into using https://github.com/syohex/emacs-ac-ispell
+  :hook (markdown-mode)
   )
 
-(use-package markdown-mode
-  :straight t
-  :hook (markdown-mode . flyspell-mode))
-
 (use-package project)
-
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
 
 (use-package multiple-cursors
   :straight t
@@ -464,7 +392,7 @@
   (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode))
 
 (use-package company
-  :after yasnippet
+  :after (yasnippet)
   :straight t
   :config
   (setq company-idle-delay 0.5) ;; how long to wait until popup
@@ -476,16 +404,13 @@
   :bind
   ("TAB" . company-indent-or-complete-common)
   (:map company-active-map
-	("C-n". company-select-next)
-	("C-p". company-select-previous)
-	("M-<". company-select-first)
-	("M->". company-select-last)))
+        ("C-n". company-select-next)
+        ("C-p". company-select-previous)
+        ("M-<". company-select-first)
+        ("M->". company-select-last)))
 
 (use-package company-terraform
   :straight t)
-
-;; Don't create .#filenames
-(setq create-lockfiles nil)
 
 (use-package which-key
   :straight t
@@ -547,7 +472,7 @@
         ("M-s k" . consult-keep-lines)
         ("M-s e" . consult-isearch-history)
         ("M-s d" . consult-find)
-        ;; M-g …
+
         ("M-g g" . consult-line)
         ("M-g M-g" . consult-goto-line)
         ("M-g o" . consult-outline)
@@ -556,7 +481,7 @@
         ("M-g r" . consult-ripgrep)
         ("M-g m" . consult-mark)
         ("M-g M" . consult-global-mark)
-        ;; Misc.
+
         ("C-x C-r" . consult-recent-file)))
 
 (use-package embark
@@ -584,7 +509,6 @@
                  nil
                  (window-parameters (mode-line-format . none)))))
 
-;; Consult users will also want the embark-consult package.
 (use-package embark-consult
   :ensure t
   :after (embark consult)
@@ -592,41 +516,29 @@
   (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package magit
-  :bind (("<f7>" . magit-status))
   :straight t
+  :bind (("<f7>" . magit-status))
   :init
-  (defadvice magit-status (around magit-fullscreen activate)
-    (window-configuration-to-register :magit-fullscreen)
-    ad-do-it
-    (delete-other-windows))
   (add-hook 'git-commit-mode-hook 'flyspell-mode)
   :config
-  (defadvice magit-quit-window (around magit-restore-screen activate)
-    (let ((current-mode major-mode))
-      ad-do-it
-      (when (eq 'magit-status-mode current-mode)
-        (jump-to-register :magit-fullscreen)))))
+  (setq magit-bury-buffer-function 'magit-restore-window-configuration))
+
+(use-package magit-gitflow
+  :straight t
+  :after (magit)
+  :init
+  (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
 
 (use-package ediff
   :init
   (setq ediff-setup-windows-plain 'ediff-setup-windows-plain))
 
-(use-package magit-gitflow
-  :straight t
-  :after magit
-  :init
-  (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
-
 (use-package transient
   :straight t)
 
-(use-package yaml
-  :straight t)
-
 (use-package forge
-  :after magit
+  :after (magit)
   :straight t)
-
 
 (use-package expand-region
   :straight t
@@ -634,11 +546,6 @@
 
 (use-package windmove
   :straight t
-  :init
-  (global-unset-key (kbd "<right>"))
-  (global-unset-key (kbd "<left>"))
-  (global-unset-key (kbd "<up>"))
-  (global-unset-key (kbd "<down>"))
   :bind (("<left>" . windmove-left)
          ("<right>" . windmove-right)
          ("<up>" . windmove-up)
@@ -651,8 +558,6 @@
   :config
   (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/.undo")))
   (global-undo-tree-mode))
-
-
 
 (use-package org
   :straight t
@@ -680,73 +585,39 @@
   (setq org-clock-idle-time 10)
   (setq org-clock-persist 'history))
 
-
 (defun look-of-disapproval ()
   "Just in case we need this"
   (interactive)
   (insert "ಠ_ಠ"))
 
-(require 'windmove)
-
 (use-package hydra
-  :straight t)
-
-;;* Helpers
-
-(defun hydra-move-splitter-left (arg)
-  "Move window splitter left."
-  (interactive "p")
-  (if (let ((windmove-wrap-around))
-        (windmove-find-other-window 'right))
-      (shrink-window-horizontally arg)
-    (enlarge-window-horizontally arg)))
-
-(defun hydra-move-splitter-right (arg)
-  "Move window splitter right."
-  (interactive "p")
-  (if (let ((windmove-wrap-around))
-        (windmove-find-other-window 'right))
-      (enlarge-window-horizontally arg)
-    (shrink-window-horizontally arg)))
-
-(defun hydra-move-splitter-up (arg)
-  "Move window splitter up."
-  (interactive "p")
-  (if (let ((windmove-wrap-around))
-        (windmove-find-other-window 'up))
-      (enlarge-window arg)
-    (shrink-window arg)))
-
-(defun hydra-move-splitter-down (arg)
-  "Move window splitter down."
-  (interactive "p")
-  (if (let ((windmove-wrap-around))
-        (windmove-find-other-window 'up))
-      (shrink-window arg)
-    (enlarge-window arg)))
-
-(use-package transpose-frame
   :straight t
   :config
-  (global-set-key
-   (kbd "C-M-g")
-   (defhydra hydra-frame-management (:color blue :hint nil)
-     "
-^Flip^                  ^Rotate^           ^Splitter^
-^^^^^^^^-----------------------------------------------
-_t_: transpose          _r_: rotate 180°   _w_ Up
-_f_: flip-vertically    _c_: rotate  90°   _s_ Down
-_F_: flip-horizontally  _C_: rotate -90°   _a_ Left
-^ ^                     ^ ^                _d_ Right
-"
-     ("t" transpose-frame)
-     ("f" flip-frame)
-     ("F" flop-frame)
-     ("r" rotate-frame)
-     ("c" rotate-frame-clockwise)
-     ("C" rotate-frame-anti-clockwise)
-     ("w" hydra-move-splitter-up)
-     ("s" hydra-move-splitter-down)
-     ("a" hydra-move-splitter-left)
-     ("d" hydra-move-splitter-right)
-     ("." hydra-repeat))))
+  (setq hydra-is-helpful 't)
+  :bind
+  (("C-M-g" . hydra-window-management/body)))
+
+(use-package major-mode-hydra
+  :straight t
+  :after hydra)
+
+(use-package transpose-frame
+  :straight t)
+
+(pretty-hydra-define hydra-window-management
+  (:color red :title "Manage windows" :quit-key "q" :foreign-keys warn)
+  ("Flip"
+   (("t" transpose-frame "Transpose")
+    ("f" flip-frame "Vertically")
+    ("F" flop-frame "Horizontally"))
+
+   "Rotate"
+   (("r" rotate-frame "180°")
+    ("c" rotate-frame-clockwise "90°")
+    ("C" rotate-frame-anti-clockwise "-90°"))
+
+   "Window"
+   (("w" enlarge-window "Taller")
+    ("s" shrink-window "Shorter")
+    ("d" enlarge-window-horizontally "Wider")
+    ("a" shrink-window-horizontally "Narrower"))))
