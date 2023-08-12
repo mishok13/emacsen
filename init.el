@@ -25,6 +25,9 @@
 
 (use-package emacs
   :config
+  ;; Disables suspend-frame keybindings. Because why does it even exist?
+  (global-unset-key (kbd "C-z"))
+  (global-unset-key (kbd "C-x C-z"))
   (setq initial-major-mode 'fundamental-mode)
   (put 'upcase-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
@@ -188,25 +191,21 @@
   :ensure t
   :straight t)
 
-(use-package eglot)
+(use-package eglot
+  :hook ((rustic-mode . eglot-ensure)
+         (python-mode . eglot-ensure)
+         (python-ts-mode . eglot-ensure))
+  :bind (:map eglot-mode-map
+              ("C-M-h a" . eglot-code-actions)
+              ("C-M-h r" . eglot-rename)
+              ("C-M-h Q" . eglot-shutdown-all))  )
 
 (use-package rustic
   :straight t
-  :after (eglot)
   :mode ("\\.rs\\'" . rustic-mode)
-  :bind (:map rustic-mode-map
-              ;; ("M-j" . lsp-ui-imenu)
-              ;; ("M-?" . lsp-find-references)
-              ("C-c C-c a" . eglot-code-actions)
-              ("C-c C-c r" . eglot-rename)
-              ;; ("C-c C-c q" . lsp-workspace-restart)
-              ("C-c C-c Q" . eglot-shutdown-all)
-              ;; ("C-c C-c s" . lsp-rust-analyzer-status)
-              )
   :config
   (setq rustic-format-on-save t)
-  (setq rustic-lsp-client 'eglot)
-  (add-hook 'rustic-mode-hook 'eglot-ensure))
+  (setq rustic-lsp-client 'eglot))
 
 (use-package emmet-mode
   :straight t
@@ -560,7 +559,8 @@
   :config
   (setq hydra-is-helpful 't)
   :bind
-  (("C-M-g" . hydra-window-management/body)))
+  (("C-M-g" . hydra-window-management/body)
+   ("C-M-c" . hydra-flymake/body)))
 
 (use-package major-mode-hydra
   :straight t
@@ -586,3 +586,10 @@
     ("s" shrink-window "Shorter")
     ("d" enlarge-window-horizontally "Wider")
     ("a" shrink-window-horizontally "Narrower"))))
+
+(pretty-hydra-define hydra-flymake
+  (:color red :title "Flymake" :quit-key "q" :foreign-keys warn)
+  ("Flymake"
+   (("p" flymake-show-project-diagnostics)
+    ("b" flymake-show-buffer-diagnostics)
+    ("x" flymake-show-diagnostic))))
