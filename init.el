@@ -50,12 +50,12 @@
   (pixel-scroll-precision-mode t)
   (add-hook 'before-save-hook 'delete-trailing-whitespace))
 
-(when (eq system-type 'darwin)
-  (load-file "~/.emacs.d/osx.el"))
-
 (use-package zenburn-theme
   :straight t
   :init (load-theme 'zenburn t))
+
+(use-package dash
+  :straight t)
 
 (use-package treesit
   :defer t
@@ -197,11 +197,23 @@
               ("C-M-h Q" . eglot-shutdown-all))  )
 
 (use-package rustic
+  ;; I would like to make rustic window for compilation narrower and
+  ;; shorter if possible, as well as automatically focus into it. It should be possible with https://www.reddit.com/r/emacs/comments/cpdr6m/any_additional_docstutorials_on_displaybuffer_and/
+  ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/The-Zen-of-Buffer-Display.html
   :straight t
-  :mode ("\\.rs\\'" . rustic-mode)
+  ;; :mode ("\\.rs\\'" . rustic-mode)
   :config
   (setq rustic-format-on-save t)
-  (setq rustic-lsp-client 'eglot))
+  (setq rustic-lsp-client 'eglot)
+  (add-to-list 'display-buffer-alist
+               `("^\\*rustic-compilation\\*$"
+                 (display-buffer-reuse-window display-buffer-below-selected display-buffer-at-bottom)
+                 (inhibit-same-window . t)
+                 (window-min-height . 10)
+                 (window-height . 0.25)
+                 (inhibit-switch-frame . nil))
+               t
+               ))
 
 (use-package emmet-mode
   :straight t
@@ -524,19 +536,15 @@
   :bind (("<f8>" . org-capture)
          ("<f10>" . org-agenda))
   :custom
-  (org-default-notes-file (org-path "notes.org"))
   (org-directory (expand-file-name "~/nonwork/kitchensink/notes/org/"))
+  (org-default-notes-file (expand-file-name "notes.org" org-directory))
+  (org-clock-idle-time 10)
+  (org-clock-persist 'history)
+  (org-log-done 'note)
   :init
-  (setq org-log-done 'note)
   (org-clock-persistence-insinuate)
   (add-to-list 'org-modules 'org-habit t)
-
-  (setq org-agenda-files (mapcar 'org-path '("work.org" "nonwork.org")))
-  :config
-  ;; Set idle time to 10 minutes (10 minutes of idling will lead to
-  ;; org-clock asking whether clock-out has to be performed)
-  (setq org-clock-idle-time 10)
-  (setq org-clock-persist 'history))
+  (setq org-agenda-files (-map (-cut expand-file-name <> org-directory) '("work.org" "nonwork.org"))))
 
 (defun look-of-disapproval ()
   "Just in case we need this"
