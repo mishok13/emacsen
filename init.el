@@ -54,6 +54,9 @@
   :straight t
   :init (load-theme 'zenburn t))
 
+(use-package dash
+  :straight t)
+
 (use-package treesit
   :defer t
   :config
@@ -533,19 +536,15 @@
   :bind (("<f8>" . org-capture)
          ("<f10>" . org-agenda))
   :custom
-  (org-default-notes-file (org-path "notes.org"))
   (org-directory (expand-file-name "~/nonwork/kitchensink/notes/org/"))
+  (org-default-notes-file (expand-file-name "notes.org" org-directory))
+  (org-clock-idle-time 10)
+  (org-clock-persist 'history)
+  (org-log-done 'note)
   :init
-  (setq org-log-done 'note)
   (org-clock-persistence-insinuate)
   (add-to-list 'org-modules 'org-habit t)
-
-  (setq org-agenda-files (mapcar 'org-path '("work.org" "nonwork.org")))
-  :config
-  ;; Set idle time to 10 minutes (10 minutes of idling will lead to
-  ;; org-clock asking whether clock-out has to be performed)
-  (setq org-clock-idle-time 10)
-  (setq org-clock-persist 'history))
+  (setq org-agenda-files (-map (-cut expand-file-name <> org-directory) '("work.org" "nonwork.org"))))
 
 (defun look-of-disapproval ()
   "Just in case we need this"
