@@ -704,6 +704,9 @@
   (global-undo-tree-mode))
 
 (use-package python
+  :custom
+  ;;
+  (python-indent-guess-indent-offset nil)
   :hook
   (python-mode . eglot-ensure)
   (python-mode . smartparens-mode))
