@@ -135,8 +135,13 @@
   (setq uniquify-after-kill-buffer-p t)
   (setq uniquify-ignore-buffers-re "^\\*"))
 
+(use-package dash
+  :straight t
+  :demand t)
+
 (use-package org
   :after (dash)
+  :demand t
   :ensure t
   :bind (("<f8>" . org-capture)
          ("<f10>" . org-agenda))
@@ -202,9 +207,6 @@
 (use-package zenburn-theme
   :straight t
   :init (load-theme 'zenburn t))
-
-(use-package dash
-  :straight t)
 
 (use-package treesit
   :defer t
