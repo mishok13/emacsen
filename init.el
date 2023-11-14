@@ -136,6 +136,7 @@
   (setq uniquify-ignore-buffers-re "^\\*"))
 
 (use-package org
+  :after (dash)
   :ensure t
   :bind (("<f8>" . org-capture)
          ("<f10>" . org-agenda))
