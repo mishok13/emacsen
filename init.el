@@ -163,13 +163,7 @@
   (sml/apply-theme 'respectful))
 
 
-(use-package denote
-  :straight t
-  :custom
-  (denote-known-keywords '("emacs" "rust" "python" "tech" "softeng" "work" "life" ) "Expands know keywords a bit")
-  (denote-directory mk13/denote-directory)
-  :config
-  :bind (("C-x m" . denote)))
+
 
 (use-package exec-path-from-shell
   :straight t
@@ -218,8 +212,9 @@
 (use-package denote
   :straight t
   :bind (("C-x m" . denote))
-  :config
-  (setq denote-known-keywords '("emacs" "life" "work" "joy" "rust" "programming" "python")))
+  :custom
+  (denote-known-keywords '("emacs" "rust" "python" "tech" "softeng" "work" "life") "Expands known keywords a bit")
+  (denote-directory mk13/denote-directory))
 
 (use-package cc-mode
   :straight t
@@ -346,30 +341,9 @@
                  (window-min-height . 10)
                  (window-height . 0.25)
                  (inhibit-switch-frame . nil))
-               t
-               ))
+               t))
 
-
-
-
-
-
-;; (defun web-mode-django-setup ()
-;;   "Hooks and general setup for Django templating support."
-;;   (setq web-mode-markup-indent-offset 4)
-;;   (setq web-mode-code-indent-offset 4)
-;;   (setq web-mode-enable-control-block-indentation t)
-;;   (web-mode-set-engine "django")
-;;   (setq indent-tabs-mode nil))
-
-
-;; (require 'tex-site)
-
-(use-package flymake
-  )
-
-(use-package smart-mode-line
-  :straight t)
+(use-package flymake)
 
 (use-package midnight
   :straight t)
