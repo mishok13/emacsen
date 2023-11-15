@@ -297,6 +297,18 @@
   :init
   (setq-default fci-rule-column 80))
 
+(use-package python-ts-mode
+  :if (eq system-type 'gnu/linux)
+  :defer t
+  ;; automatically generating pyrightconfig could be done with:
+  ;; detecting pyproject.toml
+  ;; reading it https://github.com/gongo/emacs-toml and detecting the tool used
+  ;; running this for poetry (or can we do that without the call to command line?)
+  ;; generating config with json.el https://github.com/emacs-mirror/emacs/blob/master/lisp/json.el#L770
+  ;; setting fci to correct value based on tool.black.line-length or tool.ruff.line-length value (and sensible default).
+  ;; poetry env info -p | read -r d; printf '{\n  "venvPath": "%s",\n  "venv": "%s"\n}\n' "$(dirname "$d")" "$(basename "$d")" > pyrightconfig.json
+  )
+
 (use-package which-func
   :config
   (which-function-mode t))
