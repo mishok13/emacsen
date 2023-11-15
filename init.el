@@ -508,40 +508,7 @@
         orderless-matching-styles '(orderless-flex)
         completion-category-overrides '((file (styles partial-completion)))))
 
-(use-package consult
-  :straight t
-  :init (progn
-          (defvar consult-mode-map (make-sparse-keymap))
-          (define-minor-mode consult-mode
-            "Provide the `consult' commands in a single keymap."
-            :global t
-            (if consult-mode
-                (define-key minibuffer-local-map
-                            [remap previous-matching-history-element]
-                            #'consult-history)
-              (define-key minibuffer-local-map
-                          [remap previous-matching-history-element]
-                          nil)))
-          (consult-mode 1))
-  :custom
-  (consult-narrow-key "<")
-  :bind
-  (:map consult-mode-map
-        ("C-x b" . consult-buffer)
-        ("M-s u" . consult-focus-lines)
-        ("M-s k" . consult-keep-lines)
-        ("M-s e" . consult-isearch-history)
-        ("M-s d" . consult-find)
-        ("M-g g" . consult-line)
-        ("M-g M-g" . consult-goto-line)
-        ("M-g o" . consult-outline)
-        ("M-g i" . consult-imenu)
-        ("M-g I" . consult-info)
-        ("M-g r" . consult-ripgrep)
-        ("M-g m" . consult-mark)
-        ("M-g M" . consult-global-mark)
 
-        ("C-x C-r" . consult-recent-file)))
 
 (use-package embark
   :ensure t
@@ -669,9 +636,6 @@
   (add-to-list 'auto-mode-alist '("/.rgignore\\'" . gitignore-mode))
   (add-to-list 'auto-mode-alist '("/.driftignore\\'" . gitignore-mode)))
 
-(use-package ediff
-  :init
-  (setq ediff-setup-windows-plain 'ediff-setup-windows-plain))
 
 (use-package transient
   :straight t)
@@ -732,7 +696,6 @@
         ("M-s k" . consult-keep-lines)
         ("M-s e" . consult-isearch-history)
         ("M-s d" . consult-find)
-        ;; M-g …
         ("M-g g" . consult-line)
         ("M-g M-g" . consult-goto-line)
         ("M-g o" . consult-outline)
