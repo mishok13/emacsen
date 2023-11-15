@@ -346,9 +346,7 @@
 (use-package flymake)
 
 (use-package midnight
-  :straight t)
-
-(use-package midnight
+  :straight t
   :init
   ;; Days are shorter in emacs world
   (setq midnight-period (* 60 60 8))
