@@ -526,9 +526,6 @@
   :init
   (setq ediff-setup-windows-plain 'ediff-setup-windows-plain))
 
-(use-package transient
-  :straight t)
-
 (use-package expand-region
   :straight t
   :bind (("M-@" . er/expand-region)))
@@ -616,10 +613,6 @@
 
 (use-package yaml
   :straight t)
-
-(use-package expand-region
-  :straight t
-  :bind (("M-@" . er/expand-region)))
 
 (use-package undo-tree
   :straight t
