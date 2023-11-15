@@ -137,12 +137,10 @@
 
 (use-package dash
   :straight t
-  :demand t)
+)
 
 (use-package org
-  :after (dash)
-  :demand t
-  :ensure t
+  :straight t
   :bind (("<f8>" . org-capture)
          ("<f10>" . org-agenda))
   :custom
