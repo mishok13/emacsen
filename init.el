@@ -273,12 +273,6 @@
 
 (use-package so-long)
 
-(use-package jsonian
-  :straight t
-  :after (so-long)
-  :config
-  (jsonian-no-so-long-mode))
-
 (use-package paredit
   :straight t
   :hook ((emacs-lisp-mode clojure-mode cider-repl-mode) . paredit-mode))
@@ -355,29 +349,10 @@
                t
                ))
 
-(use-package emmet-mode
-  :straight t
-  :init
-  ;; Disable preview before expanding
-  (setq emmet-preview-default nil)
-  ;; Move the cursor to next edit point
-  (setq emmet-move-cursor-between-quotes t)
-  :config
-  (define-key emmet-mode-keymap (kbd "C-m") 'emmet-expand-line)
-  (define-key emmet-mode-keymap (kbd "C-j") 'newline-and-indent))
 
 
-(use-package web-mode
-  :straight t
-  :mode (("\\.html\\'" . web-mode)
-         ("\\.hbs\\'" . web-mode))
-  :custom
-  (web-mode-enable-auto-indentation nil)
-  :init
-  (setq web-mode-engines-alist
-        '(("ctemplate" . "\\.hbs\\'")))
-  :config
-  (add-hook 'web-mode-hook 'emmet-mode))
+
+
 
 ;; (defun web-mode-django-setup ()
 ;;   "Hooks and general setup for Django templating support."
@@ -776,8 +751,8 @@
 (use-package jsonian
   :straight t
   :after so-long
-  :config
-  (setq jsonian-default-indentation 2)
+  :custom
+  (jsonian-default-indentation 2)
   :custom
   (jsonian-no-so-long-mode))
 
@@ -798,34 +773,43 @@
                 (setup-tide-mode)))))
 
 
+(use-package emmet-mode
+  :straight t
+  :hook (web-mode)
+  :custom
+  ;; Disable preview before expanding
+  (emmet-preview-default nil)
+  ;; Move the cursor to next edit point
+  (emmet-move-cursor-between-quotes t)
+  :bind (:map emmet-mode-keymap
+              ;; ("C-j" . newline-and-indent)
+              ("C-m" . emmet-expand-line)))
+
 (use-package web-mode
   :straight t
-  :mode
-  ("\\.tsx\\'" "\\.html\\'" "\\.hbs\\'" "\\.vue\\'")
-  :config
-  (setq web-mode-enable-auto-indentation nil)
-  (add-hook 'web-mode-hook 'emmet-mode)
+  :mode  ("\\.tsx\\'" "\\.html\\'" "\\.hbs\\'" "\\.vue\\'")
   :custom
+  (web-mode-enable-auto-indentation nil)
   (web-mode-markup-indent-offset 2)
   (web-mode-css-indent-offset 2)
   (web-mode-code-indent-offset 2))
 
 (pretty-hydra-define
- hydra-window-management
- (:color red :title "Manage windows" :quit-key "q" :foreign-keys warn)
- ("Flip"
-  (("t" transpose-frame "Transpose")
-   ("f" flip-frame "Vertically")
-   ("F" flop-frame "Horizontally"))
-  "Rotate"
-  (("r" rotate-frame "180°")
-   ("c" rotate-frame-clockwise "90°")
-   ("C" rotate-frame-anti-clockwise "-90°"))
-  "Window"
-  (("w" enlarge-window "Taller")
-   ("s" shrink-window "Shorter")
-   ("d" enlarge-window-horizontally "Wider")
-   ("a" shrink-window-horizontally "Narrower"))))
+  hydra-window-management
+  (:color red :title "Manage windows" :quit-key "q" :foreign-keys warn)
+  ("Flip"
+   (("t" transpose-frame "Transpose")
+    ("f" flip-frame "Vertically")
+    ("F" flop-frame "Horizontally"))
+   "Rotate"
+   (("r" rotate-frame "180°")
+    ("c" rotate-frame-clockwise "90°")
+    ("C" rotate-frame-anti-clockwise "-90°"))
+   "Window"
+   (("w" enlarge-window "Taller")
+    ("s" shrink-window "Shorter")
+    ("d" enlarge-window-horizontally "Wider")
+    ("a" shrink-window-horizontally "Narrower"))))
 
 (pretty-hydra-define
  hydra-flymake
