@@ -3,6 +3,13 @@
 .backups/
 .emacs.desktop
 .places
+.undo/*
+/*.sqlite
+/eln-cache/
+/forge-database.sqlite
+/projects
+/transient/
+/undo/
 auto-save-list/
 backups/
 el-get/
@@ -20,8 +27,4 @@ straight/
 swank/
 tramp
 url/*
-.undo/*
-/eln-cache/
-/*.sqlite
-/transient/
-/projects
+url/cookies
