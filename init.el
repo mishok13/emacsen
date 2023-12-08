@@ -761,7 +761,7 @@
 
 (use-package copilot
   :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
-  :hook (prog-mode . copilot-mode)
+  :hook ((python-mode python-ts-mode terraform-mode hcl-mode) . copilot-mode)
   :bind (("C-c M-f" . copilot-complete)
          :map copilot-completion-map
          ("C-g" . copilot-clear-overlay)
