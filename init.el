@@ -15,6 +15,7 @@
 ;; https://karthinks.com/software/fifteen-ways-to-use-embark/
 
 (setq package-enable-at-startup nil)
+(setq package-install-upgrade-built-in t)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 (defvar bootstrap-version)
@@ -135,9 +136,15 @@
   (setq uniquify-after-kill-buffer-p t)
   (setq uniquify-ignore-buffers-re "^\\*"))
 
+(use-package transient
+  :defer f
+  ;; :init
+  ;; (unload-feature 'transient t)
+  ;; (require 'transient)
+  :straight (:host github :repo "magit/transient"))
+
 (use-package dash
-  :straight t
-)
+  :straight t)
 
 (use-package org
   :straight t
@@ -188,26 +195,9 @@
   :config
   (setq jenkinsfile-mode-indent-offset 2))
 
-;; (use-package treesit
-;;   :defer t
-;;   :config
-;;   (setq treesit-language-source-alist
-;;         '((yaml "https://github.com/ikatyang/tree-sitter-yaml")
-;;           (python "https://github.com/tree-sitter/tree-sitter-python")))
-;;   (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist)))
-
 (use-package zenburn-theme
   :straight t
   :init (load-theme 'zenburn t))
-
-(use-package treesit
-  :defer t
-  :config
-  (setq treesit-language-source-alist
-        '((yaml . ("https://github.com/ikatyang/tree-sitter-yaml" nil nil nil nil))
-          (python . ("https://github.com/tree-sitter/tree-sitter-python" nil nil nil nil))))
-  (treesit-install-language-grammar 'python)
-  (treesit-install-language-grammar 'yaml))
 
 (use-package denote
   :straight t
@@ -323,7 +313,13 @@
               ("C-M-h a" . eglot-code-actions)
               ("C-M-h r" . eglot-rename)
               ("C-M-h f" . eglot-format-buffer)
-              ("C-M-h Q" . eglot-shutdown-all)))
+              ("C-M-h Q" . eglot-shutdown-all))
+  :config
+
+  (add-to-list 'eglot-server-programs
+               `((python-ts-mode python-mode) . ,(eglot-alternatives
+                                                  '(("poetry" "run" "pylsp")
+                                                    ("hatch" "run" "pylsp"))))))
 
 (use-package rustic
   ;; I would like to make rustic window for compilation narrower and
@@ -513,6 +509,7 @@
 
 (use-package magit
   :straight t
+  :after transient
   :bind (("<f7>" . magit-status))
   :init
   (add-hook 'git-commit-mode-hook 'flyspell-mode)
@@ -605,9 +602,6 @@
   (add-to-list 'auto-mode-alist '("/.rgignore\\'" . gitignore-mode))
   (add-to-list 'auto-mode-alist '("/.driftignore\\'" . gitignore-mode)))
 
-
-(use-package transient
-  :straight t)
 
 (use-package yaml
   :straight t)
@@ -770,3 +764,11 @@
          ("M-f" . copilot-accept-completion-by-word)
          ("<tab>" . copilot-accept-completion)
          ("M-<return>" . copilot-accept-completion-by-line)))
+
+(use-package treesit-auto
+  :straight (treesit-auto :host github :repo "renzmann/treesit-auto")
+  :custom
+  (treesit-auto-install 'prompt)
+  (treesit-auto-langs '(python rust typescript yaml))
+  :config
+  (global-treesit-auto-mode))
