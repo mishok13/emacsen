@@ -138,9 +138,6 @@
 
 (use-package transient
   :defer f
-  ;; :init
-  ;; (unload-feature 'transient t)
-  ;; (require 'transient)
   :straight (:host github :repo "magit/transient"))
 
 (use-package dash
@@ -315,7 +312,6 @@
               ("C-M-h f" . eglot-format-buffer)
               ("C-M-h Q" . eglot-shutdown-all))
   :config
-
   (add-to-list 'eglot-server-programs
                `((python-ts-mode python-mode) . ,(eglot-alternatives
                                                   '(("poetry" "run" "pylsp")
@@ -601,7 +597,6 @@
   (add-to-list 'auto-mode-alist '("/.ignore\\'" . gitignore-mode))
   (add-to-list 'auto-mode-alist '("/.rgignore\\'" . gitignore-mode))
   (add-to-list 'auto-mode-alist '("/.driftignore\\'" . gitignore-mode)))
-
 
 (use-package yaml
   :straight t)
