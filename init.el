@@ -14,31 +14,35 @@
 ;; https://github.com/PillFall/languagetool.el
 ;; https://karthinks.com/software/fifteen-ways-to-use-embark/
 
-(setq package-enable-at-startup nil)
-(setq package-install-upgrade-built-in t)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
-(defvar bootstrap-version)
-(setq straight-repository-branch "develop")
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-
-(straight-use-package 'use-package)
-
 (use-package emacs
+  :demand
   :if (display-graphic-p)
   :init
   (tool-bar-mode -1)
   (scroll-bar-mode -1))
+
+(use-package emacs
+  :demand
+  :custom
+  (package-enable-at-startup nil)
+  (package-install-upgrade-built-in t)
+  :init
+  (add-to-list 'package-archives
+               '("melpa" . "https://melpa.org/packages/") t)
+  (defvar bootstrap-version)
+  (setq straight-repository-branch "develop")
+  (let ((bootstrap-file
+         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+        (bootstrap-version 5))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
+  (straight-use-package 'use-package))
 
 (use-package emacs
   :config
@@ -56,6 +60,7 @@
 (use-package emacs
   :custom
   (custom-file (expand-file-name "custom.el" user-emacs-directory))
+  (fill-column 112)
   (frame-resize-pixelwise t)
   (initial-major-mode 'fundamental-mode)
   (visible-bell nil)
@@ -63,6 +68,7 @@
   ;; Disables suspend-frame keybindings. Because why does it even exist?
   (global-unset-key (kbd "C-z"))
   (global-unset-key (kbd "C-x C-z"))
+  (display-fill-column-indicator-mode t)
   (setq-default indent-tabs-mode nil)
   (defalias 'yes-or-no-p 'y-or-n-p)
   (pixel-scroll-precision-mode)
@@ -266,12 +272,6 @@
 (use-package aggressive-indent
   :straight t
   :hook ((emacs-lisp-mode clojure-mode) . aggressive-indent-mode))
-
-(use-package fill-column-indicator
-  :straight t
-  :hook (prog-mode . fci-mode)
-  :init
-  (setq-default fci-rule-column 80))
 
 (use-package python-ts-mode
   :if (eq system-type 'gnu/linux)
@@ -764,6 +764,11 @@
   :straight (treesit-auto :host github :repo "renzmann/treesit-auto")
   :custom
   (treesit-auto-install 'prompt)
-  (treesit-auto-langs '(python rust typescript yaml))
+  (treesit-auto-langs '(python rust typescript))
   :config
   (global-treesit-auto-mode))
+
+(use-package terraform-ts-mode
+  :straight (terraform-ts-mode :host github :repo "kgrotel/terraform-ts-mode")
+  :custom
+  terraform-ts-format-on-save nil)
