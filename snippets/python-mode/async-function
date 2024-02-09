@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: async function
+# key: adef
+# group: definitions
+# --
+async def ${1:fun}(${2:args}):
+    $0
