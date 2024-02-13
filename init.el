@@ -13,6 +13,7 @@
 ;; https://planet.emacslife.com/
 ;; https://github.com/PillFall/languagetool.el
 ;; https://karthinks.com/software/fifteen-ways-to-use-embark/
+;; https://github.com/zkry/yaml-pro
 
 (use-package emacs
   :demand
@@ -764,6 +765,7 @@
   :straight (treesit-auto :host github :repo "renzmann/treesit-auto")
   :custom
   (treesit-auto-install 'prompt)
+  ;; avoid yaml-ts-mode as it's very broken https://www.reddit.com/r/emacs/comments/17gtxmr/indentation_in_yamltsmode/
   (treesit-auto-langs '(python rust typescript))
   :config
   (global-treesit-auto-mode))
