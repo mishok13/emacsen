@@ -116,7 +116,6 @@
   (set-face-attribute 'default nil
                       :font "Hack-14")
   (set-frame-font "Hack-14")
-  (setq )
 
   ;; Don't let minibufer cursor jump into read-only prompt
   (setq minibuffer-prompt-properties
