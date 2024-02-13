@@ -57,57 +57,51 @@
       (unless (file-exists-p dir)
         (make-directory dir t)))))
 
+(use-package recentf
+  :custom
+  (recentf-mode t))
+
 (use-package emacs
+  ;; Disables suspend-frame keybindings. Because why does it even exist?
+  :bind (("C-z" . nil)
+         ("C-x C-z" . nil))
+
   :custom
   (custom-file (expand-file-name "custom.el" user-emacs-directory))
   (fill-column 112)
   (frame-resize-pixelwise t)
   (initial-major-mode 'fundamental-mode)
   (visible-bell nil)
+  (native-comp-async-report-warnings-errors 'silent)
+  (indent-tabs-mode nil)
+
   :config
-  ;; Disables suspend-frame keybindings. Because why does it even exist?
-  (global-unset-key (kbd "C-z"))
-  (global-unset-key (kbd "C-x C-z"))
   (display-fill-column-indicator-mode t)
-  (setq-default indent-tabs-mode nil)
   (defalias 'yes-or-no-p 'y-or-n-p)
-  (pixel-scroll-precision-mode)
-  (global-display-line-numbers-mode)
+
+  (global-display-line-numbers-mode t)
   (global-visual-line-mode t)
-  (setq-default indent-tabs-mode nil)
-  (recentf-mode t)
-  (global-visual-line-mode 1)
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
   (setq
-   require-final-newline 'visit-save
-   x-select-enable-clipboard t
    auto-save-file-name-transforms`((".*" ,temporary-file-directory t))
    backup-by-copying t
-   backup-by-copying t
    backup-directory-alist '(("." . "~/.emacs.d/.backups"))
-   delete-old-versions t
-   kept-new-versions 6
-   kept-old-versions 2
-   version-control t
-
-   ring-bell-function #'ignore
    backup-directory-alist`((".*" . ,temporary-file-directory))
    create-lockfiles nil
    delete-old-versions t
    inhibit-splash-screen t
    initial-major-mode 'fundamental-mode
+   initial-scratch-message nil
    kept-new-versions 6
    kept-old-versions 2
+   require-final-newline 'visit-save
    ring-bell-function #'ignore
    scroll-error-top-bottom 'true
    version-control t
    visible-bell nil
    x-select-enable-clipboard t
-   initial-scratch-message nil
    )
 
-  (recentf-mode t)
-  (global-visual-line-mode t)
   (pixel-scroll-precision-mode t)
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
   (menu-bar-mode 0)
@@ -117,17 +111,12 @@
   (global-hl-line-mode t)
   (column-number-mode t)
 
-  ;; FIXME: disable line numbers for certain modes
-  (global-display-line-numbers-mode t)
-
-  ;; (global-visual-line-mode t)
-
   ;; Setup fonts
   (global-font-lock-mode t)
   (set-face-attribute 'default nil
                       :font "Hack-14")
   (set-frame-font "Hack-14")
-  (setq native-comp-async-report-warnings-errors nil)
+  (setq )
 
   ;; Don't let minibufer cursor jump into read-only prompt
   (setq minibuffer-prompt-properties
@@ -603,8 +592,6 @@
 
 (use-package undo-tree
   :straight t
-  :bind (("C-z" . undo-tree-undo)
-         ("C-M-z" . undo-tree-redo))
   :config
   (add-to-list 'undo-tree-history-directory-alist (cons "." undo-tree-directory))
   (global-undo-tree-mode))
@@ -662,8 +649,8 @@
         ("C-x C-r" . consult-recent-file)))
 
 (use-package re-builder
-  :config
-  (setq reb-re-syntax 'string))
+  :custom
+  (reb-re-syntax 'string))
 
 (use-package jsonian
   :straight t
