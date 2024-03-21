@@ -25,5 +25,5 @@ jobs:
     - uses: leotaku/elisp-check@master
       with:
         check: load-file
-        file: init.el
+        file: '*.el'
         ignore_warnings: ${{ matrix.ignore_warnings }}
