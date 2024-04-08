@@ -47,10 +47,10 @@
 
 (use-package emacs
   :config
-  (defcustom mk13/org-directory (expand-file-name "~/nonwork/kitchensink/notes/org/")
+  (defcustom mk13/org-directory (expand-file-name "~/nonwork/notes/org/")
     "Default location for all Org files"
     :type '(string))
-  (defcustom mk13/denote-directory (expand-file-name "~/nonwork/kitchensink/notes/denote")
+  (defcustom mk13/denote-directory (expand-file-name "~/nonwork/notes/denote")
     "Default location for Denote notes"
     :type '(string))
   (let ((dirs (list mk13/org-directory mk13/denote-directory)))
@@ -205,6 +205,7 @@
 
 (use-package denote
   :straight t
+  :hook (dired-mode . denote-dired-mode-in-directories)
   :bind (("C-x m" . denote))
   :custom
   (denote-known-keywords '("emacs" "rust" "python" "tech" "softeng" "work" "life") "Expands known keywords a bit")
@@ -293,6 +294,16 @@
 (use-package yaml-mode
   :straight t)
 
+(use-package yaml-pro
+  :straight t)
+
+(use-package caddyfile-mode
+  :straight t)
+
+(use-package sql
+  :custom
+  (sql-dialect 'postgres))
+
 (use-package dockerfile-mode
   :straight t)
 
@@ -323,7 +334,7 @@
   ;; shorter if possible, as well as automatically focus into it. It should be possible with https://www.reddit.com/r/emacs/comments/cpdr6m/any_additional_docstutorials_on_displaybuffer_and/
   ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/The-Zen-of-Buffer-Display.html
   :straight t
-  ;; :mode ("\\.rs\\'" . rustic-mode)
+  :mode ("\\.rs\\'" . rustic-mode)
   :config
   (setq rustic-format-on-save t)
   (setq rustic-lsp-client 'eglot)
@@ -599,9 +610,6 @@
   (add-to-list 'auto-mode-alist '("/.rgignore\\'" . gitignore-mode))
   (add-to-list 'auto-mode-alist '("/.driftignore\\'" . gitignore-mode)))
 
-(use-package yaml
-  :straight t)
-
 (use-package undo-tree
   :straight t
   :bind (("C-z" . undo-tree-undo)
@@ -749,8 +757,12 @@
   (mermaid-mmdc-location "bunx")
   (mermaid-flags "@mermaid-js/mermaid-cli"))
 
+(use-package jsonrpc
+  :straight t)
+
 (use-package copilot
-  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+  :after (jsonrpc)
+  :straight (:host github :repo "copilot-emacs/copilot.el" :files ("dist" "*.el"))
   :hook ((python-mode python-ts-mode terraform-mode hcl-mode) . copilot-mode)
   :bind (("C-c M-f" . copilot-complete)
          :map copilot-completion-map
@@ -766,7 +778,7 @@
   :custom
   (treesit-auto-install 'prompt)
   ;; avoid yaml-ts-mode as it's very broken https://www.reddit.com/r/emacs/comments/17gtxmr/indentation_in_yamltsmode/
-  (treesit-auto-langs '(python rust typescript))
+  (treesit-auto-langs '(python typescript))
   :config
   (global-treesit-auto-mode))
 
@@ -774,3 +786,6 @@
   :straight (terraform-ts-mode :host github :repo "kgrotel/terraform-ts-mode")
   :custom
   terraform-ts-format-on-save nil)
+
+(use-package golden-ratio
+  :straight t)
