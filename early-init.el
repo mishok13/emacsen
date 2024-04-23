@@ -1,2 +1,2 @@
-;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
-;; (add-to-list 'default-frame-alist '(undecorated . t))
+(setq debug-on-error 1)
+(setq package-enable-at-startup nil)

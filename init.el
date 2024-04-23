@@ -4,8 +4,6 @@
 
 ;;; Code:
 
-(setq debug-on-error 1)
-
 ;; https://github.com/nyyManni/ejira
 ;; https://sr.ht/%7Eashton314/emacs-bedrock/
 ;; https://batsov.com/articles/2021/12/19/building-emacs-from-source-with-pgtk/
@@ -15,35 +13,28 @@
 ;; https://karthinks.com/software/fifteen-ways-to-use-embark/
 ;; https://github.com/zkry/yaml-pro
 
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
 (use-package emacs
   :demand
   :if (display-graphic-p)
   :init
   (tool-bar-mode -1)
   (scroll-bar-mode -1))
-
-(use-package emacs
-  :demand
-  :custom
-  (package-enable-at-startup nil)
-  (package-install-upgrade-built-in t)
-  :init
-  (add-to-list 'package-archives
-               '("melpa" . "https://melpa.org/packages/") t)
-  (defvar bootstrap-version)
-  (setq straight-repository-branch "develop")
-  (let ((bootstrap-file
-         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-        (bootstrap-version 5))
-    (unless (file-exists-p bootstrap-file)
-      (with-current-buffer
-          (url-retrieve-synchronously
-           "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-           'silent 'inhibit-cookies)
-        (goto-char (point-max))
-        (eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage))
-  (straight-use-package 'use-package))
 
 (use-package emacs
   :config
@@ -66,6 +57,7 @@
   (initial-major-mode 'fundamental-mode)
   (visible-bell nil)
   :config
+  (setopt use-short-answers t)
   ;; Disables suspend-frame keybindings. Because why does it even exist?
   (global-unset-key (kbd "C-z"))
   (global-unset-key (kbd "C-x C-z"))
@@ -126,8 +118,8 @@
   ;; Setup fonts
   (global-font-lock-mode t)
   (set-face-attribute 'default nil
-                      :font "Hack-14")
-  (set-frame-font "Hack-14")
+                      :font "Hack Nerd Font Mono-14")
+  (set-frame-font "Hack Nerd Font Mono-14")
   (setq native-comp-async-report-warnings-errors nil)
 
   ;; Don't let minibufer cursor jump into read-only prompt
@@ -144,7 +136,7 @@
   (setq uniquify-ignore-buffers-re "^\\*"))
 
 (use-package transient
-  :defer f
+  :demand
   :straight (:host github :repo "magit/transient"))
 
 (use-package dash
@@ -208,6 +200,7 @@
   :hook (dired-mode . denote-dired-mode-in-directories)
   :bind (("C-x m" . denote))
   :custom
+  (denote-file-type "markdown-yaml")
   (denote-known-keywords '("emacs" "rust" "python" "tech" "softeng" "work" "life") "Expands known keywords a bit")
   (denote-directory mk13/denote-directory))
 
@@ -225,28 +218,28 @@
   (add-hook 'cider-repl-mode-hook 'company-mode)
   (add-hook 'cider-mode-hook 'company-mode))
 
-(use-package clj-refactor
-  :straight t
-  :config
-  (add-hook 'clojure-mode-hook (lambda ()
-                                 (clj-refactor-mode 1)
-                                 (cljr-add-keybindings-with-prefix "C-c C-b"))))
+;; (use-package clj-refactor
+;;   :straight t
+;;   :config
+;;   (add-hook 'clojure-mode-hook (lambda ()
+;;                                  (clj-refactor-mode 1)
+;;                                  (cljr-add-keybindings-with-prefix "C-c C-b"))))
 
-(use-package cider
-  :straight t
-  :config
-  (setq cider-show-error-buffer 'only-in-repl)
-  (setq cider-auto-select-error-buffer nil)
-  (setq nrepl-hide-special-buffers t)
-  ;; Wrap stacktraces at whatever fill-column is set to
-  (setq cider-stacktrace-fill-column t)
-  ;; Don't prompt for symbol names when jumping to definitions
-  (setq cider-prompt-for-symbol nil)
-  ;; Write REPL history to file
-  (setq cider-repl-history-file "/tmp/replhistory")
-  (setq cider-auto-select-error-buffer nil)
-  ;; Enable eldoc in REPL
-  (add-hook 'cider-mode-hook 'eldoc-mode))
+;; (use-package cider
+;;   :straight t
+;;   :config
+;;   (setq cider-show-error-buffer 'only-in-repl)
+;;   (setq cider-auto-select-error-buffer nil)
+;;   (setq nrepl-hide-special-buffers t)
+;;   ;; Wrap stacktraces at whatever fill-column is set to
+;;   (setq cider-stacktrace-fill-column t)
+;;   ;; Don't prompt for symbol names when jumping to definitions
+;;   (setq cider-prompt-for-symbol nil)
+;;   ;; Write REPL history to file
+;;   (setq cider-repl-history-file "/tmp/replhistory")
+;;   (setq cider-auto-select-error-buffer nil)
+;;   ;; Enable eldoc in REPL
+;;   (add-hook 'cider-mode-hook 'eldoc-mode))
 
 (use-package go-mode
   :straight t)
@@ -312,7 +305,7 @@
   :hook ((python-mode python-ts-mode rustic-mode typescript-mode terraform-mode hcl-mode) . smartparens-mode))
 
 (use-package poetry
-  :ensure t)
+  :straight t)
 
 (use-package eglot
   :hook ((rustic-mode . eglot-ensure)
@@ -401,7 +394,7 @@
   :bind (("M-<mouse-1>" . mc/add-cursor-on-click)))
 
 (use-package hungry-delete
-  :ensure t
+  :straight t
   :hook (prog-mode . hungry-delete-mode)
   :custom (hungry-delete-join-reluctantly t))
 
@@ -415,14 +408,14 @@
   (yas-reload-all))
 
 (use-package hcl-mode
-  :ensure t)
+  :straight t)
 
 (use-package terraform-mode
   :straight t
   :hook (terraform-mode . terraform-format-on-save-mode))
 
 (use-package lua-mode
-  :ensure t)
+  :straight t)
 
 (use-package company
   :after (yasnippet)
@@ -487,7 +480,7 @@
 
 
 (use-package embark
-  :ensure t
+  :straight t
   :bind
   (("C-." . embark-act)         ;; pick some comfortable binding
    ("C-;" . embark-dwim)        ;; good alternative: M-.
@@ -510,7 +503,7 @@
                  (window-parameters (mode-line-format . none)))))
 
 (use-package embark-consult
-  :ensure t
+  :straight t
   :after (embark consult)
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
@@ -603,7 +596,7 @@
   )
 
 (use-package git-modes
-  :ensure t
+  :straight t
   :init
   (add-to-list 'auto-mode-alist '("/.dockerignore\\'" . gitignore-mode))
   (add-to-list 'auto-mode-alist '("/.ignore\\'" . gitignore-mode))
