@@ -49,58 +49,56 @@
       (unless (file-exists-p dir)
         (make-directory dir t)))))
 
+(use-package recentf
+  :custom
+  (recentf-mode t))
+
 (use-package emacs
+  ;; Disables suspend-frame keybindings. Because why does it even exist?
+  :bind (("C-z" . nil)
+         ("C-x C-z" . nil)
+         ("C-x m" . nil))
+
   :custom
   (custom-file (expand-file-name "custom.el" user-emacs-directory))
   (fill-column 112)
   (frame-resize-pixelwise t)
   (initial-major-mode 'fundamental-mode)
   (visible-bell nil)
+  (native-comp-async-report-warnings-errors 'silent)
+  (indent-tabs-mode nil)
+
   :config
   (setopt use-short-answers t)
   ;; Disables suspend-frame keybindings. Because why does it even exist?
   (global-unset-key (kbd "C-z"))
   (global-unset-key (kbd "C-x C-z"))
   (display-fill-column-indicator-mode t)
-  (setq-default indent-tabs-mode nil)
   (defalias 'yes-or-no-p 'y-or-n-p)
-  (pixel-scroll-precision-mode)
-  (global-display-line-numbers-mode)
+
+  (global-display-line-numbers-mode t)
   (global-visual-line-mode t)
-  (setq-default indent-tabs-mode nil)
-  (recentf-mode t)
-  (global-visual-line-mode 1)
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
   (setq
-   require-final-newline 'visit-save
-   x-select-enable-clipboard t
    auto-save-file-name-transforms`((".*" ,temporary-file-directory t))
    backup-by-copying t
-   backup-by-copying t
    backup-directory-alist '(("." . "~/.emacs.d/.backups"))
-   delete-old-versions t
-   kept-new-versions 6
-   kept-old-versions 2
-   version-control t
-
-   ring-bell-function #'ignore
    backup-directory-alist`((".*" . ,temporary-file-directory))
    create-lockfiles nil
    delete-old-versions t
    inhibit-splash-screen t
    initial-major-mode 'fundamental-mode
+   initial-scratch-message nil
    kept-new-versions 6
    kept-old-versions 2
+   require-final-newline 'visit-save
    ring-bell-function #'ignore
    scroll-error-top-bottom 'true
    version-control t
    visible-bell nil
    x-select-enable-clipboard t
-   initial-scratch-message nil
    )
 
-  (recentf-mode t)
-  (global-visual-line-mode t)
   (pixel-scroll-precision-mode t)
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
   (menu-bar-mode 0)
@@ -109,11 +107,6 @@
   (line-move-visual 0)
   (global-hl-line-mode t)
   (column-number-mode t)
-
-  ;; FIXME: disable line numbers for certain modes
-  (global-display-line-numbers-mode t)
-
-  ;; (global-visual-line-mode t)
 
   ;; Setup fonts
   (global-font-lock-mode t)
@@ -198,11 +191,18 @@
 (use-package denote
   :straight t
   :hook (dired-mode . denote-dired-mode-in-directories)
-  :bind (("C-x m" . denote))
+  :defer t
+  :bind (("C-x m n" . denote)
+         ("C-x m d". denote-open-directory))
   :custom
   (denote-file-type "markdown-yaml")
   (denote-known-keywords '("emacs" "rust" "python" "tech" "softeng" "work" "life") "Expands known keywords a bit")
-  (denote-directory mk13/denote-directory))
+  (denote-directory mk13/denote-directory)
+  :config
+  (defun denote-open-directory ()
+    "Open denote's directory with dired"
+    (interactive)
+    (dired mk13/denote-directory)))
 
 (use-package cc-mode
   :straight t
@@ -401,6 +401,7 @@
 (use-package yasnippet-snippets
   :straight t)
 
+;; https://jdhao.github.io/2021/10/06/yasnippet_setup_emacs/
 (use-package yasnippet
   :straight t
   :after yasnippet-snippets
@@ -543,7 +544,7 @@
   :config
   (setq hydra-is-helpful 't)
   :bind
-  (("C-M-g" . hydra-window-management/body)
+  (("C-M-w" . hydra-window-management/body)
    ("C-M-c" . hydra-flymake/body)))
 
 (use-package major-mode-hydra
@@ -605,8 +606,6 @@
 
 (use-package undo-tree
   :straight t
-  :bind (("C-z" . undo-tree-undo)
-         ("C-M-z" . undo-tree-redo))
   :config
   (add-to-list 'undo-tree-history-directory-alist (cons "." undo-tree-directory))
   (global-undo-tree-mode))
@@ -664,8 +663,8 @@
         ("C-x C-r" . consult-recent-file)))
 
 (use-package re-builder
-  :config
-  (setq reb-re-syntax 'string))
+  :custom
+  (reb-re-syntax 'string))
 
 (use-package jsonian
   :straight t
@@ -753,18 +752,19 @@
 (use-package jsonrpc
   :straight t)
 
+;; https://robert.kra.hn/posts/2023-02-22-copilot-emacs-setup/#customizing-keys for more modifications
 (use-package copilot
   :after (jsonrpc)
   :straight (:host github :repo "copilot-emacs/copilot.el" :files ("dist" "*.el"))
   :hook ((python-mode python-ts-mode terraform-mode hcl-mode) . copilot-mode)
-  :bind (("C-c M-f" . copilot-complete)
-         :map copilot-completion-map
-         ("C-g" . copilot-clear-overlay)
-         ("M-n" . copilot-next-completion)
-         ("M-p" . copilot-previous-completion)
-         ("M-f" . copilot-accept-completion-by-word)
-         ("<tab>" . copilot-accept-completion)
-         ("M-<return>" . copilot-accept-completion-by-line)))
+  :bind (:map copilot-mode-map
+              ("C-M-g c" . copilot-complete)
+              ("C-M-g g" . copilot-clear-overlay)
+              ("C-M-g n" . copilot-next-completion)
+              ("C-M-g p" . copilot-previous-completion)
+              ("C-M-g w" . copilot-accept-completion-by-word)
+              ("C-M-g <tab>" . copilot-accept-completion)
+              ("C-M-g <return>" . copilot-accept-completion-by-line)))
 
 (use-package treesit-auto
   :straight (treesit-auto :host github :repo "renzmann/treesit-auto")
