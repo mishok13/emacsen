@@ -28,3 +28,9 @@ swank/
 tramp
 url/*
 url/cookies
+/tree-sitter/
+/eshell/
+/bookmarks
+/.lsp-session-v1
+/.org-id-locations
+/custom.el
