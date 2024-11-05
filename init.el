@@ -565,7 +565,31 @@
 
 (use-package major-mode-hydra
   :ensure t
-  :after hydra)
+  :after hydra
+  :init
+  (pretty-hydra-define
+    hydra-window-management
+    (:color red :title "Manage windows" :quit-key "q" :foreign-keys warn)
+    ("Flip"
+     (("t" transpose-frame "Transpose")
+      ("f" flip-frame "Vertically")
+      ("F" flop-frame "Horizontally"))
+     "Rotate"
+     (("r" rotate-frame "180°")
+      ("c" rotate-frame-clockwise "90°")
+      ("C" rotate-frame-anti-clockwise "-90°"))
+     "Window"
+     (("w" enlarge-window "Taller")
+      ("s" shrink-window "Shorter")
+      ("d" enlarge-window-horizontally "Wider")
+      ("a" shrink-window-horizontally "Narrower"))))
+  (pretty-hydra-define
+    hydra-flymake
+    (:color red :title "Flymake" :quit-key "q" :foreign-keys warn)
+    ("Flymake"
+     (("p" flymake-show-project-diagnostics)
+      ("b" flymake-show-buffer-diagnostics)
+      ("x" flymake-show-diagnostic)))))
 
 (use-package transpose-frame
   :ensure t)
@@ -742,31 +766,6 @@
   (web-mode-markup-indent-offset 2)
   (web-mode-css-indent-offset 2)
   (web-mode-code-indent-offset 2))
-
-(pretty-hydra-define
-  hydra-window-management
-  (:color red :title "Manage windows" :quit-key "q" :foreign-keys warn)
-  ("Flip"
-   (("t" transpose-frame "Transpose")
-    ("f" flip-frame "Vertically")
-    ("F" flop-frame "Horizontally"))
-   "Rotate"
-   (("r" rotate-frame "180°")
-    ("c" rotate-frame-clockwise "90°")
-    ("C" rotate-frame-anti-clockwise "-90°"))
-   "Window"
-   (("w" enlarge-window "Taller")
-    ("s" shrink-window "Shorter")
-    ("d" enlarge-window-horizontally "Wider")
-    ("a" shrink-window-horizontally "Narrower"))))
-
-(pretty-hydra-define
- hydra-flymake
- (:color red :title "Flymake" :quit-key "q" :foreign-keys warn)
- ("Flymake"
-  (("p" flymake-show-project-diagnostics)
-   ("b" flymake-show-buffer-diagnostics)
-   ("x" flymake-show-diagnostic))))
 
 (use-package justl
   :ensure t)
