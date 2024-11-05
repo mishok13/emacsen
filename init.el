@@ -284,8 +284,14 @@
   :hook ((emacs-lisp-mode clojure-mode) . aggressive-indent-mode))
 
 (use-package python-ts-mode
-  :if (eq system-type 'gnu/linux)
   :defer t
+  :config
+  (setq company-backends '(company-capf
+                           company-yasnippet
+                           company-files
+                           (company-dabbrev-code company-keywords)
+                           company-dabbrev))
+
   ;; automatically generating pyrightconfig could be done with:
   ;; detecting pyproject.toml
   ;; reading it https://github.com/gongo/emacs-toml and detecting the tool used
@@ -335,7 +341,7 @@
   (add-to-list 'eglot-server-programs
                `((python-ts-mode python-mode) . ,(eglot-alternatives
                                                   '(("poetry" "run" "pylsp")
-                                                    ("hatch" "run" "pylsp"))))))
+                                                    ("hatch" "run" "lsp:run"))))))
 
 (use-package rustic
   ;; I would like to make rustic window for compilation narrower and
@@ -440,11 +446,6 @@
   (company-idle-delay 0.5) ;; how long to wait until popup
   (company-tooltip-align-annotations t)
   :config
-  (setq company-backends '(company-capf
-                           company-yasnippet
-                           company-files
-                           (company-dabbrev-code company-keywords)
-                           company-dabbrev))
   (global-company-mode)
   :bind
   ("C-<tab>" . company-yasnippet)
@@ -639,6 +640,11 @@
   :custom
   ;;
   (python-indent-guess-indent-offset nil)
+  (setq company-backends '(company-capf
+                           company-yasnippet
+                           company-files
+                           (company-dabbrev-code company-keywords)
+                           company-dabbrev))
   :hook
   (python-mode . eglot-ensure)
   (python-mode . smartparens-mode))
