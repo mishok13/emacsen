@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         emacs_version:
-          - 29.1
+          - 29.4
           - release-snapshot
         ignore_warnings:
           - false
