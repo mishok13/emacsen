@@ -128,6 +128,8 @@
   (setq uniquify-after-kill-buffer-p t)
   (setq uniquify-ignore-buffers-re "^\\*"))
 
+
+
 (use-package transient
   :demand
   :straight (:host github :repo "magit/transient"))
@@ -321,24 +323,6 @@
                `((python-ts-mode python-mode) . ,(eglot-alternatives
                                                   '(("poetry" "run" "pylsp")
                                                     ("hatch" "run" "pylsp"))))))
-
-(use-package rustic
-  ;; I would like to make rustic window for compilation narrower and
-  ;; shorter if possible, as well as automatically focus into it. It should be possible with https://www.reddit.com/r/emacs/comments/cpdr6m/any_additional_docstutorials_on_displaybuffer_and/
-  ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/The-Zen-of-Buffer-Display.html
-  :straight t
-  :mode ("\\.rs\\'" . rustic-mode)
-  :config
-  (setq rustic-format-on-save t)
-  (setq rustic-lsp-client 'eglot)
-  (add-to-list 'display-buffer-alist
-               `("^\\*rustic-compilation\\*$"
-                 (display-buffer-reuse-window display-buffer-below-selected display-buffer-at-bottom)
-                 (inhibit-same-window . t)
-                 (window-min-height . 10)
-                 (window-height . 0.25)
-                 (inhibit-switch-frame . nil))
-               t))
 
 (use-package flymake)
 
@@ -766,19 +750,40 @@
               ("C-M-g <tab>" . copilot-accept-completion)
               ("C-M-g <return>" . copilot-accept-completion-by-line)))
 
-(use-package treesit-auto
-  :straight (treesit-auto :host github :repo "renzmann/treesit-auto")
-  :custom
-  (treesit-auto-install 'prompt)
-  ;; avoid yaml-ts-mode as it's very broken https://www.reddit.com/r/emacs/comments/17gtxmr/indentation_in_yamltsmode/
-  (treesit-auto-langs '(python typescript))
-  :config
-  (global-treesit-auto-mode))
-
 (use-package terraform-ts-mode
   :straight (terraform-ts-mode :host github :repo "kgrotel/terraform-ts-mode")
   :custom
   terraform-ts-format-on-save nil)
 
+(use-package treesit-auto
+  :straight (treesit-auto :host github :repo "renzmann/treesit-auto")
+  :custom
+  (treesit-auto-install 'prompt)
+  ;; avoid yaml-ts-mode as it's very broken https://www.reddit.com/r/emacs/comments/17gtxmr/indentation_in_yamltsmode/
+  (treesit-auto-langs '(python typescript rust))
+  :config
+  (treesit-auto-add-to-auto-mode-alist '(python typescript rust))
+  (global-treesit-auto-mode)
+  )
+
 (use-package golden-ratio
   :straight t)
+
+(use-package rustic
+  ;; I would like to make rustic window for compilation narrower and
+  ;; shorter if possible, as well as automatically focus into it. It should be possible with https://www.reddit.com/r/emacs/comments/cpdr6m/any_additional_docstutorials_on_displaybuffer_and/
+  ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/The-Zen-of-Buffer-Display.html
+  :after (treesit-auto)
+  :straight t
+  :mode ("\\.rs\\'" . rustic-mode)
+  :config
+  (setq rustic-format-on-save t)
+  (setq rustic-lsp-client 'eglot)
+  (add-to-list 'display-buffer-alist
+               `("^\\*rustic-compilation\\*$"
+                 (display-buffer-reuse-window display-buffer-below-selected display-buffer-at-bottom)
+                 (inhibit-same-window . t)
+                 (window-min-height . 10)
+                 (window-height . 0.25)
+                 (inhibit-switch-frame . nil))
+               t))
