@@ -111,8 +111,8 @@
   ;; Setup fonts
   (global-font-lock-mode t)
   (set-face-attribute 'default nil
-                      :font "Hack Nerd Font Mono-14")
-  (set-frame-font "Hack Nerd Font Mono-14")
+                      :font "Hack-14")
+  (set-frame-font "Hack-14")
   (setq native-comp-async-report-warnings-errors nil)
 
   ;; Don't let minibufer cursor jump into read-only prompt
@@ -127,7 +127,6 @@
   (setq uniquify-separator "|")
   (setq uniquify-after-kill-buffer-p t)
   (setq uniquify-ignore-buffers-re "^\\*"))
-
 
 
 (use-package transient
@@ -366,6 +365,9 @@
 (use-package flyspell
   ;; Look into using https://github.com/syohex/emacs-ac-ispell
   :hook (markdown-mode . flyspell-mode))
+
+(use-package ispell
+  :custom (ispell-alternate-dictionary "/usr/share/dict/words"))
 
 (use-package project
   :custom
@@ -663,30 +665,6 @@
   :config
   (setq json-reformat:indent-width 2))
 
-(use-package tide
-  :straight t
-  :config
-  (add-hook 'before-save-hook 'tide-format-before-save)
-  (add-hook 'typescript-mode-hook #'tide-setup)
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-  (add-hook 'web-mode-hook
-            (lambda ()
-              (when (string-equal "tsx" (file-name-extension buffer-file-name))
-                (setup-tide-mode)))))
-
-
-(use-package emmet-mode
-  :straight t
-  :hook (web-mode)
-  :custom
-  ;; Disable preview before expanding
-  (emmet-preview-default nil)
-  ;; Move the cursor to next edit point
-  (emmet-move-cursor-between-quotes t)
-  :bind (:map emmet-mode-keymap
-              ;; ("C-j" . newline-and-indent)
-              ("C-m" . emmet-expand-line)))
-
 (use-package web-mode
   :straight t
   :mode  ("\\.tsx\\'" "\\.html\\'" "\\.hbs\\'" "\\.vue\\'")
@@ -779,11 +757,12 @@
   :config
   (setq rustic-format-on-save t)
   (setq rustic-lsp-client 'eglot)
-  (add-to-list 'display-buffer-alist
-               `("^\\*rustic-compilation\\*$"
-                 (display-buffer-reuse-window display-buffer-below-selected display-buffer-at-bottom)
-                 (inhibit-same-window . t)
-                 (window-min-height . 10)
-                 (window-height . 0.25)
-                 (inhibit-switch-frame . nil))
-               t))
+  ;; (add-to-list 'display-buffer-alist
+  ;;              `("^\\*rustic-compilation\\*$"
+  ;;                (display-buffer-reuse-window display-buffer-below-selected display-buffer-at-bottom)
+  ;;                (inhibit-same-window . t)
+  ;;                (window-min-height . 10)
+  ;;                (window-height . 0.25)
+  ;;                (inhibit-switch-frame . nil))
+  ;;              t)
+  )
