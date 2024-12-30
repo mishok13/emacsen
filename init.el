@@ -14,6 +14,7 @@
 ;; https://github.com/zkry/yaml-pro
 
 (defvar bootstrap-version)
+(setq straight-use-package-by-default t)
 (let ((bootstrap-file
        (expand-file-name
         "straight/repos/straight.el/bootstrap.el"
@@ -29,14 +30,24 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-(use-package emacs
-  :demand
-  :if (display-graphic-p)
-  :init
+(use-package straight
+  :custom
+  ;; add project, xref and flymake to the pseudo-packages variable so straight.el doesn't download a separate
+  ;; version than what eglot downloads. Original solution from here
+  ;; https://github.com/radian-software/straight.el/issues/1146#issuecomment-2227133737
+  (straight-built-in-pseudo-packages '(emacs nadvice python image-mode project flymake xref)))
+
+(use-package project
+  :straight (:type built-in)
+  :custom
+  (project-vc-extra-root-markers '("pyproject.toml")))
+
+(when (display-graphic-p)
   (tool-bar-mode -1)
   (scroll-bar-mode -1))
 
 (use-package emacs
+  :ensure nil
   :config
   (defcustom mk13/org-directory (expand-file-name "~/nonwork/notes/org/")
     "Default location for all Org files"
@@ -47,13 +58,26 @@
   (let ((dirs (list mk13/org-directory mk13/denote-directory)))
     (dolist (dir dirs)
       (unless (file-exists-p dir)
-        (make-directory dir t)))))
+        (make-directory dir t))))
+  ;; (unless (package-installed-p 'vc-use-package)
+  ;;   (package-vc-install "https://github.com/slotThe/vc-use-package"))
+  ;; (require 'vc-use-package)
+  ;; (setq
+  ;;  package-archive-priorities '(("gnu-elpa" . 3)
+  ;;                               ("melpa" . 2)
+  ;;                               ("nongnu" . 1))
+  ;;  package-archives           '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
+  ;;                               ("gnu-elpa-devel" . "https://elpa.gnu.org/devel/")
+  ;;                               ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+  ;;                               ("melpa" . "https://melpa.org/packages/")))
+  )
 
 (use-package recentf
   :custom
   (recentf-mode t))
 
 (use-package emacs
+  :ensure nil
   ;; Disables suspend-frame keybindings. Because why does it even exist?
   :bind (("C-z" . nil)
          ("C-x C-z" . nil)
@@ -75,7 +99,7 @@
   (global-unset-key (kbd "C-x C-z"))
   (display-fill-column-indicator-mode t)
   (defalias 'yes-or-no-p 'y-or-n-p)
-
+  (put 'upcase-region 'disabled nil)
   (global-display-line-numbers-mode t)
   (global-visual-line-mode t)
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -128,44 +152,41 @@
   (setq uniquify-after-kill-buffer-p t)
   (setq uniquify-ignore-buffers-re "^\\*"))
 
-
-
-(use-package transient
-  :demand
-  :straight (:host github :repo "magit/transient"))
-
 (use-package dash
-  :straight t)
+  )
 
 (use-package org
-  :straight t
-  :bind (("<f8>" . org-capture)
+  :bind (("<f9>" . org-capture)
          ("<f10>" . org-agenda))
+
   :custom
   (org-directory mk13/org-directory)
   (org-default-notes-file (expand-file-name "notes.org" org-directory))
+  (org-agenda-files (list mk13/org-directory))
   (org-clock-idle-time 10)
   (org-clock-persist 'history)
   (org-log-done 'note)
+
   :init
   (org-clock-persistence-insinuate)
   (add-to-list 'org-modules 'org-habit t)
-  ;;   (org-agenda-files (directory-files-recursively org-directory "\\.org$"))
-  (setq org-agenda-files (-map (-cut expand-file-name <> org-directory) '("work.org" "nonwork.org"))))
+  (setq org-capture-templates
+        '(("t" "todo" entry (file org-default-notes-file)
+	   "* TODO %?\n%u\n%a\n" :clock-in t :clock-resume t)
+	  ("m" "Meeting" entry (file org-default-notes-file)
+	   "* MEETING with %? :MEETING:\n%t" :clock-in t :clock-resume t)
+	  ("i" "Idea" entry (file org-default-notes-file)
+	   "* %? :IDEA: \n%t" :clock-in t :clock-resume t)
+	  ("n" "Next Task" entry (file+headline org-default-notes-file "Tasks")
+	   "** NEXT %? \nDEADLINE: %t"))))
 
 (use-package smart-mode-line
-  :straight t
   :config   ;; Mode line setup
   (setq sml/no-confirm-load-theme t)
   (sml/setup)
   (sml/apply-theme 'respectful))
 
-
-
-
 (use-package exec-path-from-shell
-  :straight t
-  :if (eq system-type 'darwin)
   :config
   (setenv "LANG" "en_US.UTF-8")
   :init
@@ -182,16 +203,16 @@
   (mac-option-modifier 'meta))
 
 (use-package jenkinsfile-mode
-  :straight t
+
   :config
   (setq jenkinsfile-mode-indent-offset 2))
 
 (use-package zenburn-theme
-  :straight t
+
   :init (load-theme 'zenburn t))
 
 (use-package denote
-  :straight t
+
   :hook (dired-mode . denote-dired-mode-in-directories)
   :defer t
   :bind (("C-x m n" . denote)
@@ -207,7 +228,7 @@
     (dired mk13/denote-directory)))
 
 (use-package cc-mode
-  :straight t
+
   :config
   (add-hook 'c-mode-common-hook
             (lambda ()
@@ -215,20 +236,20 @@
               (setq indent-tabs-mode nil))))
 
 (use-package clojure-mode
-  :straight t
+
   :config
   (add-hook 'cider-repl-mode-hook 'company-mode)
   (add-hook 'cider-mode-hook 'company-mode))
 
 ;; (use-package clj-refactor
-;;   :straight t
+;;
 ;;   :config
 ;;   (add-hook 'clojure-mode-hook (lambda ()
 ;;                                  (clj-refactor-mode 1)
 ;;                                  (cljr-add-keybindings-with-prefix "C-c C-b"))))
 
 ;; (use-package cider
-;;   :straight t
+;;
 ;;   :config
 ;;   (setq cider-show-error-buffer 'only-in-repl)
 ;;   (setq cider-auto-select-error-buffer nil)
@@ -244,10 +265,10 @@
 ;;   (add-hook 'cider-mode-hook 'eldoc-mode))
 
 (use-package go-mode
-  :straight t)
+  )
 
 (use-package typescript-mode
-  :straight t
+
   :custom
   (typescript-indent-level 2)
   :config
@@ -259,20 +280,24 @@
 (use-package so-long)
 
 (use-package paredit
-  :straight t
   :hook ((emacs-lisp-mode clojure-mode cider-repl-mode) . paredit-mode))
 
 (use-package rainbow-delimiters
-  :straight t
+
   :hook ((emacs-lisp-mode clojure-mode cider-repl-mode python-mode python-ts-mode) . rainbow-delimiters-mode))
 
 (use-package aggressive-indent
-  :straight t
   :hook ((emacs-lisp-mode clojure-mode) . aggressive-indent-mode))
 
-(use-package python-ts-mode
-  :if (eq system-type 'gnu/linux)
+(use-package python-mode
   :defer t
+  :config
+  (setq company-backends '(company-capf
+                           company-yasnippet
+                           company-files
+                           (company-dabbrev-code company-keywords)
+                           company-dabbrev))
+
   ;; automatically generating pyrightconfig could be done with:
   ;; detecting pyproject.toml
   ;; reading it https://github.com/gongo/emacs-toml and detecting the tool used
@@ -287,27 +312,27 @@
   (which-function-mode t))
 
 (use-package yaml-mode
-  :straight t)
+  )
 
 (use-package yaml-pro
-  :straight t)
+  )
 
 (use-package caddyfile-mode
-  :straight t)
+  )
 
 (use-package sql
   :custom
   (sql-dialect 'postgres))
 
 (use-package dockerfile-mode
-  :straight t)
+  )
 
 (use-package smartparens
-  :straight t
+
   :hook ((python-mode python-ts-mode rustic-mode typescript-mode terraform-mode hcl-mode) . smartparens-mode))
 
 (use-package poetry
-  :straight t)
+  )
 
 (use-package eglot
   :hook ((rustic-mode . eglot-ensure)
@@ -322,12 +347,30 @@
   (add-to-list 'eglot-server-programs
                `((python-ts-mode python-mode) . ,(eglot-alternatives
                                                   '(("poetry" "run" "pylsp")
-                                                    ("hatch" "run" "pylsp"))))))
+                                                    ("hatch" "run" "lsp:run"))))))
+
+(use-package rustic
+  ;; I would like to make rustic window for compilation narrower and
+  ;; shorter if possible, as well as automatically focus into it. It should be possible with https://www.reddit.com/r/emacs/comments/cpdr6m/any_additional_docstutorials_on_displaybuffer_and/
+  ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/The-Zen-of-Buffer-Display.html
+
+  :mode ("\\.rs\\'" . rustic-mode)
+  :config
+  (setq rustic-format-on-save t)
+  (setq rustic-lsp-client 'eglot)
+  (add-to-list 'display-buffer-alist
+               `("^\\*rustic-compilation\\*$"
+                 (display-buffer-reuse-window display-buffer-below-selected display-buffer-at-bottom)
+                 (inhibit-same-window . t)
+                 (window-min-height . 10)
+                 (window-height . 0.25)
+                 (inhibit-switch-frame . nil))
+               t))
 
 (use-package flymake)
 
 (use-package midnight
-  :straight t
+
   :init
   ;; Days are shorter in emacs world
   (setq midnight-period (* 60 60 8))
@@ -361,59 +404,45 @@
   (desktop-save-mode t))
 
 (use-package markdown-mode
-  :straight t)
+  )
 
 (use-package flyspell
   ;; Look into using https://github.com/syohex/emacs-ac-ispell
   :hook (markdown-mode . flyspell-mode))
 
-(use-package project
-  :custom
-  (project-vc-extra-root-markers '("pyproject.toml")))
-
 (use-package multiple-cursors
-  :straight t
+
   :init
   (global-unset-key (kbd "M-<down-mouse-1>"))
   :bind (("M-<mouse-1>" . mc/add-cursor-on-click)))
 
 (use-package hungry-delete
-  :straight t
+
   :hook (prog-mode . hungry-delete-mode)
   :custom (hungry-delete-join-reluctantly t))
 
-(use-package yasnippet-snippets
-  :straight t)
+(use-package yasnippet-snippets)
 
 ;; https://jdhao.github.io/2021/10/06/yasnippet_setup_emacs/
 (use-package yasnippet
-  :straight t
   :after yasnippet-snippets
   :config
   (yas-reload-all))
 
-(use-package hcl-mode
-  :straight t)
+(use-package hcl-mode)
 
 (use-package terraform-mode
-  :straight t
   :hook (terraform-mode . terraform-format-on-save-mode))
 
-(use-package lua-mode
-  :straight t)
+(use-package lua-mode)
 
 (use-package company
   :after (yasnippet)
-  :straight t
+
   :custom
   (company-idle-delay 0.5) ;; how long to wait until popup
   (company-tooltip-align-annotations t)
   :config
-  (setq company-backends '(company-capf
-                           company-yasnippet
-                           company-files
-                           (company-dabbrev-code company-keywords)
-                           company-dabbrev))
   (global-company-mode)
   :bind
   ("C-<tab>" . company-yasnippet)
@@ -425,12 +454,10 @@
         ("M->". company-select-last)))
 
 (use-package which-key
-  :straight t
   :config
   (which-key-mode))
 
 (use-package clipetty
-  :straight t
   :defer t
   :custom
   (global-clipetty-mode 1))
@@ -438,39 +465,30 @@
 ;; https://git.sr.ht/~ashton314/emacs-bedrock/tree/main/item/mixins/base.el
 ;; https://codeberg.org/vifon/emacs-config/src/branch/master/emacs.d/lisp/20-completion-engine.el
 (use-package vertico
-  :straight t
   :init
   (vertico-mode))
 
 (use-package marginalia
-  :straight t
   :bind (:map minibuffer-local-map
               ("M-A" . marginalia-cycle))
   :init
   (marginalia-mode))
 
 ;; Smart(er) fuzzy completion matching (similar to flex)
-(use-package hotfuzz
-  :straight t)
+(use-package hotfuzz)
 
-;;
 (use-package orderless
-  :straight t
   :init
   (setq completion-styles '(hotfuzz orderless basic)
         completion-category-defaults nil
         orderless-matching-styles '(orderless-flex)
         completion-category-overrides '((file (styles partial-completion)))))
 
-
-
 (use-package embark
-  :straight t
   :bind
   (("C-." . embark-act)         ;; pick some comfortable binding
    ("C-;" . embark-dwim)        ;; good alternative: M-.
    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-
   :init
   ;; Optionally replace the key help with a completing-read interface
   ;; (setq prefix-help-command #'embark-prefix-help-command)
@@ -479,7 +497,6 @@
   ;; strategy, if you want to see the documentation from multiple providers.
   ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
   ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
-
   :config
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
@@ -488,14 +505,12 @@
                  (window-parameters (mode-line-format . none)))))
 
 (use-package embark-consult
-  :straight t
   :after (embark consult)
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package magit
-  :straight t
-  :after transient
+  ;; (:type git :flavor melpa :files ("lisp/magit*.el" "lisp/git-*.el" "docs/magit.texi" "docs/AUTHORS.md" "LICENSE" "magit-pkg.el" (:exclude "lisp/magit-section.el") "magit-pkg.el") :host github :repo "magit/magit")
   :bind (("<f7>" . magit-status))
   :init
   (add-hook 'git-commit-mode-hook 'flyspell-mode)
@@ -508,11 +523,9 @@
   (setq ediff-setup-windows-plain 'ediff-setup-windows-plain))
 
 (use-package expand-region
-  :straight t
   :bind (("M-@" . er/expand-region)))
 
 (use-package windmove
-  :straight t
   :bind (("<left>" . windmove-left)
          ("<right>" . windmove-right)
          ("<up>" . windmove-up)
@@ -524,7 +537,6 @@
   (insert "ಠ_ಠ"))
 
 (use-package hydra
-  :straight t
   :config
   (setq hydra-is-helpful 't)
   :bind
@@ -532,15 +544,46 @@
    ("C-M-c" . hydra-flymake/body)))
 
 (use-package major-mode-hydra
-  :straight t
-  :after hydra)
+  :after hydra
+  :init
+  (pretty-hydra-define
+    hydra-window-management
+    (:color red :title "Manage windows" :quit-key "q" :foreign-keys warn)
+    ("Flip"
+     (("t" transpose-frame "Transpose")
+      ("f" flip-frame "Vertically")
+      ("F" flop-frame "Horizontally"))
+     "Rotate"
+     (("r" rotate-frame "180°")
+      ("c" rotate-frame-clockwise "90°")
+      ("C" rotate-frame-anti-clockwise "-90°"))
+     "Window"
+     (("w" enlarge-window "Taller")
+      ("s" shrink-window "Shorter")
+      ("d" enlarge-window-horizontally "Wider")
+      ("a" shrink-window-horizontally "Narrower"))))
+  (pretty-hydra-define
+    hydra-flymake
+    (:color red :title "Flymake" :quit-key "q" :foreign-keys warn)
+    ("Flymake"
+     (("p" flymake-show-project-diagnostics)
+      ("b" flymake-show-buffer-diagnostics)
+      ("x" flymake-show-diagnostic)))))
 
-(use-package transpose-frame
-  :straight t)
+(use-package transpose-frame)
+
+(use-package jiralib2
+  :after (org)
+  :straight (:host github :type git :repo "nyyManni/jiralib2")
+  :init
+  (setq jiralib2-url              "https://jira.kpn.org"
+        jiralib2-auth             'basic
+        jiralib2-user-login-name  nil
+        jiralib2-token            nil))
 
 (use-package ejira
-  :straight (:host github :repo "nyyManni/ejira" :branch "master")
-  ;; :after (org)
+  :straight (:host github :type git :repo "nyyManni/ejira")
+  :after (org)
   :init
   (setq jiralib2-url              "https://jira.kpn.org"
         jiralib2-auth             'basic
@@ -581,7 +624,6 @@
   )
 
 (use-package git-modes
-  :straight t
   :init
   (add-to-list 'auto-mode-alist '("/.dockerignore\\'" . gitignore-mode))
   (add-to-list 'auto-mode-alist '("/.ignore\\'" . gitignore-mode))
@@ -589,7 +631,9 @@
   (add-to-list 'auto-mode-alist '("/.driftignore\\'" . gitignore-mode)))
 
 (use-package undo-tree
-  :straight t
+
+  :bind (("C-z" . undo-tree-undo)
+         ("C-M-z" . undo-tree-redo))
   :config
   (add-to-list 'undo-tree-history-directory-alist (cons "." undo-tree-directory))
   (global-undo-tree-mode))
@@ -598,6 +642,11 @@
   :custom
   ;;
   (python-indent-guess-indent-offset nil)
+  (setq company-backends '(company-capf
+                           company-yasnippet
+                           company-files
+                           (company-dabbrev-code company-keywords)
+                           company-dabbrev))
   :hook
   (python-mode . eglot-ensure)
   (python-mode . smartparens-mode))
@@ -611,7 +660,7 @@
 (use-package project)
 
 (use-package consult
-  :straight t
+
   :init (progn
           (defvar consult-mode-map (make-sparse-keymap))
           (define-minor-mode consult-mode
@@ -651,7 +700,7 @@
   (reb-re-syntax 'string))
 
 (use-package jsonian
-  :straight t
+
   :after so-long
   :custom
   (jsonian-default-indentation 2)
@@ -659,12 +708,12 @@
   (jsonian-no-so-long-mode))
 
 (use-package json-reformat
-  :straight t
+
   :config
   (setq json-reformat:indent-width 2))
 
 (use-package tide
-  :straight t
+
   :config
   (add-hook 'before-save-hook 'tide-format-before-save)
   (add-hook 'typescript-mode-hook #'tide-setup)
@@ -676,7 +725,7 @@
 
 
 (use-package emmet-mode
-  :straight t
+
   :hook (web-mode)
   :custom
   ;; Disable preview before expanding
@@ -688,7 +737,6 @@
               ("C-m" . emmet-expand-line)))
 
 (use-package web-mode
-  :straight t
   :mode  ("\\.tsx\\'" "\\.html\\'" "\\.hbs\\'" "\\.vue\\'")
   :custom
   (web-mode-enable-auto-indentation nil)
@@ -696,94 +744,61 @@
   (web-mode-css-indent-offset 2)
   (web-mode-code-indent-offset 2))
 
-(pretty-hydra-define
-  hydra-window-management
-  (:color red :title "Manage windows" :quit-key "q" :foreign-keys warn)
-  ("Flip"
-   (("t" transpose-frame "Transpose")
-    ("f" flip-frame "Vertically")
-    ("F" flop-frame "Horizontally"))
-   "Rotate"
-   (("r" rotate-frame "180°")
-    ("c" rotate-frame-clockwise "90°")
-    ("C" rotate-frame-anti-clockwise "-90°"))
-   "Window"
-   (("w" enlarge-window "Taller")
-    ("s" shrink-window "Shorter")
-    ("d" enlarge-window-horizontally "Wider")
-    ("a" shrink-window-horizontally "Narrower"))))
-
-(pretty-hydra-define
- hydra-flymake
- (:color red :title "Flymake" :quit-key "q" :foreign-keys warn)
- ("Flymake"
-  (("p" flymake-show-project-diagnostics)
-   ("b" flymake-show-buffer-diagnostics)
-   ("x" flymake-show-diagnostic))))
-
-(use-package justl
-  :straight t)
-
-(use-package just-mode
-  :straight t)
+(use-package justl)
+(use-package just-mode)
 
 (use-package mermaid-mode
-  :straight t
-  :custom
-  (mermaid-mmdc-location "bunx")
-  (mermaid-flags "@mermaid-js/mermaid-cli"))
+        :custom
+        (mermaid-mmdc-location "bunx")
+        (mermaid-flags "@mermaid-js/mermaid-cli@11.4.0"))
 
-(use-package jsonrpc
-  :straight t)
-
-;; https://robert.kra.hn/posts/2023-02-22-copilot-emacs-setup/#customizing-keys for more modifications
 (use-package copilot
-  :after (jsonrpc)
-  :straight (:host github :repo "copilot-emacs/copilot.el" :files ("dist" "*.el"))
-  :hook ((python-mode python-ts-mode terraform-mode hcl-mode) . copilot-mode)
-  :bind (:map copilot-mode-map
-              ("C-M-g c" . copilot-complete)
-              ("C-M-g g" . copilot-clear-overlay)
-              ("C-M-g n" . copilot-next-completion)
-              ("C-M-g p" . copilot-previous-completion)
-              ("C-M-g w" . copilot-accept-completion-by-word)
-              ("C-M-g <tab>" . copilot-accept-completion)
-              ("C-M-g <return>" . copilot-accept-completion-by-line)))
+  :config
+  (add-to-list 'copilot-indentation-alist '(prog-mode 2))
+  (add-to-list 'copilot-indentation-alist '(org-mode 2))
+  (add-to-list 'copilot-indentation-alist '(text-mode 2))
+  (add-to-list 'copilot-indentation-alist '(clojure-mode 2))
+  (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2))
+
+  :straight (:type git :host github :repo "copilot-emacs/copilot.el")
+  :bind (("C-c M-c" . copilot-complete)
+         :map copilot-completion-map
+         ("C-g" . copilot-clear-overlay)
+         ("M-n" . copilot-next-completion)
+         ("M-p" . copilot-previous-completion)
+         ("M-f" . copilot-accept-completion-by-word)
+         ("<tab>" . copilot-accept-completion)
+         ("M-<return>" . copilot-accept-completion-by-line)))
+
+(use-package treesit-auto
+        :custom
+        (treesit-auto-install 'prompt)
+        ;; avoid yaml-ts-mode as it's very broken https://www.reddit.com/r/emacs/comments/17gtxmr/indentation_in_yamltsmode/
+        (treesit-auto-langs '(python typescript terraform dockerfile))
+        :config
+        (global-treesit-auto-mode))
 
 (use-package terraform-ts-mode
-  :straight (terraform-ts-mode :host github :repo "kgrotel/terraform-ts-mode")
+  :straight (:host github :type git :repo "kgrotel/terraform-ts-mode")
   :custom
   terraform-ts-format-on-save nil)
 
-(use-package treesit-auto
-  :straight (treesit-auto :host github :repo "renzmann/treesit-auto")
+(use-package golden-ratio)
+
+
+;; (defun force-debug (func &rest args)
+;;   (condition-case e
+;;       (apply func args)
+;;     ((debug error) (signal (car e) (cdr e)))))
+
+;; (advice-add #'vertico--exhibit :around #'force-debug)
+
+(use-package auth-source-1password
+  :straight (:host github :type git :repo "dlobraico/auth-source-1password")
+  :init
+  (auth-source-1password-enable))
+
+(use-package chatgpt-shell
   :custom
-  (treesit-auto-install 'prompt)
-  ;; avoid yaml-ts-mode as it's very broken https://www.reddit.com/r/emacs/comments/17gtxmr/indentation_in_yamltsmode/
-  (treesit-auto-langs '(python typescript rust))
-  :config
-  (treesit-auto-add-to-auto-mode-alist '(python typescript rust))
-  (global-treesit-auto-mode)
-  )
-
-(use-package golden-ratio
-  :straight t)
-
-(use-package rustic
-  ;; I would like to make rustic window for compilation narrower and
-  ;; shorter if possible, as well as automatically focus into it. It should be possible with https://www.reddit.com/r/emacs/comments/cpdr6m/any_additional_docstutorials_on_displaybuffer_and/
-  ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/The-Zen-of-Buffer-Display.html
-  :after (treesit-auto)
-  :straight t
-  :mode ("\\.rs\\'" . rustic-mode)
-  :config
-  (setq rustic-format-on-save t)
-  (setq rustic-lsp-client 'eglot)
-  (add-to-list 'display-buffer-alist
-               `("^\\*rustic-compilation\\*$"
-                 (display-buffer-reuse-window display-buffer-below-selected display-buffer-at-bottom)
-                 (inhibit-same-window . t)
-                 (window-min-height . 10)
-                 (window-height . 0.25)
-                 (inhibit-switch-frame . nil))
-               t))
+  (chatgpt-shell-openai-key (lambda ()
+                              (auth-source-pick-first-password :host "OpenAI ChatGPT API Key" :user "credential"))))
