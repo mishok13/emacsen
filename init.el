@@ -280,7 +280,6 @@
 (use-package so-long)
 
 (use-package paredit
-
   :hook ((emacs-lisp-mode clojure-mode cider-repl-mode) . paredit-mode))
 
 (use-package rainbow-delimiters
@@ -288,7 +287,6 @@
   :hook ((emacs-lisp-mode clojure-mode cider-repl-mode python-mode python-ts-mode) . rainbow-delimiters-mode))
 
 (use-package aggressive-indent
-
   :hook ((emacs-lisp-mode clojure-mode) . aggressive-indent-mode))
 
 (use-package python-mode
@@ -423,25 +421,20 @@
   :hook (prog-mode . hungry-delete-mode)
   :custom (hungry-delete-join-reluctantly t))
 
-(use-package yasnippet-snippets
-  )
+(use-package yasnippet-snippets)
 
 ;; https://jdhao.github.io/2021/10/06/yasnippet_setup_emacs/
 (use-package yasnippet
-
   :after yasnippet-snippets
   :config
   (yas-reload-all))
 
-(use-package hcl-mode
-  )
+(use-package hcl-mode)
 
 (use-package terraform-mode
-
   :hook (terraform-mode . terraform-format-on-save-mode))
 
-(use-package lua-mode
-  )
+(use-package lua-mode)
 
 (use-package company
   :after (yasnippet)
@@ -461,12 +454,10 @@
         ("M->". company-select-last)))
 
 (use-package which-key
-
   :config
   (which-key-mode))
 
 (use-package clipetty
-
   :defer t
   :custom
   (global-clipetty-mode 1))
@@ -474,39 +465,30 @@
 ;; https://git.sr.ht/~ashton314/emacs-bedrock/tree/main/item/mixins/base.el
 ;; https://codeberg.org/vifon/emacs-config/src/branch/master/emacs.d/lisp/20-completion-engine.el
 (use-package vertico
-
   :init
   (vertico-mode))
 
 (use-package marginalia
-
   :bind (:map minibuffer-local-map
               ("M-A" . marginalia-cycle))
   :init
   (marginalia-mode))
 
 ;; Smart(er) fuzzy completion matching (similar to flex)
-(use-package hotfuzz
-  )
+(use-package hotfuzz)
 
-;;
 (use-package orderless
-
   :init
   (setq completion-styles '(hotfuzz orderless basic)
         completion-category-defaults nil
         orderless-matching-styles '(orderless-flex)
         completion-category-overrides '((file (styles partial-completion)))))
 
-
-
 (use-package embark
-
   :bind
   (("C-." . embark-act)         ;; pick some comfortable binding
    ("C-;" . embark-dwim)        ;; good alternative: M-.
    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-
   :init
   ;; Optionally replace the key help with a completing-read interface
   ;; (setq prefix-help-command #'embark-prefix-help-command)
@@ -515,7 +497,6 @@
   ;; strategy, if you want to see the documentation from multiple providers.
   ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
   ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
-
   :config
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
@@ -524,7 +505,6 @@
                  (window-parameters (mode-line-format . none)))))
 
 (use-package embark-consult
-
   :after (embark consult)
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
@@ -543,11 +523,9 @@
   (setq ediff-setup-windows-plain 'ediff-setup-windows-plain))
 
 (use-package expand-region
-
   :bind (("M-@" . er/expand-region)))
 
 (use-package windmove
-
   :bind (("<left>" . windmove-left)
          ("<right>" . windmove-right)
          ("<up>" . windmove-up)
@@ -559,7 +537,6 @@
   (insert "ಠ_ಠ"))
 
 (use-package hydra
-
   :config
   (setq hydra-is-helpful 't)
   :bind
@@ -567,7 +544,6 @@
    ("C-M-c" . hydra-flymake/body)))
 
 (use-package major-mode-hydra
-
   :after hydra
   :init
   (pretty-hydra-define
@@ -648,7 +624,6 @@
   )
 
 (use-package git-modes
-
   :init
   (add-to-list 'auto-mode-alist '("/.dockerignore\\'" . gitignore-mode))
   (add-to-list 'auto-mode-alist '("/.ignore\\'" . gitignore-mode))
@@ -762,7 +737,6 @@
               ("C-m" . emmet-expand-line)))
 
 (use-package web-mode
-
   :mode  ("\\.tsx\\'" "\\.html\\'" "\\.hbs\\'" "\\.vue\\'")
   :custom
   (web-mode-enable-auto-indentation nil)
@@ -770,41 +744,39 @@
   (web-mode-css-indent-offset 2)
   (web-mode-code-indent-offset 2))
 
-(use-package justl
-  )
-
-(use-package just-mode
-  )
+(use-package justl)
+(use-package just-mode)
 
 (use-package mermaid-mode
+        :custom
+        (mermaid-mmdc-location "bunx")
+        (mermaid-flags "@mermaid-js/mermaid-cli@11.4.0"))
 
-  :custom
-  (mermaid-mmdc-location "bunx")
-  (mermaid-flags "@mermaid-js/mermaid-cli@11.4.0"))
+(use-package copilot
+  :config
+  (add-to-list 'copilot-indentation-alist '(prog-mode 2))
+  (add-to-list 'copilot-indentation-alist '(org-mode 2))
+  (add-to-list 'copilot-indentation-alist '(text-mode 2))
+  (add-to-list 'copilot-indentation-alist '(clojure-mode 2))
+  (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2))
 
-(use-package jsonrpc
-  )
-
-;; (use-package copilot
-;;   :after (jsonrpc)
-;;   :vc (:fetcher "https://github.com/copilot-emacs/copilot.el")
-;;   :hook ((python-mode python-ts-mode terraform-mode hcl-mode) . copilot-mode)
-;;   :bind (("C-c M-f" . copilot-complete)
-;;          :map copilot-completion-map
-;;          ("C-g" . copilot-clear-overlay)
-;;          ("M-n" . copilot-next-completion)
-;;          ("M-p" . copilot-previous-completion)
-;;          ("M-f" . copilot-accept-completion-by-word)
-;;          ("<tab>" . copilot-accept-completion)
-;;          ("M-<return>" . copilot-accept-completion-by-line)))
+  :straight (:type git :host github :repo "copilot-emacs/copilot.el")
+  :bind (("C-c M-c" . copilot-complete)
+         :map copilot-completion-map
+         ("C-g" . copilot-clear-overlay)
+         ("M-n" . copilot-next-completion)
+         ("M-p" . copilot-previous-completion)
+         ("M-f" . copilot-accept-completion-by-word)
+         ("<tab>" . copilot-accept-completion)
+         ("M-<return>" . copilot-accept-completion-by-line)))
 
 (use-package treesit-auto
-  :custom
-  (treesit-auto-install 'prompt)
-  ;; avoid yaml-ts-mode as it's very broken https://www.reddit.com/r/emacs/comments/17gtxmr/indentation_in_yamltsmode/
-  (treesit-auto-langs '(python typescript terraform dockerfile))
-  :config
-  (global-treesit-auto-mode))
+        :custom
+        (treesit-auto-install 'prompt)
+        ;; avoid yaml-ts-mode as it's very broken https://www.reddit.com/r/emacs/comments/17gtxmr/indentation_in_yamltsmode/
+        (treesit-auto-langs '(python typescript terraform dockerfile))
+        :config
+        (global-treesit-auto-mode))
 
 (use-package terraform-ts-mode
   :straight (:host github :type git :repo "kgrotel/terraform-ts-mode")
@@ -820,3 +792,13 @@
 ;;     ((debug error) (signal (car e) (cdr e)))))
 
 ;; (advice-add #'vertico--exhibit :around #'force-debug)
+
+(use-package auth-source-1password
+  :straight (:host github :type git :repo "dlobraico/auth-source-1password")
+  :init
+  (auth-source-1password-enable))
+
+(use-package chatgpt-shell
+  :custom
+  (chatgpt-shell-openai-key (lambda ()
+                              (auth-source-pick-first-password :host "OpenAI ChatGPT API Key" :user "credential"))))
