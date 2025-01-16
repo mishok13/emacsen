@@ -785,7 +785,6 @@
 
 (use-package golden-ratio)
 
-
 ;; (defun force-debug (func &rest args)
 ;;   (condition-case e
 ;;       (apply func args)
@@ -802,3 +801,8 @@
   :custom
   (chatgpt-shell-openai-key (lambda ()
                               (auth-source-pick-first-password :host "OpenAI ChatGPT API Key" :user "credential"))))
+
+(use-package magit-file-icons
+  :after magit
+  :init
+  (magit-file-icons-mode 1))
