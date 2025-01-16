@@ -91,6 +91,7 @@
   (visible-bell nil)
   (native-comp-async-report-warnings-errors 'silent)
   (indent-tabs-mode nil)
+  (vc-follow-symlinks t)
 
   :config
   (setopt use-short-answers t)
@@ -355,8 +356,9 @@
   ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/The-Zen-of-Buffer-Display.html
 
   :mode ("\\.rs\\'" . rustic-mode)
+  :custom
+  (rustic-format-trigger 'on-compile)
   :config
-  (setq rustic-format-on-save t)
   (setq rustic-lsp-client 'eglot)
   (add-to-list 'display-buffer-alist
                `("^\\*rustic-compilation\\*$"
@@ -806,3 +808,9 @@
   :after magit
   :init
   (magit-file-icons-mode 1))
+
+(use-package cov)
+
+(use-package nerd-icons
+  :custom
+  (nerd-icons-font-family "Hack Nerd Font Mono"))
