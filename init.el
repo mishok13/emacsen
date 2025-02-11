@@ -814,3 +814,5 @@
 (use-package nerd-icons
   :custom
   (nerd-icons-font-family "Hack Nerd Font Mono"))
+
+(use-package fish-mode)
