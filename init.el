@@ -799,7 +799,11 @@
   :init
   (auth-source-1password-enable))
 
+(use-package shell-maker
+  :straight (:type git :host github :repo "xenodium/shell-maker" :files ("shell-maker*.el")))
+
 (use-package chatgpt-shell
+  :straight (:type git :host github :repo "xenodium/chatgpt-shell" :files ("chatgpt-shell*.el"))
   :custom
   (chatgpt-shell-openai-key (lambda ()
                               (auth-source-pick-first-password :host "OpenAI ChatGPT API Key" :user "credential"))))
@@ -814,3 +818,5 @@
 (use-package nerd-icons
   :custom
   (nerd-icons-font-family "Hack Nerd Font Mono"))
+
+(use-package fish-mode)

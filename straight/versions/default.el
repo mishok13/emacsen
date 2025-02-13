@@ -19,6 +19,7 @@
  ("el-patch" . "92803e7ea6e07cd56667ed7ea0dfacfc1f37f6d9")
  ("eldoc" . "91a8ae2fa66ac09f45337f9eca6c7aa643a063f4")
  ("elquery" . "38f3bd41096cb270919b06095da0b9ac1add4598")
+ ("emacs-fish" . "2526b1803b58cf145bc70ff6ce2adb3f6c246f89")
  ("emacs-request" . "01e338c335c07e4407239619e57361944a82cb8a")
  ("emacs-which-key" . "38d4308d1143b61e4004b6e7a940686784e51500")
  ("emacsmirror-mirror" . "7e8f4719bb75a31687e36e993c7a9be68e85fdbd")
