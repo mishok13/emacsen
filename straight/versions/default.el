@@ -60,6 +60,7 @@
  ("mermaid-mode" . "e74d4da7612c7a88e07f9dd3369e3b9fd36f396c")
  ("multiple-cursors.el" . "dd10cf2334333838e4550f091a75695448e26765")
  ("nerd-icons.el" . "546ee20caf825e65da4c5435d31f13d269ed2a81")
+ ("no-littering" . "ea15b1c607d4036ce37326bd5b4b2f4291ddfd60")
  ("nongnu-elpa" . "21d496592222284f3d624227fa41633e472e6a1c")
  ("orderless" . "96b74d2450ab4ab1a175d0e86c62f6695c4709b5")
  ("org" . "eebc9be7caecc9325d5e142410fbfc64ff0ae6cf")

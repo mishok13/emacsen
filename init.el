@@ -76,6 +76,8 @@
   :custom
   (recentf-mode t))
 
+(use-package no-littering)
+
 (use-package emacs
   :ensure nil
   ;; Disables suspend-frame keybindings. Because why does it even exist?
