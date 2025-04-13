@@ -96,6 +96,7 @@
   :config
   (setopt use-short-answers t)
   ;; Disables suspend-frame keybindings. Because why does it even exist?
+  (put 'downcase-region 'disabled nil)
   (global-unset-key (kbd "C-z"))
   (global-unset-key (kbd "C-x C-z"))
   (display-fill-column-indicator-mode t)
@@ -360,6 +361,7 @@
   (rustic-format-trigger 'on-compile)
   :config
   (setq rustic-lsp-client 'eglot)
+  (setq rustic-format-on-save nil)
   (add-to-list 'display-buffer-alist
                `("^\\*rustic-compilation\\*$"
                  (display-buffer-reuse-window display-buffer-below-selected display-buffer-at-bottom)
