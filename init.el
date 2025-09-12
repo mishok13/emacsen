@@ -160,6 +160,7 @@
   )
 
 (use-package org
+  :straight (:type built-in)
   :bind (("<f9>" . org-capture)
          ("<f10>" . org-agenda))
 
@@ -824,3 +825,7 @@
   (nerd-icons-font-family "Hack Nerd Font Mono"))
 
 (use-package fish-mode)
+
+
+(use-package nix-mode
+  :mode "\\.nix\\'")
