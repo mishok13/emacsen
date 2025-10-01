@@ -835,7 +835,7 @@
   :straight (:host github :type git :repo "xenodium/acp.el"))
 
 (use-package agent-shell
-  :straight (:host github :protocol ssh :type git :repo "xenodium/agent-shell"))
+  :straight (:host github :type git :repo "xenodium/agent-shell"))
 
 
 (use-package mise
