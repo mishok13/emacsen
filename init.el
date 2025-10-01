@@ -15,6 +15,7 @@
 
 (defvar bootstrap-version)
 (setq straight-use-package-by-default t)
+(setq straight-recipes-gnu-elpa-url "git@github.com:emacsmirror/gnu_elpa.git")
 (let ((bootstrap-file
        (expand-file-name
         "straight/repos/straight.el/bootstrap.el"
@@ -160,6 +161,7 @@
   )
 
 (use-package org
+  :straight (:type built-in)
   :bind (("<f9>" . org-capture)
          ("<f10>" . org-agenda))
 
@@ -351,7 +353,8 @@
   (add-to-list 'eglot-server-programs
                `((python-ts-mode python-mode) . ,(eglot-alternatives
                                                   '(("poetry" "run" "pylsp")
-                                                    ("hatch" "run" "lsp:run"))))))
+                                                    ("hatch" "run" "lsp:run")
+                                                    ("uv" "run" "basedpyright-langserver" "--stdio"))))))
 
 (use-package rustic
   ;; I would like to make rustic window for compilation narrower and
@@ -777,12 +780,12 @@
          ("M-<return>" . copilot-accept-completion-by-line)))
 
 (use-package treesit-auto
-        :custom
-        (treesit-auto-install 'prompt)
-        ;; avoid yaml-ts-mode as it's very broken https://www.reddit.com/r/emacs/comments/17gtxmr/indentation_in_yamltsmode/
-        (treesit-auto-langs '(python typescript terraform dockerfile))
-        :config
-        (global-treesit-auto-mode))
+  :custom
+  (treesit-auto-install 'prompt)
+  ;; avoid yaml-ts-mode as it's very broken https://www.reddit.com/r/emacs/comments/17gtxmr/indentation_in_yamltsmode/
+  (treesit-auto-langs '(python typescript terraform dockerfile nix))
+  :config
+  (global-treesit-auto-mode))
 
 (use-package terraform-ts-mode
   :straight (:host github :type git :repo "kgrotel/terraform-ts-mode")
@@ -804,7 +807,7 @@
   (auth-source-1password-enable))
 
 (use-package shell-maker
-  :straight (:type git :host github :repo "xenodium/shell-maker" :files ("shell-maker*.el")))
+  :straight (:type git :host github :repo "xenodium/shell-maker" :files ("shell-maker*.el" "markdown-overlays.el")))
 
 (use-package chatgpt-shell
   :straight (:type git :host github :repo "xenodium/chatgpt-shell" :files ("chatgpt-shell*.el"))
@@ -824,3 +827,17 @@
   (nerd-icons-font-family "Hack Nerd Font Mono"))
 
 (use-package fish-mode)
+
+(use-package nix-ts-mode
+  :mode "\\.nix\\'")
+
+(use-package acp
+  :straight (:host github :type git :repo "xenodium/acp.el"))
+
+(use-package agent-shell
+  :straight (:host github :type git :repo "xenodium/agent-shell"))
+
+
+(use-package mise
+  :config
+  (global-mise-mode))
