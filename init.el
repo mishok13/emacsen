@@ -354,7 +354,7 @@
                `((python-ts-mode python-mode) . ,(eglot-alternatives
                                                   '(("poetry" "run" "pylsp")
                                                     ("hatch" "run" "lsp:run")
-                                                    ("uv" "run" "pylsp"))))))
+                                                    ("uv" "run" "basedpyright-langserver" "--stdio"))))))
 
 (use-package rustic
   ;; I would like to make rustic window for compilation narrower and
