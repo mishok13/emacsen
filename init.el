@@ -157,8 +157,7 @@
   (setq uniquify-after-kill-buffer-p t)
   (setq uniquify-ignore-buffers-re "^\\*"))
 
-(use-package dash
-  )
+(use-package dash)
 
 (use-package org
   :straight (:type built-in)
@@ -837,7 +836,10 @@
 (use-package agent-shell
   :straight (:host github :type git :repo "xenodium/agent-shell"))
 
-
 (use-package mise
   :config
   (global-mise-mode))
+
+(use-package typst-ts-mode
+  :straight (:type git :host codeberg :repo "meow_king/typst-ts-mode")
+  :mode "\\.typ\\'")
