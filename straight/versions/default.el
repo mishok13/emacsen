@@ -93,6 +93,7 @@
  ("transpose-frame" . "94c87794d53883a2358d13da264ad8dab9a52daa")
  ("treesit-auto" . "016bd286a1ba4628f833a626f8b9d497882ecdf3")
  ("typescript.el" . "dd10f702d4946ddb2e1c2863bf02bf241bce5fc8")
+ ("typst-ts-mode" . "fa03e477dfc57ea498ef9a624b2ec7bf655dc25c")
  ("undo-tree" . "d8f72bbe7d3c3a2808986febd3bb1a46d4da7f51")
  ("vertico" . "830c65d58ffae55bf12fa4c9c7354c1be6ad3c7e")
  ("web-mode" . "0c83581d1e93d1d802c730a1d5e90cd1c740e1b2")
