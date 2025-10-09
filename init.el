@@ -843,3 +843,6 @@
 (use-package typst-ts-mode
   :straight (:type git :host codeberg :repo "meow_king/typst-ts-mode")
   :mode "\\.typ\\'")
+
+(use-package uiua-ts-mode
+  :mode "\\.ua\\'")
