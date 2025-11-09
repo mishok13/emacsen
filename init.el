@@ -333,7 +333,6 @@
   )
 
 (use-package smartparens
-
   :hook ((python-mode python-ts-mode rustic-mode typescript-mode terraform-mode hcl-mode) . smartparens-mode))
 
 (use-package poetry
@@ -353,7 +352,9 @@
                `((python-ts-mode python-mode) . ,(eglot-alternatives
                                                   '(("poetry" "run" "pylsp")
                                                     ("hatch" "run" "lsp:run")
-                                                    ("uv" "run" "basedpyright-langserver" "--stdio"))))))
+                                                    ("uv" "run" "basedpyright-langserver" "--stdio")))))
+  (add-to-list 'eglot-server-programs
+               `((terraform-mode terraform-ts-mode) . ("tofu-ls" "serve"))))
 
 (use-package rustic
   ;; I would like to make rustic window for compilation narrower and
