@@ -767,9 +767,9 @@
 (use-package just-mode)
 
 (use-package mermaid-mode
-        :custom
-        (mermaid-mmdc-location "bunx")
-        (mermaid-flags "@mermaid-js/mermaid-cli@11.4.0"))
+  :custom
+  (mermaid-mmdc-location "bunx")
+  (mermaid-flags "@mermaid-js/mermaid-cli@11.4.0"))
 
 (use-package copilot
   :config
@@ -849,3 +849,9 @@
 (use-package typst-ts-mode
   :straight (:type git :host codeberg :repo "meow_king/typst-ts-mode")
   :mode "\\.typ\\'")
+
+(use-package mastodon
+  :custom
+  (mastodon-instance-url "https://hachyderm.io")
+  (mastodon-active-user "mishok13")
+  (mastodon-auth-use-auth-source nil))
