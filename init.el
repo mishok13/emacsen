@@ -333,11 +333,23 @@
   )
 
 (use-package smartparens
-
   :hook ((python-mode python-ts-mode rustic-mode typescript-mode terraform-mode hcl-mode) . smartparens-mode))
 
 (use-package poetry
   )
+
+(use-package terraform-mode
+  :hook (terraform-mode . terraform-format-on-save-mode))
+
+(use-package terraform-ts-mode
+  :straight (:host github :type git :repo "kgrotel/terraform-ts-mode")
+  :after (eglot)
+  :custom
+  (terraform-ts-format-on-save nil)
+  :init
+  (add-to-list 'eglot-server-programs
+               `(terraform-ts-mode . ("tofu-ls" "serve"))))
+
 
 (use-package eglot
   :hook ((rustic-mode . eglot-ensure)
@@ -353,7 +365,9 @@
                `((python-ts-mode python-mode) . ,(eglot-alternatives
                                                   '(("poetry" "run" "pylsp")
                                                     ("hatch" "run" "lsp:run")
-                                                    ("uv" "run" "basedpyright-langserver" "--stdio"))))))
+                                                    ("uv" "run" "basedpyright-langserver" "--stdio")))))
+  (add-to-list 'eglot-server-programs
+               `((terraform-mode terraform-ts-mode) . ("tofu-ls" "serve"))))
 
 (use-package rustic
   ;; I would like to make rustic window for compilation narrower and
@@ -438,9 +452,6 @@
   (yas-reload-all))
 
 (use-package hcl-mode)
-
-(use-package terraform-mode
-  :hook (terraform-mode . terraform-format-on-save-mode))
 
 (use-package lua-mode)
 
@@ -785,11 +796,6 @@
   (treesit-auto-langs '(python typescript terraform dockerfile nix))
   :config
   (global-treesit-auto-mode))
-
-(use-package terraform-ts-mode
-  :straight (:host github :type git :repo "kgrotel/terraform-ts-mode")
-  :custom
-  terraform-ts-format-on-save nil)
 
 (use-package golden-ratio)
 

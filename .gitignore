@@ -11,3 +11,5 @@
 !.github
 !LICENSE
 !README.md
+
+!.pre-commit-config.yaml
