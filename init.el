@@ -367,6 +367,8 @@
                                                     ("hatch" "run" "lsp:run")
                                                     ("uv" "run" "basedpyright-langserver" "--stdio")))))
   (add-to-list 'eglot-server-programs
+               '(markdown-mode . ("harper-ls" "--stdio")))
+  (add-to-list 'eglot-server-programs
                `((terraform-mode terraform-ts-mode) . ("tofu-ls" "serve"))))
 
 (use-package rustic
