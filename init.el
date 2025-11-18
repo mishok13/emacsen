@@ -338,6 +338,19 @@
 (use-package poetry
   )
 
+(use-package terraform-mode
+  :hook (terraform-mode . terraform-format-on-save-mode))
+
+(use-package terraform-ts-mode
+  :straight (:host github :type git :repo "kgrotel/terraform-ts-mode")
+  :after (eglot)
+  :custom
+  (terraform-ts-format-on-save nil)
+  :init
+  (add-to-list 'eglot-server-programs
+               `(terraform-ts-mode . ("tofu-ls" "serve"))))
+
+
 (use-package eglot
   :hook ((rustic-mode . eglot-ensure)
          (python-mode . eglot-ensure)
@@ -439,9 +452,6 @@
   (yas-reload-all))
 
 (use-package hcl-mode)
-
-(use-package terraform-mode
-  :hook (terraform-mode . terraform-format-on-save-mode))
 
 (use-package lua-mode)
 
@@ -786,11 +796,6 @@
   (treesit-auto-langs '(python typescript terraform dockerfile nix))
   :config
   (global-treesit-auto-mode))
-
-(use-package terraform-ts-mode
-  :straight (:host github :type git :repo "kgrotel/terraform-ts-mode")
-  :custom
-  terraform-ts-format-on-save nil)
 
 (use-package golden-ratio)
 
