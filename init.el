@@ -534,6 +534,7 @@
   :init
   (add-hook 'git-commit-mode-hook 'flyspell-mode)
   :custom
+  (magit-format-file-function #'magit-format-file-nerd-icons)
   (magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
   (magit-bury-buffer-function 'magit-restore-window-configuration))
 
@@ -811,19 +812,11 @@
   :init
   (auth-source-1password-enable))
 
-(use-package shell-maker
-  :straight (:type git :host github :repo "xenodium/shell-maker" :files ("shell-maker*.el" "markdown-overlays.el")))
-
 (use-package chatgpt-shell
   :straight (:type git :host github :repo "xenodium/chatgpt-shell" :files ("chatgpt-shell*.el"))
   :custom
   (chatgpt-shell-openai-key (lambda ()
                               (auth-source-pick-first-password :host "OpenAI ChatGPT API Key" :user "credential"))))
-
-(use-package magit-file-icons
-  :after magit
-  :init
-  (magit-file-icons-mode 1))
 
 (use-package cov)
 
@@ -836,11 +829,13 @@
 (use-package nix-ts-mode
   :mode "\\.nix\\'")
 
-(use-package acp
-  :straight (:host github :type git :repo "xenodium/acp.el"))
-
 (use-package agent-shell
-  :straight (:host github :type git :repo "xenodium/agent-shell"))
+  :after (mise)
+  :init
+  ;; The way mise works is by adding advice for a predefined set of commands
+  ;; https://github.com/eki3z/mise.el/blob/60ef63466d07417a9ef956af363baae39c9ddf34/mise.el#L368-L369
+  ;; One could simply update that list to have agent-shell included, but this feels cleaner somehow.
+  (advice-add 'agent-shell :around #'mise-propagate-env))
 
 (use-package mise
   :config
