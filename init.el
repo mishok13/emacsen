@@ -52,10 +52,10 @@
   :config
   (defcustom mk13/org-directory (expand-file-name "~/nonwork/notes/org/")
     "Default location for all Org files"
-    :type '(string))
+    :type 'string)
   (defcustom mk13/denote-directory (expand-file-name "~/nonwork/notes/denote")
     "Default location for Denote notes"
-    :type '(string))
+    :type 'string)
   (let ((dirs (list mk13/org-directory mk13/denote-directory)))
     (dolist (dir dirs)
       (unless (file-exists-p dir)
@@ -74,6 +74,7 @@
   )
 
 (use-package recentf
+  :straight (:type built-in)
   :custom
   (recentf-mode t))
 
@@ -98,12 +99,11 @@
 
   :config
   (setopt use-short-answers t)
-  ;; Disables suspend-frame keybindings. Because why does it even exist?
   (put 'downcase-region 'disabled nil)
+  ;; Disables suspend-frame keybindings. Because why does it even exist?
   (global-unset-key (kbd "C-z"))
   (global-unset-key (kbd "C-x C-z"))
   (display-fill-column-indicator-mode t)
-  (defalias 'yes-or-no-p 'y-or-n-p)
   (put 'upcase-region 'disabled nil)
   (global-display-line-numbers-mode t)
   (global-visual-line-mode t)
@@ -111,8 +111,7 @@
   (setq
    auto-save-file-name-transforms`((".*" ,temporary-file-directory t))
    backup-by-copying t
-   backup-directory-alist '(("." . "~/.emacs.d/.backups"))
-   backup-directory-alist`((".*" . ,temporary-file-directory))
+   backup-directory-alist `((".*" . ,temporary-file-directory))
    create-lockfiles nil
    delete-old-versions t
    inhibit-splash-screen t
@@ -157,7 +156,8 @@
   (setq uniquify-after-kill-buffer-p t)
   (setq uniquify-ignore-buffers-re "^\\*"))
 
-(use-package dash)
+(use-package dash
+  :defer t)
 
 (use-package org
   :straight (:type built-in)
@@ -294,24 +294,6 @@
 (use-package aggressive-indent
   :hook ((emacs-lisp-mode clojure-mode) . aggressive-indent-mode))
 
-(use-package python-mode
-  :defer t
-  :config
-  (setq company-backends '(company-capf
-                           company-yasnippet
-                           company-files
-                           (company-dabbrev-code company-keywords)
-                           company-dabbrev))
-
-  ;; automatically generating pyrightconfig could be done with:
-  ;; detecting pyproject.toml
-  ;; reading it https://github.com/gongo/emacs-toml and detecting the tool used
-  ;; running this for poetry (or can we do that without the call to command line?)
-  ;; generating config with json.el https://github.com/emacs-mirror/emacs/blob/master/lisp/json.el#L770
-  ;; setting fci to correct value based on tool.black.line-length or tool.ruff.line-length value (and sensible default).
-  ;; poetry env info -p | read -r d; printf '{\n  "venvPath": "%s",\n  "venv": "%s"\n}\n' "$(dirname "$d")" "$(basename "$d")" > pyrightconfig.json
-  )
-
 (use-package which-func
   :config
   (which-function-mode t))
@@ -335,8 +317,7 @@
 (use-package smartparens
   :hook ((python-mode python-ts-mode rustic-mode typescript-mode terraform-mode hcl-mode) . smartparens-mode))
 
-(use-package poetry
-  )
+(use-package poetry)
 
 (use-package terraform-mode
   :hook (terraform-mode . terraform-format-on-save-mode))
@@ -369,7 +350,8 @@
   (add-to-list 'eglot-server-programs
                '(markdown-mode . ("harper-ls" "--stdio")))
   (add-to-list 'eglot-server-programs
-               `((terraform-mode terraform-ts-mode) . ("tofu-ls" "serve"))))
+               '(terraform-mode . ("tofu-ls" "serve"))))
+
 
 (use-package rustic
   ;; I would like to make rustic window for compilation narrower and
@@ -411,6 +393,7 @@
 
 
 (use-package saveplace
+  :straight (:type built-in)
   :config
   (setq save-place-file (expand-file-name ".places" user-emacs-directory))
   (save-place-mode t))
@@ -435,13 +418,12 @@
   :hook (markdown-mode . flyspell-mode))
 
 (use-package multiple-cursors
-
   :init
   (global-unset-key (kbd "M-<down-mouse-1>"))
   :bind (("M-<mouse-1>" . mc/add-cursor-on-click)))
 
 (use-package hungry-delete
-
+  :defer t
   :hook (prog-mode . hungry-delete-mode)
   :custom (hungry-delete-join-reluctantly t))
 
@@ -598,57 +580,6 @@
 
 (use-package transpose-frame)
 
-(use-package jiralib2
-  :after (org)
-  :straight (:host github :type git :repo "nyyManni/jiralib2")
-  :init
-  (setq jiralib2-url              "https://jira.kpn.org"
-        jiralib2-auth             'basic
-        jiralib2-user-login-name  nil
-        jiralib2-token            nil))
-
-(use-package ejira
-  :straight (:host github :type git :repo "nyyManni/ejira")
-  :after (org)
-  :init
-  (setq jiralib2-url              "https://jira.kpn.org"
-        jiralib2-auth             'basic
-        jiralib2-user-login-name  nil
-        jiralib2-token            nil
-        ;; NOTE, this directory needs to be in `org-agenda-files'`
-        ejira-org-directory       (concat mk13/org-directory "jira")
-        ejira-projects            '("DEP")
-        ejira-priorities-alist    '(("Highest" . ?A)
-                                    ("High"    . ?B)
-                                    ("Medium"  . ?C)
-                                    ("Low"     . ?D)
-                                    ("Lowest"  . ?E))
-        ejira-todo-states-alist   '(("To Do"       . 1)
-                                    ("In Progress" . 2)
-                                    ("Done"        . 3)))
-  :config
-  ;; Tries to auto-set custom fields by looking into /editmeta
-  ;; of an issue and an epic.
-  (add-hook 'jiralib2-post-login-hook #'ejira-guess-epic-sprint-fields)
-
-  ;; They can also be set manually if autoconfigure is not used.
-  ;; (setq ejira-sprint-field       'customfield_10001
-  ;;       ejira-epic-field         'customfield_10002
-  ;;       ejira-epic-summary-field 'customfield_10004)
-
-  ;; (require 'ejira-agenda)
-
-  ;; Make the issues visisble in your agenda by adding `ejira-org-directory'
-  ;; into your `org-agenda-files'.
-  ;; (add-to-list 'org-agenda-files ejira-org-directory)
-
-  ;; Add an agenda view to browse the issues that
-  ;; (org-add-agenda-custom-command
-  ;;  '("j" "My JIRA issues"
-  ;;    ((ejira-jql "resolution = unresolved and assignee = currentUser()"
-  ;;                ((org-agenda-overriding-header "Assigned to me"))))))
-  )
-
 (use-package git-modes
   :init
   (add-to-list 'auto-mode-alist '("/.dockerignore\\'" . gitignore-mode))
@@ -665,8 +596,15 @@
   (global-undo-tree-mode))
 
 (use-package python
+  :straight (:type built-in)
   :custom
-  ;;
+  ;; automatically generating pyrightconfig could be done with:
+  ;; detecting pyproject.toml
+  ;; reading it https://github.com/gongo/emacs-toml and detecting the tool used
+  ;; running this for poetry (or can we do that without the call to command line?)
+  ;; generating config with json.el https://github.com/emacs-mirror/emacs/blob/master/lisp/json.el#L770
+  ;; setting fci to correct value based on tool.black.line-length or tool.ruff.line-length value (and sensible default).
+  ;; poetry env info -p | read -r d; printf '{\n  "venvPath": "%s",\n  "venv": "%s"\n}\n' "$(dirname "$d")" "$(basename "$d")" > pyrightconfig.json
   (python-indent-guess-indent-offset nil)
   (setq company-backends '(company-capf
                            company-yasnippet
@@ -682,8 +620,6 @@
 ;; https://github.com/minad/vertico
 ;; https://www.lucacambiaghi.com/vanilla-emacs/readme.html#h:EC68944C-F745-45D8-9905-420E0813DBAF
 ;; https://github.com/minad/consult/blob/main/README.org#use-package-example
-
-(use-package project)
 
 (use-package consult
 
@@ -739,7 +675,6 @@
   (setq json-reformat:indent-width 2))
 
 (use-package tide
-
   :config
   (add-hook 'before-save-hook 'tide-format-before-save)
   (add-hook 'typescript-mode-hook #'tide-setup)
@@ -773,10 +708,7 @@
 (use-package justl)
 (use-package just-mode)
 
-(use-package mermaid-mode
-  :custom
-  (mermaid-mmdc-location "bunx")
-  (mermaid-flags "@mermaid-js/mermaid-cli@11.4.0"))
+(use-package mermaid-mode)
 
 (use-package copilot
   :config
