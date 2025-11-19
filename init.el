@@ -529,7 +529,6 @@
   (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package magit
-  ;; (:type git :flavor melpa :files ("lisp/magit*.el" "lisp/git-*.el" "docs/magit.texi" "docs/AUTHORS.md" "LICENSE" "magit-pkg.el" (:exclude "lisp/magit-section.el") "magit-pkg.el") :host github :repo "magit/magit")
   :bind (("<f7>" . magit-status))
   :init
   (add-hook 'git-commit-mode-hook 'flyspell-mode)
@@ -537,6 +536,11 @@
   (magit-format-file-function #'magit-format-file-nerd-icons)
   (magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
   (magit-bury-buffer-function 'magit-restore-window-configuration))
+
+(use-package forge
+  :after magit
+  :config
+  (advice-add 'ghub--ident :override (lambda (username package) "credential")))
 
 (use-package ediff
   :init
