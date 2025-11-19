@@ -350,7 +350,7 @@
   (add-to-list 'eglot-server-programs
                '(markdown-mode . ("harper-ls" "--stdio")))
   (add-to-list 'eglot-server-programs
-               (terraform-mode . ("tofu-ls" "serve"))))
+               '(terraform-mode . ("tofu-ls" "serve"))))
 
 
 (use-package rustic
