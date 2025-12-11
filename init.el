@@ -41,7 +41,7 @@
 (use-package project
   :straight (:type built-in)
   :custom
-  (project-vc-extra-root-markers '("pyproject.toml")))
+  (project-vc-extra-root-markers '("pyproject.toml" "Cargo.toml")))
 
 (when (display-graphic-p)
   (tool-bar-mode -1)
@@ -322,31 +322,44 @@
 (use-package yaml-pro
   )
 
-(use-package caddyfile-mode
-  )
+(use-package caddyfile-mode)
 
 (use-package sql
   :custom
   (sql-dialect 'postgres))
 
-(use-package dockerfile-mode
-  )
+(use-package dockerfile-mode)
 
 (use-package smartparens
-  :hook ((python-mode python-ts-mode rustic-mode typescript-mode terraform-mode hcl-mode) . smartparens-mode))
+  :hook ((python-mode python-ts-mode typescript-mode terraform-mode hcl-mode) . smartparens-mode))
 
-(use-package poetry
-  )
+(use-package electric-pair-mode
+  :straight (:type built-in)
+  :hook ((rustic-mode) . electric-pair-mode))
+
+(use-package poetry)
 
 (use-package terraform-mode
-  :hook (terraform-mode . terraform-format-on-save-mode))
+  :after (eglot)
+  :custom
+  (terraform-format-on-save-mode nil)
+  :config
+  ;; Annoyingly both terraform-mode and terraform-ts-mode will proactively inject terraform-ls as the LSP
+  ;; provider for Terraform/OpenTofu. Since I almost exclusively use OpenTofu nowadays it stands to reason
+  ;; tofu-ls is a better fit.
+  (setq eglot-server-programs
+        (assoc-delete-all 'terraform-mode eglot-server-programs))
+  (add-to-list 'eglot-server-programs
+               `(terraform-mode . ("tofu-ls" "serve"))))
 
 (use-package terraform-ts-mode
   :straight (:host github :type git :repo "kgrotel/terraform-ts-mode")
   :after (eglot)
   :custom
-  (terraform-ts-format-on-save nil)
-  :init
+  (terraform-ts-format-on-save 1)
+  :config
+  (setq eglot-server-programs
+        (assoc-delete-all 'terraform-ts-mode eglot-server-programs))
   (add-to-list 'eglot-server-programs
                `(terraform-ts-mode . ("tofu-ls" "serve"))))
 
@@ -367,9 +380,7 @@
                                                     ("hatch" "run" "lsp:run")
                                                     ("uv" "run" "basedpyright-langserver" "--stdio")))))
   (add-to-list 'eglot-server-programs
-               '(markdown-mode . ("harper-ls" "--stdio")))
-  (add-to-list 'eglot-server-programs
-               `((terraform-mode terraform-ts-mode) . ("tofu-ls" "serve"))))
+               '(markdown-mode . ("harper-ls" "--stdio"))))
 
 (use-package rustic
   ;; I would like to make rustic window for compilation narrower and
