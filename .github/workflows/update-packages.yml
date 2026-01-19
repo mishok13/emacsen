@@ -1,0 +1,26 @@
+name: update-packages
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  update-packages:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: purcell/setup-emacs@8415786a52b3a84babd7ffc92a802b06e3780c17
+      with:
+        version: release-snapshot
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      with:
+        persist-credentials: false
+    - run: emacs --batch --load early-init.el --load init.el --eval "(progn (straight-thaw-versions) (straight-pull-all) (straight-rebuild-all) (straight-freeze-versions))"
+    - run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add straight/versions/default.el
+        git diff --staged --quiet || git commit -m "Bump emacs packages"
+        git push
