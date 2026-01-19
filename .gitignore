@@ -8,8 +8,12 @@
 !straight/versions/
 !straight/versions/default.el
 
-!.github
 !LICENSE
 !README.md
 
 !.pre-commit-config.yaml
+!.github/
+!.github/workflows/
+!.github/workflows/*.yml
+
+!renovate.json
