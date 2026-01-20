@@ -17,6 +17,7 @@ jobs:
     - uses: purcell/setup-emacs@8415786a52b3a84babd7ffc92a802b06e3780c17
       with:
         version: release-snapshot
+    - run: emacs --batch --load early-init.el --load init.el --eval "(straight-rebuild-all)"
     - run: emacs --batch --load early-init.el --load init.el --eval "(progn (straight-thaw-versions) (straight-pull-all) (straight-rebuild-all) (straight-freeze-versions))"
     - uses: peter-evans/create-pull-request@98357b18bf14b5342f975ff684046ec3b2a07725
       with:
