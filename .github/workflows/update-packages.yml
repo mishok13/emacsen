@@ -5,7 +5,9 @@ on:
     - cron: '0 0 * * 0'
   workflow_dispatch:
 
-permissions: {}
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   update-packages:
@@ -18,7 +20,8 @@ jobs:
       with:
         version: release-snapshot
     - run: emacs --batch --load early-init.el --load init.el --eval "(straight-rebuild-all)"
-    - run: emacs --batch --load early-init.el --load init.el --eval "(progn (straight-thaw-versions) (straight-pull-all) (straight-rebuild-all) (straight-freeze-versions))"
+    - run: emacs --batch --load early-init.el --load init.el --eval "(progn (straight-thaw-versions) (straight-pull-recipe-repositories) (straight-pull-all) (straight-rebuild-all) (straight-freeze-versions))"
+    - run: cp /home/runner/.emacs.d/straight/versions/default.el straight/versions/default.el
     - uses: peter-evans/create-pull-request@98357b18bf14b5342f975ff684046ec3b2a07725
       with:
         add-paths: "straight/versions/default.el"
