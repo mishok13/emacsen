@@ -352,16 +352,20 @@
   (add-to-list 'eglot-server-programs
                `(terraform-mode . ("tofu-ls" "serve"))))
 
-(use-package terraform-ts-mode
-  :straight (:host github :type git :repo "kgrotel/terraform-ts-mode")
-  :after (eglot)
-  :custom
-  (terraform-ts-format-on-save 1)
-  :config
-  (setq eglot-server-programs
-        (assoc-delete-all 'terraform-ts-mode eglot-server-programs))
-  (add-to-list 'eglot-server-programs
-               `(terraform-ts-mode . ("tofu-ls" "serve"))))
+;; The package in question does a lot of things that simply break interaction, such as injecting eglot-format
+;; into global before-save-hook, modifying eglot-server-programs on activation and such. For now this mode can
+;; simply go away, but in the future I should probably just fork it.
+
+;; (use-package terraform-ts-mode
+;;   :straight (:host github :type git :repo "kgrotel/terraform-ts-mode")
+;;   :after (eglot)
+;;   :custom
+;;   (terraform-ts-format-on-save 1)
+;;   :config
+;;   (setq eglot-server-programs
+;;         (assoc-delete-all 'terraform-ts-mode eglot-server-programs))
+;;   (add-to-list 'eglot-server-programs
+;;                `(terraform-ts-mode . ("tofu-ls" "serve"))))
 
 
 (use-package eglot
@@ -750,7 +754,6 @@
   (setq json-reformat:indent-width 2))
 
 (use-package tide
-
   :config
   (add-hook 'before-save-hook 'tide-format-before-save)
   (add-hook 'typescript-mode-hook #'tide-setup)
