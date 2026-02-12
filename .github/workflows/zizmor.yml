@@ -16,7 +16,7 @@ jobs:
       contents: read
       actions: read
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: actions/checkout@0c366fd6a839edf440554fa01a7085ccba70ac98
         with:
           persist-credentials: false
-      - uses: zizmorcore/zizmor-action@135698455da5c3b3e55f73f4419e481ab68cdd95
+      - uses: zizmorcore/zizmor-action@5507ab0c02a9ac3996895e1598d6b3385ea7d525

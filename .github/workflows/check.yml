@@ -29,10 +29,10 @@ jobs:
     - uses: purcell/setup-emacs@8415786a52b3a84babd7ffc92a802b06e3780c17
       with:
         version: ${{ matrix.emacs_version }}
-    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+    - uses: actions/checkout@0c366fd6a839edf440554fa01a7085ccba70ac98
       with:
         persist-credentials: false
-    - uses: leotaku/elisp-check@cbcda75256a9195b5e6d7e6fa39390b32e08a4f3
+    - uses: leotaku/elisp-check@b8228894697c3cf9989a0e63977de4a239160628
       with:
         check: load-file
         file: '*.el'
