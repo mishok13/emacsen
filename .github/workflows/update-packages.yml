@@ -13,7 +13,7 @@ jobs:
   update-packages:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+    - uses: actions/checkout@0c366fd6a839edf440554fa01a7085ccba70ac98
       with:
         persist-credentials: false
     - uses: purcell/setup-emacs@8415786a52b3a84babd7ffc92a802b06e3780c17
@@ -22,7 +22,7 @@ jobs:
     - run: emacs --batch --load early-init.el --load init.el --eval "(straight-rebuild-all)"
     - run: emacs --batch --load early-init.el --load init.el --eval "(progn (straight-thaw-versions) (straight-pull-recipe-repositories) (straight-pull-all) (straight-rebuild-all) (straight-freeze-versions))"
     - run: cp /home/runner/.emacs.d/straight/versions/default.el straight/versions/default.el
-    - uses: peter-evans/create-pull-request@98357b18bf14b5342f975ff684046ec3b2a07725
+    - uses: peter-evans/create-pull-request@6699836a213cf8b28c4f0408a404a6ac79d4458a
       with:
         add-paths: "straight/versions/default.el"
         sign-commits: true
