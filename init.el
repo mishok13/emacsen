@@ -43,12 +43,22 @@
   :custom
   (project-vc-extra-root-markers '("pyproject.toml" "Cargo.toml")))
 
-(when (display-graphic-p)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1))
-
 (use-package emacs
   :ensure nil
+  ;; Disables suspend-frame keybindings. Because why does it even exist?
+  :bind (("C-z" . nil)
+         ("C-x C-z" . nil)
+         ("C-x m" . nil))
+
+  :custom
+  (custom-file (expand-file-name "custom.el" user-emacs-directory))
+  (fill-column 112)
+  (initial-major-mode 'fundamental-mode)
+  (visible-bell nil)
+  (native-comp-async-report-warnings-errors 'silent)
+  (indent-tabs-mode nil)
+  (vc-follow-symlinks t)
+
   :config
   (defcustom mk13/org-directory (expand-file-name "~/nonwork/notes/org/")
     "Default location for all Org files"
@@ -71,52 +81,20 @@
   ;;                               ("gnu-elpa-devel" . "https://elpa.gnu.org/devel/")
   ;;                               ("nongnu" . "https://elpa.nongnu.org/nongnu/")
   ;;                               ("melpa" . "https://melpa.org/packages/")))
-  )
-
-(use-package recentf
-  :custom
-  (recentf-mode t))
-
-(use-package no-littering)
-
-(use-package emacs
-  :ensure nil
-  ;; Disables suspend-frame keybindings. Because why does it even exist?
-  :bind (("C-z" . nil)
-         ("C-x C-z" . nil)
-         ("C-x m" . nil))
-
-  :custom
-  (custom-file (expand-file-name "custom.el" user-emacs-directory))
-  (fill-column 112)
-  (frame-resize-pixelwise t)
-  (initial-major-mode 'fundamental-mode)
-  (visible-bell nil)
-  (native-comp-async-report-warnings-errors 'silent)
-  (indent-tabs-mode nil)
-  (vc-follow-symlinks t)
-
-  :config
   (setopt use-short-answers t)
-  ;; Disables suspend-frame keybindings. Because why does it even exist?
   (put 'downcase-region 'disabled nil)
-  (global-unset-key (kbd "C-z"))
-  (global-unset-key (kbd "C-x C-z"))
   (display-fill-column-indicator-mode t)
-  (defalias 'yes-or-no-p 'y-or-n-p)
   (put 'upcase-region 'disabled nil)
   (global-display-line-numbers-mode t)
   (global-visual-line-mode t)
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
   (setq
-   auto-save-file-name-transforms`((".*" ,temporary-file-directory t))
+   auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
    backup-by-copying t
    backup-directory-alist '(("." . "~/.emacs.d/.backups"))
-   backup-directory-alist`((".*" . ,temporary-file-directory))
    create-lockfiles nil
    delete-old-versions t
    inhibit-splash-screen t
-   initial-major-mode 'fundamental-mode
    initial-scratch-message nil
    kept-new-versions 6
    kept-old-versions 2
@@ -124,12 +102,9 @@
    ring-bell-function #'ignore
    scroll-error-top-bottom 'true
    version-control t
-   visible-bell nil
-   x-select-enable-clipboard t
-   )
+   x-select-enable-clipboard t)
 
   (pixel-scroll-precision-mode t)
-  (add-hook 'before-save-hook 'delete-trailing-whitespace)
   (menu-bar-mode 0)
   (tooltip-mode 0)
   (blink-cursor-mode 0)
@@ -142,7 +117,6 @@
   (set-face-attribute 'default nil
                       :font "Hack Nerd Font Mono-14")
   (set-frame-font "Hack Nerd Font Mono-14")
-  (setq native-comp-async-report-warnings-errors nil)
 
   ;; Don't let minibufer cursor jump into read-only prompt
   (setq minibuffer-prompt-properties
@@ -156,6 +130,12 @@
   (setq uniquify-separator "|")
   (setq uniquify-after-kill-buffer-p t)
   (setq uniquify-ignore-buffers-re "^\\*"))
+
+(use-package recentf
+  :custom
+  (recentf-mode t))
+
+(use-package no-littering)
 
 (use-package dash)
 
@@ -613,12 +593,8 @@
   :straight (:host github :type git :repo "nyyManni/ejira")
   :after (org)
   :init
-  (setq jiralib2-url              "https://jira.kpn.org"
-        jiralib2-auth             'basic
-        jiralib2-user-login-name  nil
-        jiralib2-token            nil
-        ;; NOTE, this directory needs to be in `org-agenda-files'`
-        ejira-org-directory       (concat mk13/org-directory "jira")
+  ;; NOTE, this directory needs to be in `org-agenda-files'`
+  (setq ejira-org-directory       (concat mk13/org-directory "jira")
         ejira-projects            '("DEP")
         ejira-priorities-alist    '(("Highest" . ?A)
                                     ("High"    . ?B)
@@ -673,8 +649,6 @@
 ;; https://www.lucacambiaghi.com/vanilla-emacs/readme.html#h:EC68944C-F745-45D8-9905-420E0813DBAF
 ;; https://github.com/minad/consult/blob/main/README.org#use-package-example
 
-(use-package project)
-
 (use-package consult
 
   :init (progn
@@ -720,7 +694,6 @@
   :after so-long
   :custom
   (jsonian-default-indentation 2)
-  :custom
   (jsonian-no-so-long-mode))
 
 (use-package json-reformat

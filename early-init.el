@@ -8,6 +8,7 @@
       '((fullscreen . maximized)
         (vertical-scroll-bars . nil)
         (horizontal-scroll-bars . nil)
+        ;; Setting background colors prevents aggressive "blinking" when emacs loads
         (background-color . "#000000")
         (foreground-color . "#ffffff")
         (ns-appearance . dark)
