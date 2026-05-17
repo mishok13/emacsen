@@ -305,18 +305,37 @@
 (use-package eglot
   :hook ((rustic-mode . eglot-ensure))
   :bind (:map eglot-mode-map
-              ("C-M-h a" . eglot-code-actions)
-              ("C-M-h r" . eglot-rename)
-              ("C-M-h f" . eglot-format-buffer)
-              ("C-M-h Q" . eglot-shutdown-all))
+              ("<f1>" . mk13/eglot-menu))
   :config
   (add-to-list 'eglot-server-programs
                `(python-ts-mode . ,(eglot-alternatives
-                                                  '(("poetry" "run" "pylsp")
-                                                    ("hatch" "run" "lsp:run")
-                                                    ("uv" "run" "basedpyright-langserver" "--stdio")))))
+                                    '(("poetry" "run" "pylsp")
+                                      ("hatch" "run" "lsp:run")
+                                      ("uv" "run" "basedpyright-langserver" "--stdio")))))
   (add-to-list 'eglot-server-programs
-               '(markdown-mode . ("harper-ls" "--stdio"))))
+               '(markdown-mode . ("harper-ls" "--stdio")))
+  (transient-define-prefix mk13/eglot-menu ()
+    "Eglot LSP commands"
+    [["Code"
+      ("a" "Code actions" eglot-code-actions)
+      ("r" "Rename symbol" eglot-rename)
+      ("f" "Format buffer" eglot-format-buffer)]
+     ["Navigate"
+      ("d" "Definition" xref-find-definitions)
+      ("D" "Declaration" eglot-find-declaration)
+      ("i" "Implementation" eglot-find-implementation)
+      ("t" "Type definition" eglot-find-typeDefinition)
+      ("?" "References" xref-find-references)
+      ("s" "Symbols" consult-eglot-symbols)]
+     ["Server"
+      ("q" "Shutdown" eglot-shutdown)
+      ("Q" "Shutdown all" eglot-shutdown-all)
+      ("R" "Reconnect" eglot-reconnect)
+      ("e" "Events" eglot-events-buffer)
+      ("E" "Stderr" eglot-stderr-buffer)]]))
+
+(use-package consult-eglot
+  :after (consult eglot))
 
 (use-package rustic
   ;; I would like to make rustic window for compilation narrower and
@@ -339,17 +358,17 @@
                t))
 
 (use-package flymake
-  :bind ("C-M-c" . mk13/flymake-menu)
+  :bind ("<f2>" . mk13/flymake-menu)
   :config
   (transient-define-prefix mk13/flymake-menu ()
     "Flymake diagnostics"
     [["Flymake"
+      ("c" "Consult (live list)" consult-flymake)
       ("p" "Project diagnostics" flymake-show-project-diagnostics)
       ("b" "Buffer diagnostics" flymake-show-buffer-diagnostics)
       ("x" "Diagnostic at point" flymake-show-diagnostic)]]))
 
 (use-package midnight
-
   :init
   ;; Days are shorter in emacs world
   (setq midnight-period (* 60 60 8))
@@ -522,13 +541,13 @@
   :config
   (transient-define-prefix mk13/window-management-menu ()
     [["Flip"
-      ("t" "Transpose" mk13/transpose-frame)
-      ("f" "Flip vertically" mk13/flip-frame)
-      ("F" "Flop horizontally" mk13/flop-frame)]
+      ("t" "Transpose" transpose-frame)
+      ("f" "Flip vertically" flip-frame)
+      ("F" "Flop horizontally" flop-frame)]
      ["Rotate"
-      ("r" "180°" mk13/rotate-frame )
-      ("c" "90° clockwise" mk13/rotate-frame-clockwise)
-      ("C" "-90°" mk13/rotate-frame-anticlockwise)]
+      ("r" "180°" rotate-frame )
+      ("c" "90° clockwise" rotate-frame-clockwise)
+      ("C" "-90°" rotate-frame-anticlockwise)]
      ["Window"
       ("w" "Taller" enlarge-window :transient t)
       ("s" "Shorter" shrink-window :transient t)
@@ -562,9 +581,7 @@
   :config
   ;; Tries to auto-set custom fields by looking into /editmeta
   ;; of an issue and an epic.
-  (add-hook 'jiralib2-post-login-hook #'ejira-guess-epic-sprint-fields)
-
-  )
+  (add-hook 'jiralib2-post-login-hook #'ejira-guess-epic-sprint-fields))
 
 (use-package git-modes
   :init
@@ -574,7 +591,6 @@
   (add-to-list 'auto-mode-alist '("/.driftignore\\'" . gitignore-mode)))
 
 (use-package undo-tree
-
   :bind (("C-z" . undo-tree-undo)
          ("C-M-z" . undo-tree-redo))
   :config
