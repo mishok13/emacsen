@@ -70,17 +70,6 @@
     (dolist (dir dirs)
       (unless (file-exists-p dir)
         (make-directory dir t))))
-  ;; (unless (package-installed-p 'vc-use-package)
-  ;;   (package-vc-install "https://github.com/slotThe/vc-use-package"))
-  ;; (require 'vc-use-package)
-  ;; (setq
-  ;;  package-archive-priorities '(("gnu-elpa" . 3)
-  ;;                               ("melpa" . 2)
-  ;;                               ("nongnu" . 1))
-  ;;  package-archives           '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
-  ;;                               ("gnu-elpa-devel" . "https://elpa.gnu.org/devel/")
-  ;;                               ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-  ;;                               ("melpa" . "https://melpa.org/packages/")))
   (setopt use-short-answers t)
   (put 'downcase-region 'disabled nil)
   (display-fill-column-indicator-mode t)
@@ -100,15 +89,15 @@
    kept-old-versions 2
    require-final-newline 'visit-save
    ring-bell-function #'ignore
-   scroll-error-top-bottom 'true
+   scroll-error-top-bottom t
    version-control t
-   x-select-enable-clipboard t)
+   select-enable-clipboard t)
 
   (pixel-scroll-precision-mode t)
   (menu-bar-mode 0)
   (tooltip-mode 0)
   (blink-cursor-mode 0)
-  (line-move-visual 0)
+  (setq line-move-visual nil)
   (global-hl-line-mode t)
   (column-number-mode t)
 
@@ -225,29 +214,6 @@
   :config
   (add-hook 'cider-repl-mode-hook 'company-mode)
   (add-hook 'cider-mode-hook 'company-mode))
-
-;; (use-package clj-refactor
-;;
-;;   :config
-;;   (add-hook 'clojure-mode-hook (lambda ()
-;;                                  (clj-refactor-mode 1)
-;;                                  (cljr-add-keybindings-with-prefix "C-c C-b"))))
-
-;; (use-package cider
-;;
-;;   :config
-;;   (setq cider-show-error-buffer 'only-in-repl)
-;;   (setq cider-auto-select-error-buffer nil)
-;;   (setq nrepl-hide-special-buffers t)
-;;   ;; Wrap stacktraces at whatever fill-column is set to
-;;   (setq cider-stacktrace-fill-column t)
-;;   ;; Don't prompt for symbol names when jumping to definitions
-;;   (setq cider-prompt-for-symbol nil)
-;;   ;; Write REPL history to file
-;;   (setq cider-repl-history-file "/tmp/replhistory")
-;;   (setq cider-auto-select-error-buffer nil)
-;;   ;; Enable eldoc in REPL
-;;   (add-hook 'cider-mode-hook 'eldoc-mode))
 
 (use-package go-mode
   )
@@ -609,22 +575,6 @@
   ;; of an issue and an epic.
   (add-hook 'jiralib2-post-login-hook #'ejira-guess-epic-sprint-fields)
 
-  ;; They can also be set manually if autoconfigure is not used.
-  ;; (setq ejira-sprint-field       'customfield_10001
-  ;;       ejira-epic-field         'customfield_10002
-  ;;       ejira-epic-summary-field 'customfield_10004)
-
-  ;; (require 'ejira-agenda)
-
-  ;; Make the issues visisble in your agenda by adding `ejira-org-directory'
-  ;; into your `org-agenda-files'.
-  ;; (add-to-list 'org-agenda-files ejira-org-directory)
-
-  ;; Add an agenda view to browse the issues that
-  ;; (org-add-agenda-custom-command
-  ;;  '("j" "My JIRA issues"
-  ;;    ((ejira-jql "resolution = unresolved and assignee = currentUser()"
-  ;;                ((org-agenda-overriding-header "Assigned to me"))))))
   )
 
 (use-package git-modes
@@ -700,17 +650,6 @@
 
   :config
   (setq json-reformat:indent-width 2))
-
-(use-package tide
-  :config
-  (add-hook 'before-save-hook 'tide-format-before-save)
-  (add-hook 'typescript-mode-hook #'tide-setup)
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-  (add-hook 'web-mode-hook
-            (lambda ()
-              (when (string-equal "tsx" (file-name-extension buffer-file-name))
-                (setup-tide-mode)))))
-
 
 (use-package emmet-mode
 
