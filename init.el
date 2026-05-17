@@ -215,8 +215,7 @@
   (add-hook 'cider-repl-mode-hook 'company-mode)
   (add-hook 'cider-mode-hook 'company-mode))
 
-(use-package go-mode
-  )
+(use-package go-mode)
 
 (use-package typescript-mode
 
@@ -339,7 +338,15 @@
                  (inhibit-switch-frame . nil))
                t))
 
-(use-package flymake)
+(use-package flymake
+  :bind ("C-M-c" . mk13/flymake-menu)
+  :config
+  (transient-define-prefix mk13/flymake-menu ()
+    "Flymake diagnostics"
+    [["Flymake"
+      ("p" "Project diagnostics" flymake-show-project-diagnostics)
+      ("b" "Buffer diagnostics" flymake-show-buffer-diagnostics)
+      ("x" "Diagnostic at point" flymake-show-diagnostic)]]))
 
 (use-package midnight
 
@@ -510,41 +517,23 @@
   (interactive)
   (insert "ಠ_ಠ"))
 
-(use-package hydra
+(use-package transpose-frame
+  :bind ("C-M-w" . mk13/window-management-menu)
   :config
-  (setq hydra-is-helpful 't)
-  :bind
-  (("C-M-w" . hydra-window-management/body)
-   ("C-M-c" . hydra-flymake/body)))
-
-(use-package major-mode-hydra
-  :after hydra
-  :init
-  (pretty-hydra-define
-    hydra-window-management
-    (:color red :title "Manage windows" :quit-key "q" :foreign-keys warn)
-    ("Flip"
-     (("t" transpose-frame "Transpose")
-      ("f" flip-frame "Vertically")
-      ("F" flop-frame "Horizontally"))
-     "Rotate"
-     (("r" rotate-frame "180°")
-      ("c" rotate-frame-clockwise "90°")
-      ("C" rotate-frame-anti-clockwise "-90°"))
-     "Window"
-     (("w" enlarge-window "Taller")
-      ("s" shrink-window "Shorter")
-      ("d" enlarge-window-horizontally "Wider")
-      ("a" shrink-window-horizontally "Narrower"))))
-  (pretty-hydra-define
-    hydra-flymake
-    (:color red :title "Flymake" :quit-key "q" :foreign-keys warn)
-    ("Flymake"
-     (("p" flymake-show-project-diagnostics)
-      ("b" flymake-show-buffer-diagnostics)
-      ("x" flymake-show-diagnostic)))))
-
-(use-package transpose-frame)
+  (transient-define-prefix mk13/window-management-menu ()
+    [["Flip"
+      ("t" "Transpose" mk13/transpose-frame)
+      ("f" "Flip vertically" mk13/flip-frame)
+      ("F" "Flop horizontally" mk13/flop-frame)]
+     ["Rotate"
+      ("r" "180°" mk13/rotate-frame )
+      ("c" "90° clockwise" mk13/rotate-frame-clockwise)
+      ("C" "-90°" mk13/rotate-frame-anticlockwise)]
+     ["Window"
+      ("w" "Taller" enlarge-window :transient t)
+      ("s" "Shorter" shrink-window :transient t)
+      ("d" "Wider" enlarge-window-horizontally :transient t)
+      ("a" "Narrower" shrink-window-horizontally :transient t)]]))
 
 (use-package jiralib2
   :after (org)
