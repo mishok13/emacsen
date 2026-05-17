@@ -288,29 +288,19 @@
   :hook ((emacs-lisp-mode clojure-mode cider-repl-mode) . paredit-mode))
 
 (use-package rainbow-delimiters
-
-  :hook ((emacs-lisp-mode clojure-mode cider-repl-mode python-mode python-ts-mode) . rainbow-delimiters-mode))
+  :hook ((emacs-lisp-mode clojure-mode cider-repl-mode) . rainbow-delimiters-mode))
 
 (use-package aggressive-indent
   :hook ((emacs-lisp-mode clojure-mode) . aggressive-indent-mode))
 
-(use-package python-mode
-  :defer t
-  :config
-  (setq company-backends '(company-capf
-                           company-yasnippet
-                           company-files
-                           (company-dabbrev-code company-keywords)
-                           company-dabbrev))
-
-  ;; automatically generating pyrightconfig could be done with:
-  ;; detecting pyproject.toml
-  ;; reading it https://github.com/gongo/emacs-toml and detecting the tool used
-  ;; running this for poetry (or can we do that without the call to command line?)
-  ;; generating config with json.el https://github.com/emacs-mirror/emacs/blob/master/lisp/json.el#L770
-  ;; setting fci to correct value based on tool.black.line-length or tool.ruff.line-length value (and sensible default).
-  ;; poetry env info -p | read -r d; printf '{\n  "venvPath": "%s",\n  "venv": "%s"\n}\n' "$(dirname "$d")" "$(basename "$d")" > pyrightconfig.json
-  )
+(use-package python
+  :straight (:type built-in)
+  :custom
+  (python-indent-guess-indent-offset nil)
+  :hook
+  (python-ts-mode . eglot-ensure)
+  (python-ts-mode . smartparens-mode)
+  (python-ts-mode . rainbow-delimiters-mode))
 
 (use-package which-func
   :config
@@ -331,13 +321,12 @@
 (use-package dockerfile-mode)
 
 (use-package smartparens
-  :hook ((python-mode python-ts-mode typescript-mode terraform-mode hcl-mode) . smartparens-mode))
+  :hook ((typescript-mode terraform-mode hcl-mode) . smartparens-mode))
 
 (use-package electric-pair-mode
   :straight (:type built-in)
   :hook ((rustic-mode) . electric-pair-mode))
 
-(use-package poetry)
 
 (use-package terraform-mode
   :after (eglot)
@@ -369,9 +358,7 @@
 
 
 (use-package eglot
-  :hook ((rustic-mode . eglot-ensure)
-         (python-mode . eglot-ensure)
-         (python-ts-mode . eglot-ensure))
+  :hook ((rustic-mode . eglot-ensure))
   :bind (:map eglot-mode-map
               ("C-M-h a" . eglot-code-actions)
               ("C-M-h r" . eglot-rename)
@@ -379,7 +366,7 @@
               ("C-M-h Q" . eglot-shutdown-all))
   :config
   (add-to-list 'eglot-server-programs
-               `((python-ts-mode python-mode) . ,(eglot-alternatives
+               `(python-ts-mode . ,(eglot-alternatives
                                                   '(("poetry" "run" "pylsp")
                                                     ("hatch" "run" "lsp:run")
                                                     ("uv" "run" "basedpyright-langserver" "--stdio")))))
@@ -679,18 +666,6 @@
   (add-to-list 'undo-tree-history-directory-alist (cons "." undo-tree-directory))
   (global-undo-tree-mode))
 
-(use-package python
-  :custom
-  ;;
-  (python-indent-guess-indent-offset nil)
-  (setq company-backends '(company-capf
-                           company-yasnippet
-                           company-files
-                           (company-dabbrev-code company-keywords)
-                           company-dabbrev))
-  :hook
-  (python-mode . eglot-ensure)
-  (python-mode . smartparens-mode))
 
 ;; https://github.com/emacscollective/no-littering
 ;; https://github.com/KaratasFurkan/.emacs.d
