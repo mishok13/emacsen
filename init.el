@@ -70,6 +70,44 @@
     (dolist (dir dirs)
       (unless (file-exists-p dir)
         (make-directory dir t))))
+  ;; (unless (package-installed-p 'vc-use-package)
+  ;;   (package-vc-install "https://github.com/slotThe/vc-use-package"))
+  ;; (require 'vc-use-package)
+  ;; (setq
+  ;;  package-archive-priorities '(("gnu-elpa" . 3)
+  ;;                               ("melpa" . 2)
+  ;;                               ("nongnu" . 1))
+  ;;  package-archives           '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
+  ;;                               ("gnu-elpa-devel" . "https://elpa.gnu.org/devel/")
+  ;;                               ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+  ;;                               ("melpa" . "https://melpa.org/packages/")))
+  )
+
+(use-package recentf
+  :custom
+  (recentf-mode t))
+
+(use-package no-littering)
+
+(use-package emacs
+  :ensure nil
+  ;; Disables suspend-frame keybindings. Because why does it even exist?
+  :bind (("C-z" . nil)
+         ("C-x C-z" . nil)
+         ("C-x m" . nil))
+
+  :custom
+  (custom-file (expand-file-name "custom.el" user-emacs-directory))
+  (fill-column 112)
+  (frame-resize-pixelwise t)
+  (initial-major-mode 'fundamental-mode)
+  (visible-bell nil)
+  (native-comp-async-report-warnings-errors 'silent)
+  (indent-tabs-mode nil)
+  (vc-follow-symlinks t)
+
+  :config
+  (delete-selection-mode 1)
   (setopt use-short-answers t)
   (put 'downcase-region 'disabled nil)
   (display-fill-column-indicator-mode t)
@@ -119,12 +157,6 @@
   (setq uniquify-separator "|")
   (setq uniquify-after-kill-buffer-p t)
   (setq uniquify-ignore-buffers-re "^\\*"))
-
-(use-package recentf
-  :custom
-  (recentf-mode t))
-
-(use-package no-littering)
 
 (use-package dash)
 
@@ -301,10 +333,8 @@
               ("<f1>" . mk13/eglot-menu))
   :config
   (add-to-list 'eglot-server-programs
-               `(python-ts-mode . ,(eglot-alternatives
-                                    '(("poetry" "run" "pylsp")
-                                      ("hatch" "run" "lsp:run")
-                                      ("uv" "run" "basedpyright-langserver" "--stdio")))))
+               `((python-ts-mode) . ,(eglot-alternatives
+                                                  '(("just" "lsp")))))
   (add-to-list 'eglot-server-programs
                '(markdown-mode . ("harper-ls" "--stdio")))
   (transient-define-prefix mk13/eglot-menu ()
@@ -397,6 +427,8 @@
 (use-package markdown-mode
   )
 
+;; TODO: add edit-indirect
+
 (use-package flyspell
   ;; Look into using https://github.com/syohex/emacs-ac-ispell
   :hook (markdown-mode . flyspell-mode))
@@ -457,53 +489,6 @@
   :defer t
   :custom
   (global-clipetty-mode 1))
-
-;; https://git.sr.ht/~ashton314/emacs-bedrock/tree/main/item/mixins/base.el
-;; https://codeberg.org/vifon/emacs-config/src/branch/master/emacs.d/lisp/20-completion-engine.el
-(use-package vertico
-  :init
-  (vertico-mode))
-
-(use-package marginalia
-  :bind (:map minibuffer-local-map
-              ("M-A" . marginalia-cycle))
-  :init
-  (marginalia-mode))
-
-;; Smart(er) fuzzy completion matching (similar to flex)
-(use-package hotfuzz)
-
-(use-package orderless
-  :init
-  (setq completion-styles '(hotfuzz orderless basic)
-        completion-category-defaults nil
-        orderless-matching-styles '(orderless-flex)
-        completion-category-overrides '((file (styles partial-completion)))))
-
-(use-package embark
-  :bind
-  (("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-;" . embark-dwim)        ;; good alternative: M-.
-   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-  :init
-  ;; Optionally replace the key help with a completing-read interface
-  ;; (setq prefix-help-command #'embark-prefix-help-command)
-
-  ;; Show the Embark target at point via Eldoc.  You may adjust the Eldoc
-  ;; strategy, if you want to see the documentation from multiple providers.
-  ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
-  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
-  :config
-  ;; Hide the mode line of the Embark live/completions buffers
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none)))))
-
-(use-package embark-consult
-  :after (embark consult)
-  :hook
-  (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package magit
   :bind (("<f7>" . magit-status))
@@ -623,13 +608,15 @@
   :config
   (setq consult-narrow-key "<")
   (setq consult-locate-args "mdfind -name")
+  :custom
+  (consult-ripgrep-args "rg --null --line-buffered --color=never --max-columns=1000 --path-separator / --smart-case --no-heading --with-filename --line-number --search-zip --hidden")
   :bind
   (:map consult-mode-map
         ("C-x b" . consult-buffer)
         ("M-s u" . consult-focus-lines)
         ("M-s k" . consult-keep-lines)
         ("M-s e" . consult-isearch-history)
-        ("M-s d" . consult-find)
+        ("M-s d" . consult-fd)
         ("M-g g" . consult-line)
         ("M-g M-g" . consult-goto-line)
         ("M-g o" . consult-outline)
@@ -641,24 +628,82 @@
         ;; Misc.
         ("C-x C-r" . consult-recent-file)))
 
+;; https://git.sr.ht/~ashton314/emacs-bedrock/tree/main/item/mixins/base.el
+;; https://codeberg.org/vifon/emacs-config/src/branch/master/emacs.d/lisp/20-completion-engine.el
+(use-package vertico
+  :init
+  (vertico-mode))
+
+(use-package marginalia
+  :bind (:map minibuffer-local-map
+              ("M-A" . marginalia-cycle))
+  :init
+  (marginalia-mode))
+
+;; Smart(er) fuzzy completion matching (similar to flex)
+(use-package hotfuzz)
+
+(use-package orderless
+  :init
+  (setq completion-styles '(hotfuzz orderless basic)
+        completion-category-defaults nil
+        orderless-matching-styles '(orderless-flex)
+        completion-category-overrides '((file (styles partial-completion)))))
+
+(use-package embark-consult
+  :after (embark consult)
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
+(use-package avy
+  :bind (("M-u" . avy-goto-char-timer)))
+
+(use-package embark
+  :bind
+  (("C-." . embark-act)         ;; pick some comfortable binding
+   ("C-," . embark-dwim)        ;; good alternative: M-.
+   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+  :init
+  ;; Optionally replace the key help with a completing-read interface
+  ;; (setq prefix-help-command #'embark-prefix-help-command)
+
+  ;; Show the Embark target at point via Eldoc.  You may adjust the Eldoc
+  ;; strategy, if you want to see the documentation from multiple providers.
+  ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
+
+  :config
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+
+(use-package avy-embark-collect
+  :after (avy embark)
+  :config
+  (setf (alist-get ?. avy-dispatch-alist) 'avy-embark-collect--act))
+
+
 (use-package re-builder
   :custom
   (reb-re-syntax 'string))
 
-(use-package jsonian
 
+(use-package jsonian
   :after so-long
   :custom
   (jsonian-default-indentation 2)
   (jsonian-no-so-long-mode))
 
-(use-package json-reformat
 
+(use-package json-reformat
   :config
   (setq json-reformat:indent-width 2))
 
-(use-package emmet-mode
 
+(use-package emmet-mode
   :hook (web-mode)
   :custom
   ;; Disable preview before expanding
@@ -686,14 +731,9 @@
   (mermaid-flags "@mermaid-js/mermaid-cli@11.4.0"))
 
 (use-package copilot
+  :straight (:type git :host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
+  :hook (prog-mode . copilot-mode)
   :config
-  (add-to-list 'copilot-indentation-alist '(prog-mode 2))
-  (add-to-list 'copilot-indentation-alist '(org-mode 2))
-  (add-to-list 'copilot-indentation-alist '(text-mode 2))
-  (add-to-list 'copilot-indentation-alist '(clojure-mode 2))
-  (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2))
-
-  :straight (:type git :host github :repo "copilot-emacs/copilot.el")
   :bind (("C-c M-c" . copilot-complete)
          :map copilot-completion-map
          ("C-g" . copilot-clear-overlay)
