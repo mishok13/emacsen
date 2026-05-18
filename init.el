@@ -209,22 +209,15 @@
               (c-set-style "k&r")
               (setq indent-tabs-mode nil))))
 
-(use-package clojure-mode
-
-  :config
-  (add-hook 'cider-repl-mode-hook 'company-mode)
-  (add-hook 'cider-mode-hook 'company-mode))
+(use-package clojure-mode)
 
 (use-package go-mode)
 
 (use-package typescript-mode
-
   :custom
   (typescript-indent-level 2)
-  :config
-
-  (add-hook 'typescript-mode-hook 'company-mode)
-  (add-hook 'typescript-mode-hook 'smartparens-mode))
+  :hook
+  (typescript-mode . smartparens-mode))
 
 
 (use-package so-long)
@@ -431,22 +424,30 @@
 
 (use-package lua-mode)
 
-(use-package company
+(use-package corfu
+  :straight (:tag "2.9")
   :after (yasnippet)
-
   :custom
-  (company-idle-delay 0.5) ;; how long to wait until popup
-  (company-tooltip-align-annotations t)
+  (corfu-auto t)
+  (corfu-auto-delay 0.5)
+  (corfu-auto-prefix 2)
+  (corfu-cycle t)
+  :bind (:map corfu-map
+              ("C-n" . corfu-next)
+              ("C-p" . corfu-previous))
   :config
-  (global-company-mode)
-  :bind
-  ("C-<tab>" . company-yasnippet)
-  ("TAB" . company-indent-or-complete-common)
-  (:map company-active-map
-        ("C-n". company-select-next)
-        ("C-p". company-select-previous)
-        ("M-<". company-select-first)
-        ("M->". company-select-last)))
+  (global-corfu-mode))
+
+(use-package cape
+  :config
+  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-file))
+
+(use-package yasnippet-capf
+  :after (yasnippet cape)
+  :bind ("C-<tab>" . yasnippet-capf)
+  :config
+  (add-hook 'completion-at-point-functions #'yasnippet-capf))
 
 (use-package which-key
   :config
