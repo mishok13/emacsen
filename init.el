@@ -161,13 +161,13 @@
   (sml/apply-theme 'respectful))
 
 (use-package exec-path-from-shell
+  :if (memq system-type '(darwin))
   :config
   (setenv "LANG" "en_US.UTF-8")
   :init
   (exec-path-from-shell-copy-envs '("LC_ALL" "WORKON_HOME" "RUST_SRC_PATH"))
   (setq exec-path-from-shell-check-startup-files nil)
   (exec-path-from-shell-initialize)
-
   (setq mac-allow-anti-aliasing t))
 
 (use-package emacs
@@ -211,7 +211,8 @@
 
 (use-package clojure-mode)
 
-(use-package go-mode)
+(use-package go-mode
+  :defer t)
 
 (use-package typescript-mode
   :custom
@@ -245,7 +246,7 @@
   (which-function-mode t))
 
 (use-package yaml-mode
-  )
+  :defer t)
 
 (use-package yaml-pro
   )
@@ -420,9 +421,11 @@
   :config
   (yas-reload-all))
 
-(use-package hcl-mode)
+(use-package hcl-mode
+  :defer t)
 
-(use-package lua-mode)
+(use-package lua-mode
+  :defer t)
 
 (use-package corfu
   :straight (:tag "2.9")
@@ -703,7 +706,9 @@
   :config
   (global-treesit-auto-mode))
 
-(use-package golden-ratio)
+(use-package golden-ratio
+  :config
+  (golden-ratio-mode 1))
 
 ;; (defun force-debug (func &rest args)
 ;;   (condition-case e
