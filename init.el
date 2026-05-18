@@ -606,76 +606,56 @@
 ;; https://github.com/minad/consult/blob/main/README.org#use-package-example
 
 (use-package consult
-
-  :init (progn
-          (defvar consult-mode-map (make-sparse-keymap))
-          (define-minor-mode consult-mode
-            "Provide the `consult' commands in a single keymap."
-            :global t
-            (if consult-mode
-                (define-key minibuffer-local-map
-                            [remap previous-matching-history-element]
-                            #'consult-history)
-              (define-key minibuffer-local-map
-                          [remap previous-matching-history-element]
-                          nil)))
-          (consult-mode 1))
-  :config
-  (setq consult-narrow-key "<")
-  (setq consult-locate-args "mdfind -name")
+  :custom
+  (consult-narrow-key "<")
   :bind
-  (:map consult-mode-map
-        ("C-x b" . consult-buffer)
-        ("M-s u" . consult-focus-lines)
-        ("M-s k" . consult-keep-lines)
-        ("M-s e" . consult-isearch-history)
-        ("M-s d" . consult-find)
-        ("M-g g" . consult-line)
-        ("M-g M-g" . consult-goto-line)
-        ("M-g o" . consult-outline)
-        ("M-g i" . consult-imenu)
-        ("M-g I" . consult-info)
-        ("M-g r" . consult-ripgrep)
-        ("M-g m" . consult-mark)
-        ("M-g M" . consult-global-mark)
-        ;; Misc.
-        ("C-x C-r" . consult-recent-file)))
+  (("C-x b"   . consult-buffer)
+   ("C-x C-r" . consult-recent-file)
+   ("M-g g"   . consult-line)
+   ("M-g M-g" . consult-goto-line)
+   ("M-g r"   . consult-ripgrep)
+   ("M-g t"   . mk13/consult-menu)
+   :map minibuffer-local-map
+   ([remap previous-matching-history-element] . consult-history))
+  :config
+  (transient-define-prefix mk13/consult-menu ()
+    "Consult search and navigation"
+    [["Search"
+      ("l" "Line" consult-line)
+      ("L" "Line (all buffers)" consult-line-multi)
+      ("r" "Ripgrep" consult-ripgrep)
+      ("g" "Grep" consult-grep)
+      ("G" "Git grep" consult-git-grep)
+      ("f" "Find file" consult-find)]
+     ["Navigate"
+      ("o" "Outline" consult-outline)
+      ("i" "Imenu" consult-imenu)
+      ("I" "Imenu (project)" consult-imenu-multi)
+      ("m" "Mark ring" consult-mark)
+      ("M" "Global mark ring" consult-global-mark)
+      ("b" "Bookmarks" consult-bookmark)]
+     ["Filter"
+      ("k" "Keep lines" consult-keep-lines)
+      ("u" "Focus lines" consult-focus-lines)
+      ("e" "Isearch history" consult-isearch-history)]
+     ["Misc"
+      ("h" "Man page" consult-man)
+      ("H" "Info" consult-info)
+      ("c" "Command history" consult-complex-command)]]))
 
 (use-package re-builder
   :custom
   (reb-re-syntax 'string))
 
 (use-package jsonian
-
   :after so-long
   :custom
   (jsonian-default-indentation 2)
   (jsonian-no-so-long-mode))
 
 (use-package json-reformat
-
   :config
   (setq json-reformat:indent-width 2))
-
-(use-package emmet-mode
-
-  :hook (web-mode)
-  :custom
-  ;; Disable preview before expanding
-  (emmet-preview-default nil)
-  ;; Move the cursor to next edit point
-  (emmet-move-cursor-between-quotes t)
-  :bind (:map emmet-mode-keymap
-              ;; ("C-j" . newline-and-indent)
-              ("C-m" . emmet-expand-line)))
-
-(use-package web-mode
-  :mode  ("\\.tsx\\'" "\\.html\\'" "\\.hbs\\'" "\\.vue\\'")
-  :custom
-  (web-mode-enable-auto-indentation nil)
-  (web-mode-markup-indent-offset 2)
-  (web-mode-css-indent-offset 2)
-  (web-mode-code-indent-offset 2))
 
 (use-package justl)
 (use-package just-mode)
