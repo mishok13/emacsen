@@ -46,8 +46,7 @@
 (use-package emacs
   :ensure nil
   ;; Disables suspend-frame keybindings. Because why does it even exist?
-  :bind (("C-z" . nil)
-         ("C-x C-z" . nil)
+  :bind (("C-x C-z" . nil)
          ("C-x m" . nil))
 
   :custom
@@ -58,6 +57,8 @@
   (native-comp-async-report-warnings-errors 'silent)
   (indent-tabs-mode nil)
   (vc-follow-symlinks t)
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  (remote-file-name-inhibit-auto-save t)
 
   :config
   (defcustom mk13/org-directory (expand-file-name "~/nonwork/notes/org/")
@@ -72,10 +73,11 @@
         (make-directory dir t))))
   (setopt use-short-answers t)
   (put 'downcase-region 'disabled nil)
-  (display-fill-column-indicator-mode t)
+  (global-display-fill-column-indicator-mode 1)
   (put 'upcase-region 'disabled nil)
   (global-display-line-numbers-mode t)
   (global-visual-line-mode t)
+  (delete-selection-mode t)
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
   (setq
    auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
@@ -97,7 +99,6 @@
   (menu-bar-mode 0)
   (tooltip-mode 0)
   (blink-cursor-mode 0)
-  (setq line-move-visual nil)
   (global-hl-line-mode t)
   (column-number-mode t)
 
@@ -107,10 +108,6 @@
                       :font "Hack Nerd Font Mono-14")
   (set-frame-font "Hack Nerd Font Mono-14")
 
-  ;; Don't let minibufer cursor jump into read-only prompt
-  (setq minibuffer-prompt-properties
-        (plist-put minibuffer-prompt-properties 'point-entered 'minibuffer-avoid-prompt))
-
   (defvar undo-tree-directory
     (let ((default-directory user-emacs-directory))
       (file-truename "./undo")))
@@ -118,7 +115,9 @@
   (setq uniquify-buffer-name-style 'reverse)
   (setq uniquify-separator "|")
   (setq uniquify-after-kill-buffer-p t)
-  (setq uniquify-ignore-buffers-re "^\\*"))
+  (setq uniquify-ignore-buffers-re "^\\*")
+  (when (file-exists-p custom-file)
+    (load custom-file)))
 
 (use-package recentf
   :custom
@@ -211,14 +210,6 @@
 
 (use-package clojure-mode)
 
-(use-package go-mode
-  :defer t)
-
-(use-package typescript-mode
-  :custom
-  (typescript-indent-level 2)
-  :hook
-  (typescript-mode . smartparens-mode))
 
 
 (use-package so-long)
@@ -242,6 +233,8 @@
   (python-ts-mode . rainbow-delimiters-mode))
 
 (use-package which-func
+  :custom
+  (which-func-display 'header)
   :config
   (which-function-mode t))
 
@@ -257,10 +250,8 @@
   :custom
   (sql-dialect 'postgres))
 
-(use-package dockerfile-mode)
-
 (use-package smartparens
-  :hook ((typescript-mode terraform-mode hcl-mode) . smartparens-mode))
+  :hook ((typescript-ts-mode terraform-mode hcl-mode) . smartparens-mode))
 
 (use-package electric-pair-mode
   :straight (:type built-in)
@@ -353,6 +344,8 @@
 
 (use-package flymake
   :bind ("<f2>" . mk13/flymake-menu)
+  :custom
+  (flymake-show-diagnostics-at-end-of-line t)
   :config
   (transient-define-prefix mk13/flymake-menu ()
     "Flymake diagnostics"
@@ -404,9 +397,8 @@
 
 (use-package multiple-cursors
 
-  :init
-  (global-unset-key (kbd "M-<down-mouse-1>"))
-  :bind (("M-<mouse-1>" . mc/add-cursor-on-click)))
+  :bind (("M-<down-mouse-1>" . nil)
+         ("M-<mouse-1>" . mc/add-cursor-on-click)))
 
 (use-package hungry-delete
 
@@ -424,8 +416,6 @@
 (use-package hcl-mode
   :defer t)
 
-(use-package lua-mode
-  :defer t)
 
 (use-package corfu
   :straight (:tag "2.9")
@@ -453,6 +443,7 @@
   (add-hook 'completion-at-point-functions #'yasnippet-capf))
 
 (use-package which-key
+  :straight (:type built-in)
   :config
   (which-key-mode))
 
@@ -702,7 +693,7 @@
   :custom
   (treesit-auto-install 'prompt)
   ;; avoid yaml-ts-mode as it's very broken https://www.reddit.com/r/emacs/comments/17gtxmr/indentation_in_yamltsmode/
-  (treesit-auto-langs '(python typescript terraform dockerfile nix))
+  (treesit-auto-langs '(python typescript terraform dockerfile nix go lua))
   :config
   (global-treesit-auto-mode))
 
