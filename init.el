@@ -291,7 +291,10 @@
   :hook ((rustic-mode . eglot-ensure))
   :bind (:map eglot-mode-map
               ("<f1>" . mk13/eglot-menu))
+  :custom
+  (eglot-extend-to-xref t)
   :config
+  (fset #'jsonrpc--log-event #'ignore)  ; don't log every event
   (add-to-list 'eglot-server-programs
                `(python-ts-mode . ,(eglot-alternatives
                                     '(("poetry" "run" "pylsp")
@@ -484,7 +487,7 @@
   (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
   (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
   :custom
-  (embark-indicators '(embark-highlight-indicator embark-isearch-highlight-indicator))
+  (embark-indicators '(embark-mixed-indicator embark-highlight-indicator embark-isearch-highlight-indicator))
   :config
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
@@ -703,13 +706,6 @@
   :config
   (golden-ratio-mode 1))
 
-;; (defun force-debug (func &rest args)
-;;   (condition-case e
-;;       (apply func args)
-;;     ((debug error) (signal (car e) (cdr e)))))
-
-;; (advice-add #'vertico--exhibit :around #'force-debug)
-
 (use-package auth-source-1password
   :straight (:host github :type git :repo "dlobraico/auth-source-1password")
   :init
@@ -753,3 +749,12 @@
   (mastodon-instance-url "https://hachyderm.io")
   (mastodon-active-user "mishok13")
   (mastodon-auth-use-auth-source nil))
+
+(use-package jinx
+  :hook (emacs-startup . global-jinx-mode)
+  :bind (("M-$" . jinx-correct)
+         ("C-M-$" . jinx-languages)))
+
+(use-package wgrep
+  :config
+  (setq wgrep-auto-save-buffer t))
