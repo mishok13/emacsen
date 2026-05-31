@@ -4,7 +4,9 @@
 
 ;;; Code:
 
-;; https://github.com/nyyManni/ejira
+;; Inspirations and straight up sources
+
+;; https://codeberg.org/vifon/emacs-config/src/branch/master/emacs.d/lisp/20-completion-engine.el
 ;; https://sr.ht/%7Eashton314/emacs-bedrock/
 ;; https://batsov.com/articles/2021/12/19/building-emacs-from-source-with-pgtk/
 ;; https://github.com/xenodium/dotsies/blob/790465b1824481b81bf5c6e08949128c13d76f95/emacs/features/fe-ui.el#L42
@@ -455,8 +457,6 @@
   :custom
   (global-clipetty-mode 1))
 
-;; https://git.sr.ht/~ashton314/emacs-bedrock/tree/main/item/mixins/base.el
-;; https://codeberg.org/vifon/emacs-config/src/branch/master/emacs.d/lisp/20-completion-engine.el
 (use-package vertico
   :init
   (vertico-mode))
@@ -574,26 +574,6 @@
         jiralib2-auth             'basic
         jiralib2-user-login-name  nil
         jiralib2-token            nil))
-
-(use-package ejira
-  :straight (:host github :type git :repo "nyyManni/ejira")
-  :after (org)
-  :init
-  ;; NOTE, this directory needs to be in `org-agenda-files'`
-  (setq ejira-org-directory       (concat mk13/org-directory "jira")
-        ejira-projects            '("DEP")
-        ejira-priorities-alist    '(("Highest" . ?A)
-                                    ("High"    . ?B)
-                                    ("Medium"  . ?C)
-                                    ("Low"     . ?D)
-                                    ("Lowest"  . ?E))
-        ejira-todo-states-alist   '(("To Do"       . 1)
-                                    ("In Progress" . 2)
-                                    ("Done"        . 3)))
-  :config
-  ;; Tries to auto-set custom fields by looking into /editmeta
-  ;; of an issue and an epic.
-  (add-hook 'jiralib2-post-login-hook #'ejira-guess-epic-sprint-fields))
 
 (use-package git-modes
   :init
