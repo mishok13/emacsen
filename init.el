@@ -4,7 +4,9 @@
 
 ;;; Code:
 
-;; https://github.com/nyyManni/ejira
+;; Inspirations and straight up sources
+
+;; https://codeberg.org/vifon/emacs-config/src/branch/master/emacs.d/lisp/20-completion-engine.el
 ;; https://sr.ht/%7Eashton314/emacs-bedrock/
 ;; https://batsov.com/articles/2021/12/19/building-emacs-from-source-with-pgtk/
 ;; https://github.com/xenodium/dotsies/blob/790465b1824481b81bf5c6e08949128c13d76f95/emacs/features/fe-ui.el#L42
@@ -43,12 +45,23 @@
   :custom
   (project-vc-extra-root-markers '("pyproject.toml" "Cargo.toml")))
 
-(when (display-graphic-p)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1))
-
 (use-package emacs
   :ensure nil
+  ;; Disables suspend-frame keybindings. Because why does it even exist?
+  :bind (("C-x C-z" . nil)
+         ("C-x m" . nil))
+
+  :custom
+  (custom-file (expand-file-name "custom.el" user-emacs-directory))
+  (fill-column 112)
+  (initial-major-mode 'fundamental-mode)
+  (visible-bell nil)
+  (native-comp-async-report-warnings-errors 'silent)
+  (indent-tabs-mode nil)
+  (vc-follow-symlinks t)
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  (remote-file-name-inhibit-auto-save t)
+
   :config
   (defcustom mk13/org-directory (expand-file-name "~/nonwork/notes/org/")
     "Default location for all Org files"
@@ -60,80 +73,34 @@
     (dolist (dir dirs)
       (unless (file-exists-p dir)
         (make-directory dir t))))
-  ;; (unless (package-installed-p 'vc-use-package)
-  ;;   (package-vc-install "https://github.com/slotThe/vc-use-package"))
-  ;; (require 'vc-use-package)
-  ;; (setq
-  ;;  package-archive-priorities '(("gnu-elpa" . 3)
-  ;;                               ("melpa" . 2)
-  ;;                               ("nongnu" . 1))
-  ;;  package-archives           '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
-  ;;                               ("gnu-elpa-devel" . "https://elpa.gnu.org/devel/")
-  ;;                               ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-  ;;                               ("melpa" . "https://melpa.org/packages/")))
-  )
-
-(use-package recentf
-  :custom
-  (recentf-mode t))
-
-(use-package no-littering)
-
-(use-package emacs
-  :ensure nil
-  ;; Disables suspend-frame keybindings. Because why does it even exist?
-  :bind (("C-z" . nil)
-         ("C-x C-z" . nil)
-         ("C-x m" . nil))
-
-  :custom
-  (custom-file (expand-file-name "custom.el" user-emacs-directory))
-  (fill-column 112)
-  (frame-resize-pixelwise t)
-  (initial-major-mode 'fundamental-mode)
-  (visible-bell nil)
-  (native-comp-async-report-warnings-errors 'silent)
-  (indent-tabs-mode nil)
-  (vc-follow-symlinks t)
-
-  :config
   (setopt use-short-answers t)
-  ;; Disables suspend-frame keybindings. Because why does it even exist?
   (put 'downcase-region 'disabled nil)
-  (global-unset-key (kbd "C-z"))
-  (global-unset-key (kbd "C-x C-z"))
-  (display-fill-column-indicator-mode t)
-  (defalias 'yes-or-no-p 'y-or-n-p)
+  (global-display-fill-column-indicator-mode 1)
   (put 'upcase-region 'disabled nil)
   (global-display-line-numbers-mode t)
   (global-visual-line-mode t)
+  (delete-selection-mode t)
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
   (setq
-   auto-save-file-name-transforms`((".*" ,temporary-file-directory t))
+   auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
    backup-by-copying t
    backup-directory-alist '(("." . "~/.emacs.d/.backups"))
-   backup-directory-alist`((".*" . ,temporary-file-directory))
    create-lockfiles nil
    delete-old-versions t
    inhibit-splash-screen t
-   initial-major-mode 'fundamental-mode
    initial-scratch-message nil
    kept-new-versions 6
    kept-old-versions 2
    require-final-newline 'visit-save
    ring-bell-function #'ignore
-   scroll-error-top-bottom 'true
+   scroll-error-top-bottom t
    version-control t
-   visible-bell nil
-   x-select-enable-clipboard t
-   )
+   select-enable-clipboard t)
 
   (pixel-scroll-precision-mode t)
-  (add-hook 'before-save-hook 'delete-trailing-whitespace)
   (menu-bar-mode 0)
   (tooltip-mode 0)
   (blink-cursor-mode 0)
-  (line-move-visual 0)
   (global-hl-line-mode t)
   (column-number-mode t)
 
@@ -142,11 +109,6 @@
   (set-face-attribute 'default nil
                       :font "Hack Nerd Font Mono-14")
   (set-frame-font "Hack Nerd Font Mono-14")
-  (setq native-comp-async-report-warnings-errors nil)
-
-  ;; Don't let minibufer cursor jump into read-only prompt
-  (setq minibuffer-prompt-properties
-        (plist-put minibuffer-prompt-properties 'point-entered 'minibuffer-avoid-prompt))
 
   (defvar undo-tree-directory
     (let ((default-directory user-emacs-directory))
@@ -155,7 +117,15 @@
   (setq uniquify-buffer-name-style 'reverse)
   (setq uniquify-separator "|")
   (setq uniquify-after-kill-buffer-p t)
-  (setq uniquify-ignore-buffers-re "^\\*"))
+  (setq uniquify-ignore-buffers-re "^\\*")
+  (when (file-exists-p custom-file)
+    (load custom-file)))
+
+(use-package recentf
+  :custom
+  (recentf-mode t))
+
+(use-package no-littering)
 
 (use-package dash)
 
@@ -192,13 +162,13 @@
   (sml/apply-theme 'respectful))
 
 (use-package exec-path-from-shell
+  :if (memq system-type '(darwin))
   :config
   (setenv "LANG" "en_US.UTF-8")
   :init
   (exec-path-from-shell-copy-envs '("LC_ALL" "WORKON_HOME" "RUST_SRC_PATH"))
   (setq exec-path-from-shell-check-startup-files nil)
   (exec-path-from-shell-initialize)
-
   (setq mac-allow-anti-aliasing t))
 
 (use-package emacs
@@ -240,46 +210,8 @@
               (c-set-style "k&r")
               (setq indent-tabs-mode nil))))
 
-(use-package clojure-mode
+(use-package clojure-mode)
 
-  :config
-  (add-hook 'cider-repl-mode-hook 'company-mode)
-  (add-hook 'cider-mode-hook 'company-mode))
-
-;; (use-package clj-refactor
-;;
-;;   :config
-;;   (add-hook 'clojure-mode-hook (lambda ()
-;;                                  (clj-refactor-mode 1)
-;;                                  (cljr-add-keybindings-with-prefix "C-c C-b"))))
-
-;; (use-package cider
-;;
-;;   :config
-;;   (setq cider-show-error-buffer 'only-in-repl)
-;;   (setq cider-auto-select-error-buffer nil)
-;;   (setq nrepl-hide-special-buffers t)
-;;   ;; Wrap stacktraces at whatever fill-column is set to
-;;   (setq cider-stacktrace-fill-column t)
-;;   ;; Don't prompt for symbol names when jumping to definitions
-;;   (setq cider-prompt-for-symbol nil)
-;;   ;; Write REPL history to file
-;;   (setq cider-repl-history-file "/tmp/replhistory")
-;;   (setq cider-auto-select-error-buffer nil)
-;;   ;; Enable eldoc in REPL
-;;   (add-hook 'cider-mode-hook 'eldoc-mode))
-
-(use-package go-mode
-  )
-
-(use-package typescript-mode
-
-  :custom
-  (typescript-indent-level 2)
-  :config
-
-  (add-hook 'typescript-mode-hook 'company-mode)
-  (add-hook 'typescript-mode-hook 'smartparens-mode))
 
 
 (use-package so-long)
@@ -288,36 +220,28 @@
   :hook ((emacs-lisp-mode clojure-mode cider-repl-mode) . paredit-mode))
 
 (use-package rainbow-delimiters
-
-  :hook ((emacs-lisp-mode clojure-mode cider-repl-mode python-mode python-ts-mode) . rainbow-delimiters-mode))
+  :hook ((emacs-lisp-mode clojure-mode cider-repl-mode) . rainbow-delimiters-mode))
 
 (use-package aggressive-indent
   :hook ((emacs-lisp-mode clojure-mode) . aggressive-indent-mode))
 
-(use-package python-mode
-  :defer t
-  :config
-  (setq company-backends '(company-capf
-                           company-yasnippet
-                           company-files
-                           (company-dabbrev-code company-keywords)
-                           company-dabbrev))
-
-  ;; automatically generating pyrightconfig could be done with:
-  ;; detecting pyproject.toml
-  ;; reading it https://github.com/gongo/emacs-toml and detecting the tool used
-  ;; running this for poetry (or can we do that without the call to command line?)
-  ;; generating config with json.el https://github.com/emacs-mirror/emacs/blob/master/lisp/json.el#L770
-  ;; setting fci to correct value based on tool.black.line-length or tool.ruff.line-length value (and sensible default).
-  ;; poetry env info -p | read -r d; printf '{\n  "venvPath": "%s",\n  "venv": "%s"\n}\n' "$(dirname "$d")" "$(basename "$d")" > pyrightconfig.json
-  )
+(use-package python
+  :straight (:type built-in)
+  :custom
+  (python-indent-guess-indent-offset nil)
+  :hook
+  (python-ts-mode . eglot-ensure)
+  (python-ts-mode . smartparens-mode)
+  (python-ts-mode . rainbow-delimiters-mode))
 
 (use-package which-func
+  :custom
+  (which-func-display 'header)
   :config
   (which-function-mode t))
 
 (use-package yaml-mode
-  )
+  :defer t)
 
 (use-package yaml-pro
   )
@@ -328,16 +252,13 @@
   :custom
   (sql-dialect 'postgres))
 
-(use-package dockerfile-mode)
-
 (use-package smartparens
-  :hook ((python-mode python-ts-mode typescript-mode terraform-mode hcl-mode) . smartparens-mode))
+  :hook ((typescript-ts-mode terraform-mode hcl-mode) . smartparens-mode))
 
 (use-package electric-pair-mode
   :straight (:type built-in)
   :hook ((rustic-mode) . electric-pair-mode))
 
-(use-package poetry)
 
 (use-package terraform-mode
   :after (eglot)
@@ -369,22 +290,42 @@
 
 
 (use-package eglot
-  :hook ((rustic-mode . eglot-ensure)
-         (python-mode . eglot-ensure)
-         (python-ts-mode . eglot-ensure))
+  :hook ((rustic-mode . eglot-ensure))
   :bind (:map eglot-mode-map
-              ("C-M-h a" . eglot-code-actions)
-              ("C-M-h r" . eglot-rename)
-              ("C-M-h f" . eglot-format-buffer)
-              ("C-M-h Q" . eglot-shutdown-all))
+              ("<f1>" . mk13/eglot-menu))
+  :custom
+  (eglot-extend-to-xref t)
   :config
+  (fset #'jsonrpc--log-event #'ignore)  ; don't log every event
   (add-to-list 'eglot-server-programs
-               `((python-ts-mode python-mode) . ,(eglot-alternatives
-                                                  '(("poetry" "run" "pylsp")
-                                                    ("hatch" "run" "lsp:run")
-                                                    ("uv" "run" "basedpyright-langserver" "--stdio")))))
+               `(python-ts-mode . ,(eglot-alternatives
+                                    '(("poetry" "run" "pylsp")
+                                      ("hatch" "run" "lsp:run")
+                                      ("uv" "run" "basedpyright-langserver" "--stdio")))))
   (add-to-list 'eglot-server-programs
-               '(markdown-mode . ("harper-ls" "--stdio"))))
+               '(markdown-mode . ("harper-ls" "--stdio")))
+  (transient-define-prefix mk13/eglot-menu ()
+    "Eglot LSP commands"
+    [["Code"
+      ("a" "Code actions" eglot-code-actions)
+      ("r" "Rename symbol" eglot-rename)
+      ("f" "Format buffer" eglot-format-buffer)]
+     ["Navigate"
+      ("d" "Definition" xref-find-definitions)
+      ("D" "Declaration" eglot-find-declaration)
+      ("i" "Implementation" eglot-find-implementation)
+      ("t" "Type definition" eglot-find-typeDefinition)
+      ("?" "References" xref-find-references)
+      ("s" "Symbols" consult-eglot-symbols)]
+     ["Server"
+      ("q" "Shutdown" eglot-shutdown)
+      ("Q" "Shutdown all" eglot-shutdown-all)
+      ("R" "Reconnect" eglot-reconnect)
+      ("e" "Events" eglot-events-buffer)
+      ("E" "Stderr" eglot-stderr-buffer)]]))
+
+(use-package consult-eglot
+  :after (consult eglot))
 
 (use-package rustic
   ;; I would like to make rustic window for compilation narrower and
@@ -406,10 +347,20 @@
                  (inhibit-switch-frame . nil))
                t))
 
-(use-package flymake)
+(use-package flymake
+  :bind ("<f2>" . mk13/flymake-menu)
+  :custom
+  (flymake-show-diagnostics-at-end-of-line t)
+  :config
+  (transient-define-prefix mk13/flymake-menu ()
+    "Flymake diagnostics"
+    [["Flymake"
+      ("c" "Consult (live list)" consult-flymake)
+      ("p" "Project diagnostics" flymake-show-project-diagnostics)
+      ("b" "Buffer diagnostics" flymake-show-buffer-diagnostics)
+      ("x" "Diagnostic at point" flymake-show-diagnostic)]]))
 
 (use-package midnight
-
   :init
   ;; Days are shorter in emacs world
   (setq midnight-period (* 60 60 8))
@@ -451,9 +402,8 @@
 
 (use-package multiple-cursors
 
-  :init
-  (global-unset-key (kbd "M-<down-mouse-1>"))
-  :bind (("M-<mouse-1>" . mc/add-cursor-on-click)))
+  :bind (("M-<down-mouse-1>" . nil)
+         ("M-<mouse-1>" . mc/add-cursor-on-click)))
 
 (use-package hungry-delete
 
@@ -468,28 +418,37 @@
   :config
   (yas-reload-all))
 
-(use-package hcl-mode)
+(use-package hcl-mode
+  :defer t)
 
-(use-package lua-mode)
 
-(use-package company
+(use-package corfu
+  :straight (:tag "2.9")
   :after (yasnippet)
-
   :custom
-  (company-idle-delay 0.5) ;; how long to wait until popup
-  (company-tooltip-align-annotations t)
+  (corfu-auto t)
+  (corfu-auto-delay 0.5)
+  (corfu-auto-prefix 2)
+  (corfu-cycle t)
+  :bind (:map corfu-map
+              ("C-n" . corfu-next)
+              ("C-p" . corfu-previous))
   :config
-  (global-company-mode)
-  :bind
-  ("C-<tab>" . company-yasnippet)
-  ("TAB" . company-indent-or-complete-common)
-  (:map company-active-map
-        ("C-n". company-select-next)
-        ("C-p". company-select-previous)
-        ("M-<". company-select-first)
-        ("M->". company-select-last)))
+  (global-corfu-mode))
+
+(use-package cape
+  :config
+  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-file))
+
+(use-package yasnippet-capf
+  :after (yasnippet cape)
+  :bind ("C-<tab>" . yasnippet-capf)
+  :config
+  (add-hook 'completion-at-point-functions #'yasnippet-capf))
 
 (use-package which-key
+  :straight (:type built-in)
   :config
   (which-key-mode))
 
@@ -498,8 +457,6 @@
   :custom
   (global-clipetty-mode 1))
 
-;; https://git.sr.ht/~ashton314/emacs-bedrock/tree/main/item/mixins/base.el
-;; https://codeberg.org/vifon/emacs-config/src/branch/master/emacs.d/lisp/20-completion-engine.el
 (use-package vertico
   :init
   (vertico-mode))
@@ -522,17 +479,15 @@
 
 (use-package embark
   :bind
-  (("C-." . embark-act)         ;; pick some comfortable binding
+  (("C-." . embark-act)
    ("C-;" . embark-dwim)        ;; good alternative: M-.
    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
   :init
-  ;; Optionally replace the key help with a completing-read interface
-  ;; (setq prefix-help-command #'embark-prefix-help-command)
-
-  ;; Show the Embark target at point via Eldoc.  You may adjust the Eldoc
-  ;; strategy, if you want to see the documentation from multiple providers.
-  ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
-  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
+  (setq prefix-help-command #'embark-prefix-help-command)
+  (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+  (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
+  :custom
+  (embark-indicators '(embark-mixed-indicator embark-highlight-indicator embark-isearch-highlight-indicator))
   :config
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
@@ -544,6 +499,22 @@
   :after (embark consult)
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
+
+(use-package avy
+  :bind
+  (("M-g j" . avy-goto-char-timer)
+   ("M-g J" . avy-goto-line))
+  :custom
+  (avy-timeout-seconds 0.7)
+  :config
+  (defun avy-action-embark (pt)
+    (unwind-protect
+        (save-excursion
+          (goto-char pt)
+          (embark-act))
+      (select-window (cdr (ring-ref avy-ring 0))))
+    t)
+  (setf (alist-get ?. avy-dispatch-alist) 'avy-action-embark))
 
 (use-package magit
   :bind (("<f7>" . magit-status))
@@ -577,41 +548,23 @@
   (interactive)
   (insert "ಠ_ಠ"))
 
-(use-package hydra
+(use-package transpose-frame
+  :bind ("C-M-w" . mk13/window-management-menu)
   :config
-  (setq hydra-is-helpful 't)
-  :bind
-  (("C-M-w" . hydra-window-management/body)
-   ("C-M-c" . hydra-flymake/body)))
-
-(use-package major-mode-hydra
-  :after hydra
-  :init
-  (pretty-hydra-define
-    hydra-window-management
-    (:color red :title "Manage windows" :quit-key "q" :foreign-keys warn)
-    ("Flip"
-     (("t" transpose-frame "Transpose")
-      ("f" flip-frame "Vertically")
-      ("F" flop-frame "Horizontally"))
-     "Rotate"
-     (("r" rotate-frame "180°")
-      ("c" rotate-frame-clockwise "90°")
-      ("C" rotate-frame-anti-clockwise "-90°"))
-     "Window"
-     (("w" enlarge-window "Taller")
-      ("s" shrink-window "Shorter")
-      ("d" enlarge-window-horizontally "Wider")
-      ("a" shrink-window-horizontally "Narrower"))))
-  (pretty-hydra-define
-    hydra-flymake
-    (:color red :title "Flymake" :quit-key "q" :foreign-keys warn)
-    ("Flymake"
-     (("p" flymake-show-project-diagnostics)
-      ("b" flymake-show-buffer-diagnostics)
-      ("x" flymake-show-diagnostic)))))
-
-(use-package transpose-frame)
+  (transient-define-prefix mk13/window-management-menu ()
+    [["Flip"
+      ("t" "Transpose" transpose-frame)
+      ("f" "Flip vertically" flip-frame)
+      ("F" "Flop horizontally" flop-frame)]
+     ["Rotate"
+      ("r" "180°" rotate-frame )
+      ("c" "90° clockwise" rotate-frame-clockwise)
+      ("C" "-90°" rotate-frame-anticlockwise)]
+     ["Window"
+      ("w" "Taller" enlarge-window :transient t)
+      ("s" "Shorter" shrink-window :transient t)
+      ("d" "Wider" enlarge-window-horizontally :transient t)
+      ("a" "Narrower" shrink-window-horizontally :transient t)]]))
 
 (use-package jiralib2
   :after (org)
@@ -622,48 +575,6 @@
         jiralib2-user-login-name  nil
         jiralib2-token            nil))
 
-(use-package ejira
-  :straight (:host github :type git :repo "nyyManni/ejira")
-  :after (org)
-  :init
-  (setq jiralib2-url              "https://jira.kpn.org"
-        jiralib2-auth             'basic
-        jiralib2-user-login-name  nil
-        jiralib2-token            nil
-        ;; NOTE, this directory needs to be in `org-agenda-files'`
-        ejira-org-directory       (concat mk13/org-directory "jira")
-        ejira-projects            '("DEP")
-        ejira-priorities-alist    '(("Highest" . ?A)
-                                    ("High"    . ?B)
-                                    ("Medium"  . ?C)
-                                    ("Low"     . ?D)
-                                    ("Lowest"  . ?E))
-        ejira-todo-states-alist   '(("To Do"       . 1)
-                                    ("In Progress" . 2)
-                                    ("Done"        . 3)))
-  :config
-  ;; Tries to auto-set custom fields by looking into /editmeta
-  ;; of an issue and an epic.
-  (add-hook 'jiralib2-post-login-hook #'ejira-guess-epic-sprint-fields)
-
-  ;; They can also be set manually if autoconfigure is not used.
-  ;; (setq ejira-sprint-field       'customfield_10001
-  ;;       ejira-epic-field         'customfield_10002
-  ;;       ejira-epic-summary-field 'customfield_10004)
-
-  ;; (require 'ejira-agenda)
-
-  ;; Make the issues visisble in your agenda by adding `ejira-org-directory'
-  ;; into your `org-agenda-files'.
-  ;; (add-to-list 'org-agenda-files ejira-org-directory)
-
-  ;; Add an agenda view to browse the issues that
-  ;; (org-add-agenda-custom-command
-  ;;  '("j" "My JIRA issues"
-  ;;    ((ejira-jql "resolution = unresolved and assignee = currentUser()"
-  ;;                ((org-agenda-overriding-header "Assigned to me"))))))
-  )
-
 (use-package git-modes
   :init
   (add-to-list 'auto-mode-alist '("/.dockerignore\\'" . gitignore-mode))
@@ -672,25 +583,12 @@
   (add-to-list 'auto-mode-alist '("/.driftignore\\'" . gitignore-mode)))
 
 (use-package undo-tree
-
   :bind (("C-z" . undo-tree-undo)
          ("C-M-z" . undo-tree-redo))
   :config
   (add-to-list 'undo-tree-history-directory-alist (cons "." undo-tree-directory))
   (global-undo-tree-mode))
 
-(use-package python
-  :custom
-  ;;
-  (python-indent-guess-indent-offset nil)
-  (setq company-backends '(company-capf
-                           company-yasnippet
-                           company-files
-                           (company-dabbrev-code company-keywords)
-                           company-dabbrev))
-  :hook
-  (python-mode . eglot-ensure)
-  (python-mode . smartparens-mode))
 
 ;; https://github.com/emacscollective/no-littering
 ;; https://github.com/KaratasFurkan/.emacs.d
@@ -698,91 +596,57 @@
 ;; https://www.lucacambiaghi.com/vanilla-emacs/readme.html#h:EC68944C-F745-45D8-9905-420E0813DBAF
 ;; https://github.com/minad/consult/blob/main/README.org#use-package-example
 
-(use-package project)
-
 (use-package consult
-
-  :init (progn
-          (defvar consult-mode-map (make-sparse-keymap))
-          (define-minor-mode consult-mode
-            "Provide the `consult' commands in a single keymap."
-            :global t
-            (if consult-mode
-                (define-key minibuffer-local-map
-                            [remap previous-matching-history-element]
-                            #'consult-history)
-              (define-key minibuffer-local-map
-                          [remap previous-matching-history-element]
-                          nil)))
-          (consult-mode 1))
-  :config
-  (setq consult-narrow-key "<")
-  (setq consult-locate-args "mdfind -name")
+  :custom
+  (consult-narrow-key "<")
   :bind
-  (:map consult-mode-map
-        ("C-x b" . consult-buffer)
-        ("M-s u" . consult-focus-lines)
-        ("M-s k" . consult-keep-lines)
-        ("M-s e" . consult-isearch-history)
-        ("M-s d" . consult-find)
-        ("M-g g" . consult-line)
-        ("M-g M-g" . consult-goto-line)
-        ("M-g o" . consult-outline)
-        ("M-g i" . consult-imenu)
-        ("M-g I" . consult-info)
-        ("M-g r" . consult-ripgrep)
-        ("M-g m" . consult-mark)
-        ("M-g M" . consult-global-mark)
-        ;; Misc.
-        ("C-x C-r" . consult-recent-file)))
+  (("C-x b"   . consult-buffer)
+   ("C-x C-r" . consult-recent-file)
+   ("M-g g"   . consult-line)
+   ("M-g M-g" . consult-goto-line)
+   ("M-g r"   . consult-ripgrep)
+   ("M-g t"   . mk13/consult-menu)
+   :map minibuffer-local-map
+   ([remap previous-matching-history-element] . consult-history))
+  :config
+  (transient-define-prefix mk13/consult-menu ()
+    "Consult search and navigation"
+    [["Search"
+      ("l" "Line" consult-line)
+      ("L" "Line (all buffers)" consult-line-multi)
+      ("r" "Ripgrep" consult-ripgrep)
+      ("g" "Grep" consult-grep)
+      ("G" "Git grep" consult-git-grep)
+      ("f" "Find file" consult-find)]
+     ["Navigate"
+      ("o" "Outline" consult-outline)
+      ("i" "Imenu" consult-imenu)
+      ("I" "Imenu (project)" consult-imenu-multi)
+      ("m" "Mark ring" consult-mark)
+      ("M" "Global mark ring" consult-global-mark)
+      ("b" "Bookmarks" consult-bookmark)]
+     ["Filter"
+      ("k" "Keep lines" consult-keep-lines)
+      ("u" "Focus lines" consult-focus-lines)
+      ("e" "Isearch history" consult-isearch-history)]
+     ["Misc"
+      ("h" "Man page" consult-man)
+      ("H" "Info" consult-info)
+      ("c" "Command history" consult-complex-command)]]))
 
 (use-package re-builder
   :custom
   (reb-re-syntax 'string))
 
 (use-package jsonian
-
   :after so-long
   :custom
   (jsonian-default-indentation 2)
-  :custom
   (jsonian-no-so-long-mode))
 
 (use-package json-reformat
-
   :config
   (setq json-reformat:indent-width 2))
-
-(use-package tide
-  :config
-  (add-hook 'before-save-hook 'tide-format-before-save)
-  (add-hook 'typescript-mode-hook #'tide-setup)
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-  (add-hook 'web-mode-hook
-            (lambda ()
-              (when (string-equal "tsx" (file-name-extension buffer-file-name))
-                (setup-tide-mode)))))
-
-
-(use-package emmet-mode
-
-  :hook (web-mode)
-  :custom
-  ;; Disable preview before expanding
-  (emmet-preview-default nil)
-  ;; Move the cursor to next edit point
-  (emmet-move-cursor-between-quotes t)
-  :bind (:map emmet-mode-keymap
-              ;; ("C-j" . newline-and-indent)
-              ("C-m" . emmet-expand-line)))
-
-(use-package web-mode
-  :mode  ("\\.tsx\\'" "\\.html\\'" "\\.hbs\\'" "\\.vue\\'")
-  :custom
-  (web-mode-enable-auto-indentation nil)
-  (web-mode-markup-indent-offset 2)
-  (web-mode-css-indent-offset 2)
-  (web-mode-code-indent-offset 2))
 
 (use-package justl)
 (use-package just-mode)
@@ -814,18 +678,13 @@
   :custom
   (treesit-auto-install 'prompt)
   ;; avoid yaml-ts-mode as it's very broken https://www.reddit.com/r/emacs/comments/17gtxmr/indentation_in_yamltsmode/
-  (treesit-auto-langs '(python typescript terraform dockerfile nix))
+  (treesit-auto-langs '(python typescript terraform dockerfile nix go lua))
   :config
   (global-treesit-auto-mode))
 
-(use-package golden-ratio)
-
-;; (defun force-debug (func &rest args)
-;;   (condition-case e
-;;       (apply func args)
-;;     ((debug error) (signal (car e) (cdr e)))))
-
-;; (advice-add #'vertico--exhibit :around #'force-debug)
+(use-package golden-ratio
+  :config
+  (golden-ratio-mode 1))
 
 (use-package auth-source-1password
   :straight (:host github :type git :repo "dlobraico/auth-source-1password")
@@ -870,3 +729,12 @@
   (mastodon-instance-url "https://hachyderm.io")
   (mastodon-active-user "mishok13")
   (mastodon-auth-use-auth-source nil))
+
+(use-package jinx
+  :hook (emacs-startup . global-jinx-mode)
+  :bind (("M-$" . jinx-correct)
+         ("C-M-$" . jinx-languages)))
+
+(use-package wgrep
+  :config
+  (setq wgrep-auto-save-buffer t))
