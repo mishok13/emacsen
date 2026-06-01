@@ -4,8 +4,11 @@
 
 ;;; Code:
 
-;; https://github.com/nyyManni/ejira
-;; https://sr.ht/%7Eashton314/emacs-bedrock/
+;; Inspirations and straight up sources
+
+;; https://github.com/purcell/emacs.d
+;; https://codeberg.org/ashton314/emacs-bedrock
+;; https://codeberg.org/vifon/emacs-config/src/branch/master/emacs.d/lisp/20-completion-engine.el
 ;; https://batsov.com/articles/2021/12/19/building-emacs-from-source-with-pgtk/
 ;; https://github.com/xenodium/dotsies/blob/790465b1824481b81bf5c6e08949128c13d76f95/emacs/features/fe-ui.el#L42
 ;; https://planet.emacslife.com/
@@ -46,8 +49,7 @@
 (use-package emacs
   :ensure nil
   ;; Disables suspend-frame keybindings. Because why does it even exist?
-  :bind (("C-z" . nil)
-         ("C-x C-z" . nil)
+  :bind (("C-x C-z" . nil)
          ("C-x m" . nil))
 
   :custom
@@ -58,6 +60,8 @@
   (native-comp-async-report-warnings-errors 'silent)
   (indent-tabs-mode nil)
   (vc-follow-symlinks t)
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  (remote-file-name-inhibit-auto-save t)
 
   :config
   (defcustom mk13/org-directory (expand-file-name "~/nonwork/notes/org/")
@@ -70,50 +74,13 @@
     (dolist (dir dirs)
       (unless (file-exists-p dir)
         (make-directory dir t))))
-  ;; (unless (package-installed-p 'vc-use-package)
-  ;;   (package-vc-install "https://github.com/slotThe/vc-use-package"))
-  ;; (require 'vc-use-package)
-  ;; (setq
-  ;;  package-archive-priorities '(("gnu-elpa" . 3)
-  ;;                               ("melpa" . 2)
-  ;;                               ("nongnu" . 1))
-  ;;  package-archives           '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
-  ;;                               ("gnu-elpa-devel" . "https://elpa.gnu.org/devel/")
-  ;;                               ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-  ;;                               ("melpa" . "https://melpa.org/packages/")))
-  )
-
-(use-package recentf
-  :custom
-  (recentf-mode t))
-
-(use-package no-littering)
-
-(use-package emacs
-  :ensure nil
-  ;; Disables suspend-frame keybindings. Because why does it even exist?
-  :bind (("C-z" . nil)
-         ("C-x C-z" . nil)
-         ("C-x m" . nil))
-
-  :custom
-  (custom-file (expand-file-name "custom.el" user-emacs-directory))
-  (fill-column 112)
-  (frame-resize-pixelwise t)
-  (initial-major-mode 'fundamental-mode)
-  (visible-bell nil)
-  (native-comp-async-report-warnings-errors 'silent)
-  (indent-tabs-mode nil)
-  (vc-follow-symlinks t)
-
-  :config
-  (delete-selection-mode 1)
   (setopt use-short-answers t)
   (put 'downcase-region 'disabled nil)
-  (display-fill-column-indicator-mode t)
+  (global-display-fill-column-indicator-mode 1)
   (put 'upcase-region 'disabled nil)
   (global-display-line-numbers-mode t)
   (global-visual-line-mode t)
+  (delete-selection-mode t)
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
   (setq
    auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
@@ -135,7 +102,6 @@
   (menu-bar-mode 0)
   (tooltip-mode 0)
   (blink-cursor-mode 0)
-  (setq line-move-visual nil)
   (global-hl-line-mode t)
   (column-number-mode t)
 
@@ -145,10 +111,6 @@
                       :font "Hack Nerd Font Mono-14")
   (set-frame-font "Hack Nerd Font Mono-14")
 
-  ;; Don't let minibufer cursor jump into read-only prompt
-  (setq minibuffer-prompt-properties
-        (plist-put minibuffer-prompt-properties 'point-entered 'minibuffer-avoid-prompt))
-
   (defvar undo-tree-directory
     (let ((default-directory user-emacs-directory))
       (file-truename "./undo")))
@@ -156,7 +118,15 @@
   (setq uniquify-buffer-name-style 'reverse)
   (setq uniquify-separator "|")
   (setq uniquify-after-kill-buffer-p t)
-  (setq uniquify-ignore-buffers-re "^\\*"))
+  (setq uniquify-ignore-buffers-re "^\\*")
+  (when (file-exists-p custom-file)
+    (load custom-file)))
+
+(use-package recentf
+  :custom
+  (recentf-mode t))
+
+(use-package no-littering)
 
 (use-package dash)
 
@@ -193,13 +163,13 @@
   (sml/apply-theme 'respectful))
 
 (use-package exec-path-from-shell
+  :if (memq system-type '(darwin))
   :config
   (setenv "LANG" "en_US.UTF-8")
   :init
   (exec-path-from-shell-copy-envs '("LC_ALL" "WORKON_HOME" "RUST_SRC_PATH"))
   (setq exec-path-from-shell-check-startup-files nil)
   (exec-path-from-shell-initialize)
-
   (setq mac-allow-anti-aliasing t))
 
 (use-package emacs
@@ -243,13 +213,6 @@
 
 (use-package clojure-mode)
 
-(use-package go-mode)
-
-(use-package typescript-mode
-  :custom
-  (typescript-indent-level 2)
-  :hook
-  (typescript-mode . smartparens-mode))
 
 
 (use-package so-long)
@@ -273,21 +236,25 @@
   (python-ts-mode . rainbow-delimiters-mode))
 
 (use-package which-func
+  :custom
+  (which-func-display 'header)
   :config
   (which-function-mode t))
 
-(use-package yaml-mode)
-(use-package yaml-pro)
+(use-package yaml-mode
+  :defer t)
+
+(use-package yaml-pro
+  )
+
 (use-package caddyfile-mode)
 
 (use-package sql
   :custom
   (sql-dialect 'postgres))
 
-(use-package dockerfile-mode)
-
 (use-package smartparens
-  :hook ((typescript-mode terraform-mode hcl-mode) . smartparens-mode))
+  :hook ((typescript-ts-mode terraform-mode hcl-mode) . smartparens-mode))
 
 (use-package electric-pair-mode
   :straight (:type built-in)
@@ -328,10 +295,15 @@
   :hook ((rustic-mode . eglot-ensure))
   :bind (:map eglot-mode-map
               ("<f1>" . mk13/eglot-menu))
+  :custom
+  (eglot-extend-to-xref t)
   :config
+  (fset #'jsonrpc--log-event #'ignore)  ; don't log every event
   (add-to-list 'eglot-server-programs
-               `((python-ts-mode) . ,(eglot-alternatives
-                                      '(("just" "lsp")))))
+               `(python-ts-mode . ,(eglot-alternatives
+                                    '(("poetry" "run" "pylsp")
+                                      ("hatch" "run" "lsp:run")
+                                      ("uv" "run" "basedpyright-langserver" "--stdio")))))
   (add-to-list 'eglot-server-programs
                '(markdown-mode . ("harper-ls" "--stdio")))
   (transient-define-prefix mk13/eglot-menu ()
@@ -379,6 +351,8 @@
 
 (use-package flymake
   :bind ("<f2>" . mk13/flymake-menu)
+  :custom
+  (flymake-show-diagnostics-at-end-of-line t)
   :config
   (transient-define-prefix mk13/flymake-menu ()
     "Flymake diagnostics"
@@ -424,17 +398,14 @@
 (use-package markdown-mode
   )
 
-;; TODO: add edit-indirect
-
 (use-package flyspell
   ;; Look into using https://github.com/syohex/emacs-ac-ispell
   :hook (markdown-mode . flyspell-mode))
 
 (use-package multiple-cursors
 
-  :init
-  (global-unset-key (kbd "M-<down-mouse-1>"))
-  :bind (("M-<mouse-1>" . mc/add-cursor-on-click)))
+  :bind (("M-<down-mouse-1>" . nil)
+         ("M-<mouse-1>" . mc/add-cursor-on-click)))
 
 (use-package hungry-delete
 
@@ -449,9 +420,9 @@
   :config
   (yas-reload-all))
 
-(use-package hcl-mode)
+(use-package hcl-mode
+  :defer t)
 
-(use-package lua-mode)
 
 (use-package corfu
   :straight (:tag "2.9")
@@ -479,6 +450,7 @@
   (add-hook 'completion-at-point-functions #'yasnippet-capf))
 
 (use-package which-key
+  :straight (:type built-in)
   :config
   (which-key-mode))
 
@@ -486,6 +458,65 @@
   :defer t
   :custom
   (global-clipetty-mode 1))
+
+(use-package vertico
+  :init
+  (vertico-mode))
+
+(use-package marginalia
+  :bind (:map minibuffer-local-map
+              ("M-A" . marginalia-cycle))
+  :init
+  (marginalia-mode))
+
+;; Smart(er) fuzzy completion matching (similar to flex)
+(use-package hotfuzz)
+
+(use-package orderless
+  :init
+  (setq completion-styles '(hotfuzz orderless basic)
+        completion-category-defaults nil
+        orderless-matching-styles '(orderless-flex)
+        completion-category-overrides '((file (styles partial-completion)))))
+
+(use-package embark
+  :bind
+  (("C-." . embark-act)
+   ("C-;" . embark-dwim)        ;; good alternative: M-.
+   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+  :init
+  (setq prefix-help-command #'embark-prefix-help-command)
+  (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+  (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
+  :custom
+  (embark-indicators '(embark-mixed-indicator embark-highlight-indicator embark-isearch-highlight-indicator))
+  :config
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+(use-package embark-consult
+  :after (embark consult)
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
+(use-package avy
+  :bind
+  (("M-g j" . avy-goto-char-timer)
+   ("M-g J" . avy-goto-line))
+  :custom
+  (avy-timeout-seconds 0.7)
+  :config
+  (defun avy-action-embark (pt)
+    (unwind-protect
+        (save-excursion
+          (goto-char pt)
+          (embark-act))
+      (select-window (cdr (ring-ref avy-ring 0))))
+    t)
+  (setf (alist-get ?. avy-dispatch-alist) 'avy-action-embark))
 
 (use-package magit
   :bind (("<f7>" . magit-status))
@@ -546,26 +577,6 @@
         jiralib2-user-login-name  nil
         jiralib2-token            nil))
 
-(use-package ejira
-  :straight (:host github :type git :repo "nyyManni/ejira")
-  :after (org)
-  :init
-  ;; NOTE, this directory needs to be in `org-agenda-files'`
-  (setq ejira-org-directory       (concat mk13/org-directory "jira")
-        ejira-projects            '("DEP")
-        ejira-priorities-alist    '(("Highest" . ?A)
-                                    ("High"    . ?B)
-                                    ("Medium"  . ?C)
-                                    ("Low"     . ?D)
-                                    ("Lowest"  . ?E))
-        ejira-todo-states-alist   '(("To Do"       . 1)
-                                    ("In Progress" . 2)
-                                    ("Done"        . 3)))
-  :config
-  ;; Tries to auto-set custom fields by looking into /editmeta
-  ;; of an issue and an epic.
-  (add-hook 'jiralib2-post-login-hook #'ejira-guess-epic-sprint-fields))
-
 (use-package git-modes
   :init
   (add-to-list 'auto-mode-alist '("/.dockerignore\\'" . gitignore-mode))
@@ -588,105 +599,46 @@
 ;; https://github.com/minad/consult/blob/main/README.org#use-package-example
 
 (use-package consult
-
-  :init (progn
-          (defvar consult-mode-map (make-sparse-keymap))
-          (define-minor-mode consult-mode
-            "Provide the `consult' commands in a single keymap."
-            :global t
-            (if consult-mode
-                (define-key minibuffer-local-map
-                            [remap previous-matching-history-element]
-                            #'consult-history)
-              (define-key minibuffer-local-map
-                          [remap previous-matching-history-element]
-                          nil)))
-          (consult-mode 1))
-  :config
-  (setq consult-narrow-key "<")
-  (setq consult-locate-args "mdfind -name")
   :custom
-  (consult-ripgrep-args "rg --null --line-buffered --color=never --max-columns=1000 --path-separator / --smart-case --no-heading --with-filename --line-number --search-zip --hidden")
+  (consult-narrow-key "<")
   :bind
-  (:map consult-mode-map
-        ("C-x b" . consult-buffer)
-        ("M-s u" . consult-focus-lines)
-        ("M-s k" . consult-keep-lines)
-        ("M-s e" . consult-isearch-history)
-        ("M-s d" . consult-fd)
-        ("M-g g" . consult-line)
-        ("M-g M-g" . consult-goto-line)
-        ("M-g o" . consult-outline)
-        ("M-g i" . consult-imenu)
-        ("M-g I" . consult-info)
-        ("M-g r" . consult-ripgrep)
-        ("M-g m" . consult-mark)
-        ("M-g M" . consult-global-mark)
-        ;; Misc.
-        ("C-x C-r" . consult-recent-file)))
-
-;; https://git.sr.ht/~ashton314/emacs-bedrock/tree/main/item/mixins/base.el
-;; https://codeberg.org/vifon/emacs-config/src/branch/master/emacs.d/lisp/20-completion-engine.el
-(use-package vertico
-  :init
-  (vertico-mode))
-
-(use-package marginalia
-  :bind (:map minibuffer-local-map
-              ("M-A" . marginalia-cycle))
-  :init
-  (marginalia-mode))
-
-;; Smart(er) fuzzy completion matching (similar to flex)
-(use-package hotfuzz)
-
-(use-package orderless
-  :init
-  (setq completion-styles '(hotfuzz orderless basic)
-        completion-category-defaults nil
-        orderless-matching-styles '(orderless-flex)
-        completion-category-overrides '((file (styles partial-completion)))))
-
-(use-package embark-consult
-  :after (embark consult)
-  :hook
-  (embark-collect-mode . consult-preview-at-point-mode))
-
-(use-package avy
-  :bind (("M-u" . avy-goto-char-timer)))
-
-(use-package embark
-  :bind
-  (("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-," . embark-dwim)        ;; good alternative: M-.
-   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-  :init
-  ;; Optionally replace the key help with a completing-read interface
-  ;; (setq prefix-help-command #'embark-prefix-help-command)
-
-  ;; Show the Embark target at point via Eldoc.  You may adjust the Eldoc
-  ;; strategy, if you want to see the documentation from multiple providers.
-  ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
-  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
-
+  (("C-x b"   . consult-buffer)
+   ("C-x C-r" . consult-recent-file)
+   ("M-g g"   . consult-line)
+   ("M-g M-g" . consult-goto-line)
+   ("M-g r"   . consult-ripgrep)
+   ("M-g t"   . mk13/consult-menu)
+   :map minibuffer-local-map
+   ([remap previous-matching-history-element] . consult-history))
   :config
-  ;; Hide the mode line of the Embark live/completions buffers
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none)))))
-
-
-(use-package avy-embark-collect
-  :after (avy embark)
-  :config
-  (setf (alist-get ?. avy-dispatch-alist) 'avy-embark-collect--act))
-
+  (transient-define-prefix mk13/consult-menu ()
+    "Consult search and navigation"
+    [["Search"
+      ("l" "Line" consult-line)
+      ("L" "Line (all buffers)" consult-line-multi)
+      ("r" "Ripgrep" consult-ripgrep)
+      ("g" "Grep" consult-grep)
+      ("G" "Git grep" consult-git-grep)
+      ("f" "Find file" consult-find)]
+     ["Navigate"
+      ("o" "Outline" consult-outline)
+      ("i" "Imenu" consult-imenu)
+      ("I" "Imenu (project)" consult-imenu-multi)
+      ("m" "Mark ring" consult-mark)
+      ("M" "Global mark ring" consult-global-mark)
+      ("b" "Bookmarks" consult-bookmark)]
+     ["Filter"
+      ("k" "Keep lines" consult-keep-lines)
+      ("u" "Focus lines" consult-focus-lines)
+      ("e" "Isearch history" consult-isearch-history)]
+     ["Misc"
+      ("h" "Man page" consult-man)
+      ("H" "Info" consult-info)
+      ("c" "Command history" consult-complex-command)]]))
 
 (use-package re-builder
   :custom
   (reb-re-syntax 'string))
-
 
 (use-package jsonian
   :after so-long
@@ -694,30 +646,9 @@
   (jsonian-default-indentation 2)
   (jsonian-no-so-long-mode))
 
-
 (use-package json-reformat
   :config
   (setq json-reformat:indent-width 2))
-
-
-(use-package emmet-mode
-  :hook (web-mode)
-  :custom
-  ;; Disable preview before expanding
-  (emmet-preview-default nil)
-  ;; Move the cursor to next edit point
-  (emmet-move-cursor-between-quotes t)
-  :bind (:map emmet-mode-keymap
-              ;; ("C-j" . newline-and-indent)
-              ("C-m" . emmet-expand-line)))
-
-(use-package web-mode
-  :mode  ("\\.tsx\\'" "\\.html\\'" "\\.hbs\\'" "\\.vue\\'")
-  :custom
-  (web-mode-enable-auto-indentation nil)
-  (web-mode-markup-indent-offset 2)
-  (web-mode-css-indent-offset 2)
-  (web-mode-code-indent-offset 2))
 
 (use-package justl)
 (use-package just-mode)
@@ -728,10 +659,16 @@
   (mermaid-flags "@mermaid-js/mermaid-cli@11.4.0"))
 
 (use-package copilot
-  :straight (:type git :host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
+  :straight (:type git :host github :repo "copilot-emacs/copilot.el")
   :hook (prog-mode . copilot-mode)
   :custom
   (copilot-indent-offset-warning-disable t)
+  :config
+  (add-to-list 'copilot-indentation-alist '(prog-mode 2))
+  (add-to-list 'copilot-indentation-alist '(org-mode 2))
+  (add-to-list 'copilot-indentation-alist '(text-mode 2))
+  (add-to-list 'copilot-indentation-alist '(clojure-mode 2))
+  (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2))
   :bind (("C-c M-c" . copilot-complete)
          :map copilot-completion-map
          ("C-g" . copilot-clear-overlay)
@@ -745,18 +682,13 @@
   :custom
   (treesit-auto-install 'prompt)
   ;; avoid yaml-ts-mode as it's very broken https://www.reddit.com/r/emacs/comments/17gtxmr/indentation_in_yamltsmode/
-  (treesit-auto-langs '(python typescript terraform dockerfile nix))
+  (treesit-auto-langs '(python typescript terraform dockerfile nix go lua))
   :config
   (global-treesit-auto-mode))
 
-(use-package golden-ratio)
-
-;; (defun force-debug (func &rest args)
-;;   (condition-case e
-;;       (apply func args)
-;;     ((debug error) (signal (car e) (cdr e)))))
-
-;; (advice-add #'vertico--exhibit :around #'force-debug)
+(use-package golden-ratio
+  :config
+  (golden-ratio-mode 1))
 
 (use-package auth-source-1password
   :straight (:host github :type git :repo "dlobraico/auth-source-1password")
@@ -801,3 +733,12 @@
   (mastodon-instance-url "https://hachyderm.io")
   (mastodon-active-user "mishok13")
   (mastodon-auth-use-auth-source nil))
+
+(use-package jinx
+  :hook (emacs-startup . global-jinx-mode)
+  :bind (("M-$" . jinx-correct)
+         ("C-M-$" . jinx-languages)))
+
+(use-package wgrep
+  :config
+  (setq wgrep-auto-save-buffer t))
