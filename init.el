@@ -276,12 +276,8 @@
   :config
   (which-function-mode t))
 
-(use-package yaml-mode
-  )
-
-(use-package yaml-pro
-  )
-
+(use-package yaml-mode)
+(use-package yaml-pro)
 (use-package caddyfile-mode)
 
 (use-package sql
@@ -328,13 +324,14 @@
 
 
 (use-package eglot
+  :straight (:type built-in)
   :hook ((rustic-mode . eglot-ensure))
   :bind (:map eglot-mode-map
               ("<f1>" . mk13/eglot-menu))
   :config
   (add-to-list 'eglot-server-programs
                `((python-ts-mode) . ,(eglot-alternatives
-                                                  '(("just" "lsp")))))
+                                      '(("just" "lsp")))))
   (add-to-list 'eglot-server-programs
                '(markdown-mode . ("harper-ls" "--stdio")))
   (transient-define-prefix mk13/eglot-menu ()
@@ -733,7 +730,8 @@
 (use-package copilot
   :straight (:type git :host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
   :hook (prog-mode . copilot-mode)
-  :config
+  :custom
+  (copilot-indent-offset-warning-disable t)
   :bind (("C-c M-c" . copilot-complete)
          :map copilot-completion-map
          ("C-g" . copilot-clear-overlay)
