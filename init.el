@@ -6,8 +6,9 @@
 
 ;; Inspirations and straight up sources
 
+;; https://github.com/purcell/emacs.d
+;; https://codeberg.org/ashton314/emacs-bedrock
 ;; https://codeberg.org/vifon/emacs-config/src/branch/master/emacs.d/lisp/20-completion-engine.el
-;; https://sr.ht/%7Eashton314/emacs-bedrock/
 ;; https://batsov.com/articles/2021/12/19/building-emacs-from-source-with-pgtk/
 ;; https://github.com/xenodium/dotsies/blob/790465b1824481b81bf5c6e08949128c13d76f95/emacs/features/fe-ui.el#L42
 ;; https://planet.emacslife.com/
@@ -290,6 +291,7 @@
 
 
 (use-package eglot
+  :straight (:type built-in)
   :hook ((rustic-mode . eglot-ensure))
   :bind (:map eglot-mode-map
               ("<f1>" . mk13/eglot-menu))
@@ -299,9 +301,7 @@
   (fset #'jsonrpc--log-event #'ignore)  ; don't log every event
   (add-to-list 'eglot-server-programs
                `(python-ts-mode . ,(eglot-alternatives
-                                    '(("poetry" "run" "pylsp")
-                                      ("hatch" "run" "lsp:run")
-                                      ("uv" "run" "basedpyright-langserver" "--stdio")))))
+                                    '(("just" "lsp")))))
   (add-to-list 'eglot-server-programs
                '(markdown-mode . ("harper-ls" "--stdio")))
   (transient-define-prefix mk13/eglot-menu ()
@@ -315,10 +315,10 @@
       ("D" "Declaration" eglot-find-declaration)
       ("i" "Implementation" eglot-find-implementation)
       ("t" "Type definition" eglot-find-typeDefinition)
-      ("?" "References" xref-find-references)
+      ("q" "References" xref-find-references)
       ("s" "Symbols" consult-eglot-symbols)]
      ["Server"
-      ("q" "Shutdown" eglot-shutdown)
+      ("X" "Shutdown" eglot-shutdown)
       ("Q" "Shutdown all" eglot-shutdown-all)
       ("R" "Reconnect" eglot-reconnect)
       ("e" "Events" eglot-events-buffer)
@@ -350,7 +350,8 @@
 (use-package flymake
   :bind ("<f2>" . mk13/flymake-menu)
   :custom
-  (flymake-show-diagnostics-at-end-of-line t)
+  (flymake-show-diagnostics-at-end-of-line nil)
+  (flymake-indicator-type 'fringes)
   :config
   (transient-define-prefix mk13/flymake-menu ()
     "Flymake diagnostics"
@@ -658,14 +659,16 @@
   (mermaid-flags "@mermaid-js/mermaid-cli@11.4.0"))
 
 (use-package copilot
+  :straight (:type git :host github :repo "copilot-emacs/copilot.el")
+  :hook (prog-mode . copilot-mode)
+  :custom
+  (copilot-indent-offset-warning-disable t)
   :config
   (add-to-list 'copilot-indentation-alist '(prog-mode 2))
   (add-to-list 'copilot-indentation-alist '(org-mode 2))
   (add-to-list 'copilot-indentation-alist '(text-mode 2))
   (add-to-list 'copilot-indentation-alist '(clojure-mode 2))
   (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2))
-
-  :straight (:type git :host github :repo "copilot-emacs/copilot.el")
   :bind (("C-c M-c" . copilot-complete)
          :map copilot-completion-map
          ("C-g" . copilot-clear-overlay)
@@ -683,9 +686,7 @@
   :config
   (global-treesit-auto-mode))
 
-(use-package golden-ratio
-  :config
-  (golden-ratio-mode 1))
+(use-package golden-ratio)
 
 (use-package auth-source-1password
   :straight (:host github :type git :repo "dlobraico/auth-source-1password")
@@ -732,6 +733,7 @@
   (mastodon-auth-use-auth-source nil))
 
 (use-package jinx
+  :straight (:type built-in)
   :hook (emacs-startup . global-jinx-mode)
   :bind (("M-$" . jinx-correct)
          ("C-M-$" . jinx-languages)))
