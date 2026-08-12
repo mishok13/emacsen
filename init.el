@@ -599,6 +599,7 @@
 (use-package consult
   :custom
   (consult-narrow-key "<")
+  (consult-ripgrep-args "rg --null --line-buffered --color=never --max-columns=1000 --path-separator / --smart-case --no-heading --with-filename --line-number --search-zip --hidden")
   :bind
   (("C-x b"   . consult-buffer)
    ("C-x C-r" . consult-recent-file)
@@ -738,3 +739,10 @@
 (use-package wgrep
   :config
   (setq wgrep-auto-save-buffer t))
+
+(use-package tramp
+  :straight (:type built-in)
+  :custom
+  (tramp-completion-use-auth-sources nil)
+  :init
+  (tramp-enable-method "run0"))
