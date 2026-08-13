@@ -14,7 +14,6 @@
  ("cond-let" . "538a4162cc5b39cee2e0f85609ffc1f1716cdf8d")
  ("consult" . "e75ff50ebab9705bdd89b2f46c6347ee041f15a9")
  ("consult-eglot" . "d8b444aac39edfc6473ffbd228df3e9119451b51")
- ("copilot.el" . "59a4a292236ac9bea8756c0a0613b750b14d91eb")
  ("corfu" . "37404733d953a2d60f01feae3d94e607b43ed5b7")
  ("cov" . "7a3599e42d4fe943b912701e04beffcf2ec812d2")
  ("dash.el" . "d3a84021dbe48dba63b52ef7665651e0cf02e915")

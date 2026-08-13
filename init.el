@@ -658,26 +658,6 @@
   (mermaid-mmdc-location "bunx")
   (mermaid-flags "@mermaid-js/mermaid-cli@11.4.0"))
 
-(use-package copilot
-  :straight (:type git :host github :repo "copilot-emacs/copilot.el")
-  :hook (prog-mode . copilot-mode)
-  :custom
-  (copilot-indent-offset-warning-disable t)
-  :config
-  (add-to-list 'copilot-indentation-alist '(prog-mode 2))
-  (add-to-list 'copilot-indentation-alist '(org-mode 2))
-  (add-to-list 'copilot-indentation-alist '(text-mode 2))
-  (add-to-list 'copilot-indentation-alist '(clojure-mode 2))
-  (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2))
-  :bind (("C-c M-c" . copilot-complete)
-         :map copilot-completion-map
-         ("C-g" . copilot-clear-overlay)
-         ("M-n" . copilot-next-completion)
-         ("M-p" . copilot-previous-completion)
-         ("M-f" . copilot-accept-completion-by-word)
-         ("<tab>" . copilot-accept-completion)
-         ("M-<return>" . copilot-accept-completion-by-line)))
-
 (use-package treesit-auto
   :custom
   (treesit-auto-install 'prompt)
