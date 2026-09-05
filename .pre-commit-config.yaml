@@ -25,11 +25,11 @@ repos:
         stages: ["pre-commit", "pre-push"]
 
   - repo: https://github.com/woodruffw/zizmor-pre-commit
-    rev: v1.23.1
+    rev: v1.30.0
     hooks:
       - id: zizmor
 
   - repo: https://github.com/renovatebot/pre-commit-hooks
-    rev: '44.30.4'
+    rev: '44.65.5'
     hooks:
       - id: renovate-config-validator
