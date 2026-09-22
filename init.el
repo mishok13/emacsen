@@ -85,7 +85,7 @@
   (setq
    auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
    backup-by-copying t
-   backup-directory-alist '(("." . "~/.emacs.d/.backups"))
+   backup-directory-alist `(("." . ,(expand-file-name ".backups" user-emacs-directory)))
    create-lockfiles nil
    delete-old-versions t
    inhibit-splash-screen t
