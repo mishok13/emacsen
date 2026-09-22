@@ -218,6 +218,7 @@
 (use-package so-long)
 
 (use-package paredit
+  :straight (:host github :type git :repo "emacsmirror/paredit")
   :hook ((emacs-lisp-mode clojure-mode cider-repl-mode) . paredit-mode))
 
 (use-package rainbow-delimiters
@@ -719,10 +720,15 @@
          ("C-M-$" . jinx-languages)))
 
 (use-package wgrep
+  :defer t
   :config
   (setq wgrep-auto-save-buffer t))
 
+(use-package rg
+  :defer t)
+
 (use-package tramp
+  :defer t
   :straight (:type built-in)
   :custom
   (tramp-completion-use-auth-sources nil)
