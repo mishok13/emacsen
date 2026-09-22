@@ -28,7 +28,7 @@
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
         (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+	 "https://github.com/radian-software/straight.el/blob/develop/bootstrap.el"
          'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
@@ -218,6 +218,7 @@
 (use-package so-long)
 
 (use-package paredit
+  :straight (:host github :type git :repo "emacsmirror/paredit")
   :hook ((emacs-lisp-mode clojure-mode cider-repl-mode) . paredit-mode))
 
 (use-package rainbow-delimiters
@@ -719,10 +720,15 @@
          ("C-M-$" . jinx-languages)))
 
 (use-package wgrep
+  :defer t
   :config
   (setq wgrep-auto-save-buffer t))
 
+(use-package rg
+  :defer t)
+
 (use-package tramp
+  :defer t
   :straight (:type built-in)
   :custom
   (tramp-completion-use-auth-sources nil)
