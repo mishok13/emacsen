@@ -179,13 +179,15 @@
   (mac-option-modifier 'meta))
 
 (use-package jenkinsfile-mode
-
   :config
   (setq jenkinsfile-mode-indent-offset 2))
 
-(use-package zenburn-theme
+(use-package zenburn-theme)
 
-  :init (load-theme 'zenburn t))
+(use-package batppuccin
+  :ensure t
+  :config
+  (load-theme 'batppuccin-mocha t))
 
 (use-package denote
 
