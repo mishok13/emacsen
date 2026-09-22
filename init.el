@@ -301,9 +301,7 @@
   (fset #'jsonrpc--log-event #'ignore)  ; don't log every event
   (add-to-list 'eglot-server-programs
                `(python-ts-mode . ,(eglot-alternatives
-                                    '(("poetry" "run" "pylsp")
-                                      ("hatch" "run" "lsp:run")
-                                      ("uv" "run" "basedpyright-langserver" "--stdio")))))
+                                    '(("just" "lsp")))))
   (add-to-list 'eglot-server-programs
                '(markdown-mode . ("harper-ls" "--stdio")))
   (transient-define-prefix mk13/eglot-menu ()
@@ -317,10 +315,10 @@
       ("D" "Declaration" eglot-find-declaration)
       ("i" "Implementation" eglot-find-implementation)
       ("t" "Type definition" eglot-find-typeDefinition)
-      ("?" "References" xref-find-references)
+      ("q" "References" xref-find-references)
       ("s" "Symbols" consult-eglot-symbols)]
      ["Server"
-      ("q" "Shutdown" eglot-shutdown)
+      ("X" "Shutdown" eglot-shutdown)
       ("Q" "Shutdown all" eglot-shutdown-all)
       ("R" "Reconnect" eglot-reconnect)
       ("e" "Events" eglot-events-buffer)
@@ -352,7 +350,8 @@
 (use-package flymake
   :bind ("<f2>" . mk13/flymake-menu)
   :custom
-  (flymake-show-diagnostics-at-end-of-line t)
+  (flymake-show-diagnostics-at-end-of-line nil)
+  (flymake-indicator-type 'fringes)
   :config
   (transient-define-prefix mk13/flymake-menu ()
     "Flymake diagnostics"
@@ -601,6 +600,7 @@
 (use-package consult
   :custom
   (consult-narrow-key "<")
+  (consult-ripgrep-args "rg --null --line-buffered --color=never --max-columns=1000 --path-separator / --smart-case --no-heading --with-filename --line-number --search-zip --hidden")
   :bind
   (("C-x b"   . consult-buffer)
    ("C-x C-r" . consult-recent-file)
@@ -658,26 +658,6 @@
   (mermaid-mmdc-location "bunx")
   (mermaid-flags "@mermaid-js/mermaid-cli@11.4.0"))
 
-(use-package copilot
-  :straight (:type git :host github :repo "copilot-emacs/copilot.el")
-  :hook (prog-mode . copilot-mode)
-  :custom
-  (copilot-indent-offset-warning-disable t)
-  :config
-  (add-to-list 'copilot-indentation-alist '(prog-mode 2))
-  (add-to-list 'copilot-indentation-alist '(org-mode 2))
-  (add-to-list 'copilot-indentation-alist '(text-mode 2))
-  (add-to-list 'copilot-indentation-alist '(clojure-mode 2))
-  (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2))
-  :bind (("C-c M-c" . copilot-complete)
-         :map copilot-completion-map
-         ("C-g" . copilot-clear-overlay)
-         ("M-n" . copilot-next-completion)
-         ("M-p" . copilot-previous-completion)
-         ("M-f" . copilot-accept-completion-by-word)
-         ("<tab>" . copilot-accept-completion)
-         ("M-<return>" . copilot-accept-completion-by-line)))
-
 (use-package treesit-auto
   :custom
   (treesit-auto-install 'prompt)
@@ -686,9 +666,7 @@
   :config
   (global-treesit-auto-mode))
 
-(use-package golden-ratio
-  :config
-  (golden-ratio-mode 1))
+(use-package golden-ratio)
 
 (use-package auth-source-1password
   :straight (:host github :type git :repo "dlobraico/auth-source-1password")
@@ -735,6 +713,7 @@
   (mastodon-auth-use-auth-source nil))
 
 (use-package jinx
+  :straight (:type built-in)
   :hook (emacs-startup . global-jinx-mode)
   :bind (("M-$" . jinx-correct)
          ("C-M-$" . jinx-languages)))
@@ -742,3 +721,10 @@
 (use-package wgrep
   :config
   (setq wgrep-auto-save-buffer t))
+
+(use-package tramp
+  :straight (:type built-in)
+  :custom
+  (tramp-completion-use-auth-sources nil)
+  :init
+  (tramp-enable-method "run0"))
