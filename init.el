@@ -519,9 +519,13 @@
   (setf (alist-get ?. avy-dispatch-alist) 'avy-action-embark))
 
 (use-package magit
-  :bind (("<f7>" . magit-status))
+  :after project
+  :bind (("<f7>" . magit-status)
+         :map project-prefix-map
+         ("m" . magit-project-status))
   :init
   (add-hook 'git-commit-mode-hook 'flyspell-mode)
+  (add-to-list 'project-switch-commands '(magit-project-status "Magit") t)
   :custom
   (magit-format-file-function #'magit-format-file-nerd-icons)
   (magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
