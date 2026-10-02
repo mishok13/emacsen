@@ -85,7 +85,7 @@
   (setq
    auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
    backup-by-copying t
-   backup-directory-alist '(("." . "~/.emacs.d/.backups"))
+   backup-directory-alist `(("." . ,(expand-file-name ".backups" user-emacs-directory)))
    create-lockfiles nil
    delete-old-versions t
    inhibit-splash-screen t
@@ -218,6 +218,7 @@
 (use-package so-long)
 
 (use-package paredit
+  :straight (:host github :type git :repo "emacsmirror/paredit")
   :hook ((emacs-lisp-mode clojure-mode cider-repl-mode) . paredit-mode))
 
 (use-package rainbow-delimiters
@@ -719,10 +720,15 @@
          ("C-M-$" . jinx-languages)))
 
 (use-package wgrep
+  :defer t
   :config
   (setq wgrep-auto-save-buffer t))
 
+(use-package rg
+  :defer t)
+
 (use-package tramp
+  :defer t
   :straight (:type built-in)
   :custom
   (tramp-completion-use-auth-sources nil)
