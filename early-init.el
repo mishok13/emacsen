@@ -12,8 +12,8 @@
         (vertical-scroll-bars . nil)
         (horizontal-scroll-bars . nil)
         ;; Setting background colors prevents aggressive "blinking" when emacs loads
-        (background-color . "#000000")
-        (foreground-color . "#ffffff")
+        (background-color . "#131c2b")
+        (foreground-color . "#eaedef")
         (ns-appearance . dark)
         (ns-transparent-titlebar . t)))
 ;; (setq debug-on-error 1)

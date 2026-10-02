@@ -41,6 +41,17 @@
   ;; https://github.com/radian-software/straight.el/issues/1146#issuecomment-2227133737
   (straight-built-in-pseudo-packages '(emacs nadvice python image-mode project flymake xref)))
 
+;; Themes -- loaded asap as otherwise the blinking is quite intense
+(use-package zenburn-theme)
+;; batpuccin-frappe is probably the best of 4
+(use-package batppuccin)
+;; doric-valley is quite interesting
+(use-package doric-themes)
+;; ef-winter is quite pleasant
+(use-package ef-themes
+  :config
+  (load-theme 'ef-maris-dark t))
+
 (use-package project
   :straight (:type built-in)
   :custom
@@ -182,15 +193,7 @@
   :config
   (setq jenkinsfile-mode-indent-offset 2))
 
-(use-package zenburn-theme)
-
-(use-package batppuccin
-  :ensure t
-  :config
-  (load-theme 'batppuccin-mocha t))
-
 (use-package denote
-
   :hook (dired-mode . denote-dired-mode-in-directories)
   :defer t
   :bind (("C-x m n" . denote)
