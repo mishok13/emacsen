@@ -587,11 +587,11 @@
         jiralib2-token            nil))
 
 (use-package git-modes
-  :init
-  (add-to-list 'auto-mode-alist '("/.dockerignore\\'" . gitignore-mode))
-  (add-to-list 'auto-mode-alist '("/.ignore\\'" . gitignore-mode))
-  (add-to-list 'auto-mode-alist '("/.rgignore\\'" . gitignore-mode))
-  (add-to-list 'auto-mode-alist '("/.driftignore\\'" . gitignore-mode)))
+  :mode ("/\\.\\(?:docker\\|rg\\|fd\\|drift\\)?ignore\\'" . gitignore-mode))
+
+(use-package conf-mode
+  :straight (:type built-in)
+  :mode ("/\\(?:Cargo\\|poetry\\|uv\\|pdm\\|mise\\)\\.lock\\'" . conf-toml-mode))
 
 (use-package undo-tree
   :bind (("C-z" . undo-tree-undo)
